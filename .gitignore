@@ -2,5 +2,5 @@
 mdt-Core.xcodeproj/
 openFrameworks-Info.plist
 Project.xcconfig
-*.appxc
-*.app
+*.app/
+.app/
