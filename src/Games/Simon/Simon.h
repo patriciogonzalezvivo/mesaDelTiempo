@@ -35,10 +35,12 @@ public:
     
 private:
     bool    loadPoints(ofPolyline &poly, string file);
+    bool    someonePlaying();
     
     ofSoundPlayer   gameOverSound;
     ofTrueTypeFont  digitFont;
     ofImage         mask;
+    ofImage         led;
     
     LightButton     buttons[4];
     

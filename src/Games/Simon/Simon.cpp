@@ -9,8 +9,8 @@
 #include "Simon.h"
 
 Simon::Simon(){
-    width = 800;
-    height = 600;
+    width = 800*1.625;
+    height = 600*1.625;
     
     nUsers = 2;
 }
@@ -28,6 +28,7 @@ void Simon::init(ofRectangle _space){
     
     gameOverSound.loadSound("simon/gameover.mp3");
     mask.loadImage("simon/mask.png");
+    led.loadImage("simon/LED.png");
     digitFont.loadFont("simon/digit.ttf", space.height * 0.04, true, true);
     
     //  Green button
@@ -73,6 +74,15 @@ bool Simon::loadPoints(ofPolyline &_poly, string _file){
     return loaded;
 }
 
+bool Simon::someonePlaying(){
+    bool anyPlaying = false;
+    for(int i = 0; i < 4;i++){ 
+        if ( buttons[i].sound.getIsPlaying() ){
+            anyPlaying = true;
+        }
+    }
+    return anyPlaying;
+}
 
 void Simon::reset(){
 
@@ -91,15 +101,7 @@ void Simon::objectAdded(ofxBlob &_blob){
     pos.y = _blob.centroid.y * height;
     
     if (turn != 0){
-        
-        bool anyPlaying = false;
-        for(int i = 0; i < 4;i++){ 
-            if ( buttons[i].sound.getIsPlaying() ){
-                anyPlaying = true;
-            }
-        }
-        
-        if ( !anyPlaying ){
+        if ( !someonePlaying() ){
         
             for(int i = 0; i < 4;i++){ 
                 if (buttons[i].inside(pos)){
@@ -147,15 +149,7 @@ void Simon::update(){
                 countDown = ofRandom(ofGetFrameRate(),ofGetFrameRate()*2);
                 nextButton = 0;
             } else if ( nextButton < secuence.size() ) {
-                
-                bool anyPlaying = false;
-                for(int i = 0; i < 4;i++){ 
-                    if ( buttons[i].sound.getIsPlaying() ){
-                        anyPlaying = true;
-                    }
-                }
-                
-                if ( !anyPlaying ){
+                if ( !someonePlaying() ){
                     buttons[ secuence[nextButton] ].sound.play();
                     
                     if ( nextButton == secuence.size()-1 ){
@@ -182,37 +176,54 @@ void Simon::update(){
     ofClear(0,255);
     ofPushStyle();
     ofSetColor(255,255);
+    
+    //  Draw 4 buttons
+    //
     for(int i = 0; i < 4;i++){
+        
+        //  Calculate the alpha color from it´s position of the sound (0 start - 1 end)
         int alpha = 100;
         if ( buttons[i].sound.getIsPlaying() ){
             alpha = 100 + abs(sin(buttons[i].sound.getPosition() * PI ))*155;
         }
-        ofSetColor(buttons[i].color.r, buttons[i].color.g, buttons[i].color.b, alpha);
         
+        //  Draw button shape
         ofFill();
-        //buttons[i].draw();
+        ofSetColor(buttons[i].color.r, buttons[i].color.g, buttons[i].color.b, alpha);        
         ofBeginShape();
         for (int j = 0; j < buttons[i].getVertices().size(); j++){
             ofVertex( buttons[i].getVertices()[j] );
         }
         ofEndShape(true);
-       
     }
     
+    //  Draw the nice mask image
+    //
     ofSetColor(255,255);
     mask.draw(space);
     
+    //  Draw point counter
+    //
+    //      draw "88" on background for digit simulation
     ofSetColor(105,11,23,200);
     digitFont.drawString(ofToString(88, 2), space.x + space.width*0.5 , space.y+space.height*0.62);
-    
     ofSetColor(243, 28, 36,240);
+    //      estimate the score and draw it
     string scoreString = "0"+ ofToString(score);
-    
     if (score > 9){
         scoreString = ofToString(score);
     }
-    
     digitFont.drawString(scoreString, space.x + space.width*0.5 , space.y+space.height*0.62);
+    
+    //  Draw the LEDS that sign the turns
+    //
+    if (turn == 0){
+        ofSetColor(243, 28, 36, 240);
+        led.draw(space.x + space.width*0.44 , space.y+space.height*0.585, led.getWidth()*0.2, led.getHeight()*0.2);
+    } else if (!someonePlaying()){
+        ofSetColor(28, 243, 36, 240);
+        led.draw(space.x + space.width*0.44 , space.y+space.height*0.605, led.getWidth()*0.2, led.getHeight()*0.2);
+    }
     
     /*
     //  DEBUG tool

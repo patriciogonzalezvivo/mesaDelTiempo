@@ -175,18 +175,14 @@ void testApp::mouseMoved(int x, int y ){
 
 void testApp::mousePressed(int x, int y, int button){
     ofPoint mouse = ofPoint(x,y);
-    cout << "Original mouse position " << mouse << endl;
     
     if ( tSurface.getSurface().isOver(mouse) ){
-        cout << "Mouse over" << endl;
         ofxBlob pretendBlob;
     
         if (bUpdateObjects){
             pretendBlob.centroid = tSurface.getSurface().getScreenToSurface(mouse);
-            cout << "Mouse transformed " << pretendBlob.centroid << endl;
             pretendBlob.centroid.x /= tSurface.getSurface().getWidth();
             pretendBlob.centroid.y /= tSurface.getSurface().getHeight();
-            cout << "Mouse normalized transformed position " << pretendBlob.centroid << endl;
             objectAdded(pretendBlob);
         }
         

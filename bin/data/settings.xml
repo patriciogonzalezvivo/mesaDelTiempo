@@ -1,27 +1,27 @@
 <game>simon</game>
 <updatehands>0</updatehands>
 <updateobjects>1</updateobjects>
-<Alt_de_Obj>36.1</Alt_de_Obj>
+<Alt_de_Obj>33.4</Alt_de_Obj>
 <Dist_de_Sup>1013</Dist_de_Sup>
 <humbral>65</humbral>
 <surface>
     <id>0</id>
     <texture>
         <point>
-            <x>213.204</x>
-            <y>88.1538</y>
+            <x>6</x>
+            <y>7</y>
         </point>
         <point>
-            <x>668.392</x>
-            <y>88.153</y>
+            <x>806</x>
+            <y>7</y>
         </point>
         <point>
-            <x>668.392</x>
-            <y>429.544</y>
+            <x>806</x>
+            <y>607</y>
         </point>
         <point>
-            <x>213.204</x>
-            <y>429.545</y>
+            <x>6</x>
+            <y>607</y>
         </point>
     </texture>
     <mask>

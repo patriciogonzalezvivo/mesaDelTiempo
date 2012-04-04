@@ -47,10 +47,12 @@ void Pong::reset(){
 }
 
 void Pong::handMoved(ofxBlob &_blob){
-    if (_blob.centroid.x < 0.5 ){
-        player1Position = _blob.centroid.y * height;
-    } else {
-        player2Position = _blob.centroid.y * height;
+    if (_blob.gotFingers){
+        if (_blob.palm.x < 0.5 ){
+            player1Position = _blob.palm.y * height;
+        } else {
+            player2Position = _blob.palm.y * height;
+        }
     }
 }
 
