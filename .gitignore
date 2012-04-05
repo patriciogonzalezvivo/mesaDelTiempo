@@ -4,3 +4,5 @@ openFrameworks-Info.plist
 Project.xcconfig
 *.app/
 .app/
+
+mesaDelTiempo.xcodeproj/
