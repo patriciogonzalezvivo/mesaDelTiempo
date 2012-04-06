@@ -6,8 +6,8 @@
 //  Copyright (c) 2012 PatricioGonzalezVivo.com. All rights reserved.
 //
 
-#ifndef PONG
-#define PONG
+#ifndef PONGGAME
+#define PONGGAME
 
 #include "ofMain.h"
 

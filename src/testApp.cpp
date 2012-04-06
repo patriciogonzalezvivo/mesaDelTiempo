@@ -95,6 +95,11 @@ void testApp::calibrationDone(ofPolyline &_surface){
         ofLog(OF_LOG_NOTICE, "Loading Pong game");
         game->init( _surface.getBoundingBox() );
         bStart = true;
+    } else if (sGameName == "shadows"){
+        game = new Shadows();
+        ofLog(OF_LOG_NOTICE, "Loading Shadows game");
+        game->init( _surface.getBoundingBox() );
+        bStart = true;
     }
 }
 

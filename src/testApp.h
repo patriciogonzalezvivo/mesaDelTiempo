@@ -30,6 +30,7 @@
 //
 #include "Pong.h"   //  Classic Ateri Pong game 
 #include "Simon.h"  //  Classic SIMON game
+#include "Shadows.h"//  Chinise Shadows game
 
 class testApp : public ofBaseApp{
 public:
