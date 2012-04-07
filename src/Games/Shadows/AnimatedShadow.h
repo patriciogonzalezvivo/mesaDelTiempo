@@ -12,13 +12,27 @@
 #include "ofMain.h"
 #include "ofxBlob.h"
 
+struct ShadowShape{
+    ofPolyline  contour;
+    ofPolyline  hole;
+    bool        haveHole;
+};
+
 class AnimatedShadow {
 public:
     AnimatedShadow(){
         currentFrame = 0;
-        nId = 0;
+        
         bHand = false;
         bActive = false;
+        nId = 0;
+    };
+    
+    AnimatedShadow(int _nId){
+        currentFrame = 0;
+        bHand = false;
+        bActive = false;
+        nId = _nId;
     };
     
     void    addFrame( ofxBlob &_blob, float _widht, float _height ){
@@ -29,7 +43,7 @@ public:
         
         if (nId == _blob.id){
             
-            if ( _blob.nFingers >= 3 ){
+            if ( _blob.nFingers > 0 ){
                 bHand = true;
             }
                 
@@ -40,47 +54,81 @@ public:
             }
         
             if ( contourLine.size() > 0){
-                contourLine.setClosed( true );
+                contourLine.setClosed(true);  
                 contourLine.simplify(1);
         
-                contours.push_back( contourLine.getSmoothed(1,1) );
+                ShadowShape newShape;
+                newShape.contour = contourLine.getSmoothed(1,1);
+                newShape.haveHole = false;
+                
+                shapes.push_back( newShape );
             }
             
             bActive = false;
         }
     }
     
+    void    insertHole( ofPolyline &holeContourLine){
+        if ((holeContourLine.size() > 0) &&
+            (shapes.size() > 0)){
+            holeContourLine.setClosed(true);    
+            holeContourLine.simplify(1);
+            cout << " Adding hole!!" << endl;
+            shapes[currentFrame].hole = holeContourLine.getSmoothed(1,1);
+            shapes[currentFrame].haveHole = true;
+        }
+    }
+    
     int     getId() const { return nId; };
-    bool    isHand()const { return bHand; };
-    void    clear() { contours.clear();};
-    int     size() const { return contours.size(); };
-    ofPolyline& operator[](int _n){ if ( (_n >= 0) && (_n < contours.size()) ) return contours[_n]; };
+    bool    isInside( ofPoint &_centroid ) { if (size() > 0) return shapes[size()-1].contour.inside(_centroid); };
+    bool    isHand() const { return bHand; };
+    
+    void    clear() { shapes.clear();};
+    int     size() const { return shapes.size(); };
+    ShadowShape& operator[](int _n){ if ( (_n >= 0) && (_n < shapes.size()) ) return shapes[_n]; };
 
-    void    draw(){
-        if ((contours.size() > 0) && bActive){
-            int nPoints = contours[currentFrame].getVertices().size();
-            ofPushStyle();
+    bool    draw(){
+        bool finish = true;
+        if ( bActive ){
+            int nPoints = shapes[currentFrame].contour.getVertices().size();
             
-            ofSetColor(0,55+sin(currentFrame/nPoints)*200);
+            ofPushStyle();
+            ofEnableBlendMode(OF_BLENDMODE_MULTIPLY);
+            ofSetColor(255-sin( (currentFrame/shapes.size() ) * PI ) * 255,255);
             ofBeginShape();
             for (int i = 0; i < nPoints; i++){
-                ofVertex( contours[currentFrame][i] );
+                ofVertex( shapes[currentFrame].contour[i] );
             }
             ofEndShape(true);
             
+            if ( shapes[currentFrame].haveHole ){
+                nPoints = shapes[currentFrame].hole.getVertices().size();
+                ofSetColor(255,255);
+                ofBeginShape();
+                for (int i = 0; i < nPoints; i++){
+                    ofVertex( shapes[currentFrame].hole[i] );
+                }
+                ofEndShape(true);
+            }
+            
+            ofDisableBlendMode();
+            ofEnableBlendMode(OF_BLENDMODE_ALPHA);
+            ofPopStyle();
+            
             currentFrame += 0.4;
             
-            if ((int)(currentFrame) >= (contours.size() - 1)) 
+            if ((int)(currentFrame) >= (shapes.size() - 1))
                 currentFrame = 0;
-            
-            ofPopStyle();
+            else 
+                finish = false;
         }
+        return finish;
     };
     
     bool    bActive;
     
 private:
-    vector<ofPolyline>  contours;
+    vector<ShadowShape> shapes;
     float               currentFrame;
     int                 nId;
     bool                bHand;

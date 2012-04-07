@@ -1,27 +1,27 @@
 <game>shadows</game>
 <updatehands>1</updatehands>
 <updateobjects>0</updateobjects>
-<Alt_de_Obj>33.4</Alt_de_Obj>
+<Alt_de_Obj>33.85</Alt_de_Obj>
 <Dist_de_Sup>1010.5</Dist_de_Sup>
 <humbral>65</humbral>
 <surface>
     <id>0</id>
     <texture>
         <point>
-            <x>1125.43</x>
-            <y>-114.08</y>
+            <x>210.541</x>
+            <y>51.6566</y>
         </point>
         <point>
-            <x>2409</x>
-            <y>-101.008</y>
+            <x>985.599</x>
+            <y>51.6551</y>
         </point>
         <point>
-            <x>2430.92</x>
-            <y>852.743</y>
+            <x>985.599</x>
+            <y>632.95</y>
         </point>
         <point>
-            <x>1112.99</x>
-            <y>890.673</y>
+            <x>210.541</x>
+            <y>632.95</y>
         </point>
     </texture>
     <mask>

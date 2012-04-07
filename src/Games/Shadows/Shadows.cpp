@@ -93,7 +93,9 @@ void Shadows::init(ofRectangle _space){
 }
 
 void Shadows::reset(){
-    
+    currentShadow = NULL;
+    bNew = false;
+    hands.clear();
 }
 
 void Shadows::update(){
@@ -101,6 +103,8 @@ void Shadows::update(){
     ofPushStyle();
     
     ofClear(0,255);
+    
+    
 	ofMesh mesh;
 	mesh.setMode(OF_PRIMITIVE_TRIANGLE_FAN);
     // this could be optimized by building a single mesh once, then copying
@@ -110,58 +114,159 @@ void Shadows::update(){
     mesh.addColor(ofColor(252,239,233,255));
     int n = 32; // circular gradient resolution
     float angleBisector = TWO_PI / (n * 2);
-    float smallRadius = ofDist(0, 0, width / 2, height / 2);
+    float smallRadius = ofDist(0, 0, height / 2, height / 2);
     float bigRadius = smallRadius / cos(angleBisector);
     for(int i = 0; i <= n; i++) {
         float theta = i * TWO_PI / n;
         mesh.addVertex(center + ofVec2f(sin(theta), cos(theta)) * bigRadius);
-        mesh.addColor(ofColor(158,130,90,100));
+        mesh.addColor(ofColor(58,30,0,255));
     }
 	glDepthMask(false);
 	mesh.draw();
 	glDepthMask(true);
     
     ofFill();
-    for(map<int,AnimatedShadow>::iterator it = hands.begin(); it != hands.end(); it++ ){
-        it->second.draw();
+    
+    if (currentShadow != NULL){
+        if (currentShadow->bActive){
+            if ( currentShadow->draw() ){
+                
+                if (bNew){
+                    playLast();
+                    bNew = false;
+                } else {
+                    playNext();
+                }
+            }
+        }
     }
     
     ofPopStyle();
     preBlurFbo[0].end();
         
-    for(int i = 0; i < 5; i++) {
-        for(int j = 0; j < 2; j++) {    
-            preBlurFbo[(j+1)%2].begin();
-            blurShader[j].begin();
-            blurShader[j].setUniform1f("radius", 5);
-            preBlurFbo[j].draw(0,0);
-            blurShader[j].end();
-            preBlurFbo[(j+1)%2].end();
-        }
+    for(int j = 0; j < 6; j++) {    
+        preBlurFbo[(j+1)%2].begin();
+        blurShader[j%2].begin();
+        blurShader[j%2].setUniform1f("radius", 5);
+        preBlurFbo[j%2].draw(0,0);
+        blurShader[j%2].end();
+        preBlurFbo[(j+1)%2].end();
     }
     
     fbo.begin();
+    ofPushStyle();
+    ofSetColor(255, 255);
     preBlurFbo[1].draw(0,0);
+    
+    ofSetColor(0,255);
+    if (currentShadow != NULL)
+        ofDrawBitmapString(ofToString( currentShadow->getId()) + "/" + ofToString(hands.size()), 200, 200);
+    ofPopStyle();
     fbo.end();
 }
 
 void Shadows::handAdded(ofxBlob &_blob){
-    AnimatedShadow newShadow;
     
-    newShadow.addFrame(_blob, width, height);
-    hands[newShadow.getId()] = newShadow;
+    if ( _blob.hole ){
+        ofPolyline holeContourLine;
+        
+        for (int i = 0; i < _blob.pts.size(); i++){
+            holeContourLine.addVertex(_blob.pts[i].x * width, _blob.pts[i].y * height);
+        }
+        
+        for( map<int,AnimatedShadow*>::reverse_iterator rit = hands.rbegin(); rit != hands.rend(); rit++ ){
+            ofPoint centroid = holeContourLine.getCentroid2D();
+            if ( rit->second->isInside( centroid ) ){
+                rit->second->insertHole(holeContourLine);
+                break;
+            }
+        }
+        
+    } else {
+        AnimatedShadow *newShadow = new AnimatedShadow( _blob.id );
+        
+        newShadow->addFrame( _blob, width, height);
+        
+        hands[ newShadow->getId() ] = newShadow;
+        
+        ofLog(OF_LOG_NOTICE,"Adding shadow idº " + ofToString( newShadow->getId() ));
+    }
 }
 
 void Shadows::handMoved(ofxBlob &_blob){
-    hands[ _blob.id ].addFrame(_blob,width,height);
+    
+    if (_blob.hole){
+        ofPolyline holeContourLine;
+    
+        for (int i = 0; i < _blob.pts.size(); i++){
+            holeContourLine.addVertex(_blob.pts[i].x * width, _blob.pts[i].y * height);
+        }
+        
+        for( map<int,AnimatedShadow*>::reverse_iterator rit = hands.rbegin(); rit != hands.rend(); rit++ ){
+            ofPoint centroid = holeContourLine.getCentroid2D();
+            if ( rit->second->isInside( centroid ) ){
+                rit->second->insertHole(holeContourLine);
+                break;
+            }
+        }
+        
+    } else {
+        hands[ _blob.id ]->addFrame(_blob,width,height);
+    }
 }
 
 void Shadows::handDeleted(ofxBlob &_blob){
-    //cout << "Hand out nº " << _blob.id << endl;
+    cout << "Hand out nº " << _blob.id << endl;
     
-    if ( !hands[ _blob.id ].isHand() ){
-        hands.erase( _blob.id );
-    } else {
-        hands[ _blob.id ].bActive = true;
+    if ( hands[ _blob.id ] != NULL ){
+        if ( !hands[ _blob.id ]->isHand() && !hands[ _blob.id ]->size() < 5  ){
+            ofLog(OF_LOG_NOTICE,"Deleting shadow idº " + ofToString( hands[ _blob.id ]->getId() ));
+            
+            delete hands[ _blob.id ];
+            hands.erase( _blob.id );
+            
+        } else {
+            
+            hands[ _blob.id ]->bActive = true;
+            
+            if (currentShadow == NULL){
+                playLast();
+            }
+            
+            if ( hands[ _blob.id ]->isHand() ){
+                bNew = true;
+            }
+        }
+    }
+}
+
+void Shadows::playNext(){
+    bool foundNext = false;
+    bool currentPassed = false;
+    
+    for( map<int,AnimatedShadow*>::reverse_iterator rit = hands.rbegin(); rit != hands.rend(); rit++ ){
+        if (currentPassed &&
+            rit->second->isHand() && 
+            rit->second->bActive ){
+            currentShadow = rit->second;
+            foundNext = true;
+            break;
+        }
+        
+        if (rit->second->getId() == currentShadow->getId() ){
+            currentPassed = true;
+        }
+    }
+    
+    if ( !foundNext )
+        playLast();
+}
+
+void Shadows::playLast(){
+    for( map<int,AnimatedShadow*>::reverse_iterator rit = hands.rbegin(); rit != hands.rend(); rit++ ){
+        if ( rit->second->isHand() && rit->second->bActive ){
+            currentShadow = rit->second;
+            break;
+        }
     }
 }

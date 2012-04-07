@@ -169,6 +169,10 @@ void testApp::keyPressed(int key){
             delete game;
             tSurface.load();
             break;
+        case 'r':
+        case 'R':
+            game->reset();
+            break;
     }
 }
 
@@ -183,6 +187,8 @@ void testApp::mousePressed(int x, int y, int button){
     
     if ( tSurface.getSurface().isOver(mouse) ){
         ofxBlob pretendBlob;
+        
+        pretendBlob.id = 0;
     
         if (bUpdateObjects){
             pretendBlob.centroid = tSurface.getSurface().getScreenToSurface(mouse);
@@ -207,6 +213,8 @@ void testApp::mouseDragged(int x, int y, int button){
     if ( tSurface.getSurface().isOver(mouse) ){
         ofxBlob pretendBlob;
         
+        pretendBlob.id = 0;
+        
         if (bUpdateObjects){
             pretendBlob.centroid = tSurface.getSurface().getScreenToSurface(mouse);
             pretendBlob.centroid.x /= tSurface.getSurface().getWidth();
@@ -229,6 +237,8 @@ void testApp::mouseReleased(int x, int y, int button){
     
     if ( tSurface.getSurface().isOver(mouse) ){
         ofxBlob pretendBlob;
+        
+        pretendBlob.id = 0;
         
         if (bUpdateObjects){
             pretendBlob.centroid = tSurface.getSurface().getScreenToSurface(mouse);

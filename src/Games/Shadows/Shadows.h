@@ -27,13 +27,18 @@ public:
     void    handAdded(ofxBlob &_blob);
     void    handMoved(ofxBlob &_blob);
     void    handDeleted(ofxBlob &_blob);
-    
+
 private:
+    void    playNext();
+    void    playLast();
     
-    map<int,AnimatedShadow>  hands;
+    map<int,AnimatedShadow*>  hands;
+    AnimatedShadow* currentShadow;
     
     ofShader blurShader[2];
     ofFbo    preBlurFbo[2];
+    
+    bool    bNew;
 };
 
 #endif
