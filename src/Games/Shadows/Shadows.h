@@ -31,6 +31,8 @@ public:
 private:
     void    playNext();
     void    playLast();
+    int     checkIfHole(ofPolyline& _polyline);
+    ofPolyline  getContour(ofxBlob& _blob);
     
     map<int,AnimatedShadow*>  hands;
     AnimatedShadow* currentShadow;
