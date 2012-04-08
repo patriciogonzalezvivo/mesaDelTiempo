@@ -53,6 +53,7 @@ void AnimatedShadow::addFrame( ofPolyline &_contourLine, int _nFingers){
         ShadowShape newShape;
         newShape.contour = _contourLine.getSmoothed(1,1);
         newShape.haveHole = false;
+        newShape.interv = -1;
         
         shapes.push_back( newShape );
     }
@@ -60,7 +61,7 @@ void AnimatedShadow::addFrame( ofPolyline &_contourLine, int _nFingers){
     bActive = false;
 }
 
-void AnimatedShadow::insertHole( ofPolyline &holeContourLine){
+void AnimatedShadow::insertHole( ofPolyline &holeContourLine ){
     if (shapes.size() > 0){
         holeContourLine.setClosed(true);    
         holeContourLine.simplify(1);
@@ -68,6 +69,17 @@ void AnimatedShadow::insertHole( ofPolyline &holeContourLine){
         int lastFrame = shapes.size()-1;
         shapes[lastFrame].hole = holeContourLine.getSmoothed(1,1);
         shapes[lastFrame].haveHole = true;
+    }
+}
+
+
+void AnimatedShadow::addIntervention( int _nId ){
+    if ((shapes.size() > 0) &&
+        (bActive) &&
+        (currentFrame < (shapes.size()*0.5) )){
+        
+        cout << "Intervention of blob " << _nId << " was added at frame " << currentFrame << " of blob " << getId() << endl;
+        shapes[currentFrame].interv = _nId;
     }
 }
 
@@ -81,7 +93,7 @@ bool AnimatedShadow::draw(){
         
         //  Draw shape
         //
-        ofSetColor(255-sin( (currentFrame/shapes.size() ) * PI ) * 255,255);
+        ofSetColor(0,sin( (currentFrame/shapes.size() ) * PI ) * 255);
         int nPoints = shapes[currentFrame].contour.getVertices().size();
         ofBeginShape();
         for (int i = 0; i < nPoints; i++){
@@ -93,7 +105,7 @@ bool AnimatedShadow::draw(){
         //
         if ( shapes[currentFrame].haveHole ){
             
-            ofSetColor(255,255);
+            ofSetColor(255,sin( (currentFrame/shapes.size() ) * PI ) * 255);
             nPoints = shapes[currentFrame].hole.getVertices().size();
             ofBeginShape();
             for (int i = 0; i < nPoints; i++){

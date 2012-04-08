@@ -34,7 +34,9 @@ private:
     int     checkIfHole(ofPolyline& _polyline);
     ofPolyline  getContour(ofxBlob& _blob);
     
-    map<int,AnimatedShadow*>  hands;
+    map<int,AnimatedShadow*>    hands;
+    vector<int>                 intervShadows;
+    
     AnimatedShadow* currentShadow;
     
     ofShader blurShader[2];

@@ -108,9 +108,16 @@ void Shadows::init(ofRectangle _space){
 }
 
 void Shadows::reset(){
+    
+    for( map<int,AnimatedShadow*>::reverse_iterator rit = hands.rbegin(); rit != hands.rend(); rit++ ){
+        delete rit->second;
+    }
+    
+    hands.clear();
+    intervShadows.clear();
+    
     currentShadow = NULL;
     bNew = false;
-    hands.clear();
 }
 
 void Shadows::update(){
@@ -128,6 +135,21 @@ void Shadows::update(){
     ofFill();
     if (currentShadow != NULL){
         if (currentShadow->bActive){
+            
+            
+            if ( currentShadow->isInterv() != -1 ){
+                map<int,AnimatedShadow*>::iterator it;
+                
+                it = hands.find( currentShadow->isInterv() );
+                
+                if (it != hands.end() ){
+                    if (it->second->bActive){
+                        intervShadows.push_back(currentShadow->isInterv());
+                    }
+                }
+                
+            }
+            
             if ( currentShadow->draw() ){
                 if (bNew){
                     playLast();
@@ -138,6 +160,26 @@ void Shadows::update(){
             }
         }
     }
+    
+    //ofEnableBlendMode(OF_BLENDMODE_SCREEN);
+    //  Play the interventions to the past shadows
+    //
+    for(int i = intervShadows.size() - 1; i >= 0; i--){
+        map<int,AnimatedShadow*>::iterator it;
+        
+        it = hands.find( intervShadows[i] );
+        
+        if (it != hands.end() ){
+    
+            if ( hands[ intervShadows[i] ]->bActive ){
+                if ( hands[ intervShadows[i] ]->draw() ){
+                    intervShadows.erase( intervShadows.begin() + i);
+                }
+            }
+        }
+    }
+    //ofDisableBlendMode();
+    //ofEnableBlendMode(OF_BLENDMODE_ALPHA);
     
     ofPopStyle();
     preBlurFbo[0].end();
@@ -189,9 +231,11 @@ void Shadows::update(){
     //  Write debug information
     //
     ofSetColor(0,255);
+    ofDrawBitmapString( "Total shadows: " + ofToString(hands.size()), 200, 200);
     if (currentShadow != NULL)
-        ofDrawBitmapString(ofToString( currentShadow->getId()) + "/" + ofToString(hands.size()), 200, 200);
+        ofDrawBitmapString( "Playing idº: " + ofToString(currentShadow->getId()), 200, 215);
     
+    ofDrawBitmapString( "Total interventions: " + ofToString(intervShadows.size()), 200, 230);
     ofDisableBlendMode();
     ofEnableBlendMode(OF_BLENDMODE_ALPHA);
     
@@ -224,7 +268,7 @@ void Shadows::handAdded(ofxBlob &_blob){
         //  If it´s a hole it will insert it into the last blobFrame
         //
         hands[holeOfBlob]->insertHole(contourLine);
-        ofLog(OF_LOG_NOTICE,"Adding hole to shadow idº " + ofToString( holeOfBlob ));
+        //ofLog(OF_LOG_NOTICE,"Adding hole to shadow idº " + ofToString( holeOfBlob ));
     } else {
         
         //  If it's not a hole add a new shadow to the map with the first frame
@@ -232,7 +276,14 @@ void Shadows::handAdded(ofxBlob &_blob){
         AnimatedShadow *newShadow = new AnimatedShadow( _blob.id );
         newShadow->addFrame( contourLine, _blob.nFingers );
         hands[ newShadow->getId() ] = newShadow;
-        ofLog(OF_LOG_NOTICE,"Adding shadow idº " + ofToString( newShadow->getId() ));
+        //ofLog(OF_LOG_NOTICE,"Adding shadow idº " + ofToString( newShadow->getId() ));
+        
+        if (currentShadow != NULL){
+            //  If it's playing a shadow insert the id in order to record witch one makes an intervention
+            //  this will trigger the playing of this shadow
+            currentShadow->addIntervention( newShadow->getId() );
+            //ofLog(OF_LOG_NOTICE,"Adding intervention to shadow idº " + ofToString( currentShadow->getId() ));
+        }
     }
 }
 
@@ -251,14 +302,14 @@ void Shadows::handMoved(ofxBlob &_blob){
             //  If it´s a hole it will insert it into the last blobFrame
             //
             hands[holeOfBlob]->insertHole(contourLine);
-            ofLog(OF_LOG_NOTICE,"Adding new frame of hole shadow idº " + ofToString( holeOfBlob ));
+            //ofLog(OF_LOG_NOTICE,"Adding new frame of hole shadow idº " + ofToString( holeOfBlob ));
         } else {
             ofLog(OF_LOG_NOTICE,"Something goes wrong... I don´t what to do with blob idº " + ofToString( _blob.id ));
         }
         
     } else {
         hands[ _blob.id ]->addFrame(_blob,width,height);
-        ofLog(OF_LOG_NOTICE,"Adding new frame of shadow idº " + ofToString( _blob.id ));
+        //ofLog(OF_LOG_NOTICE,"Adding new frame of shadow idº " + ofToString( _blob.id ));
     }
 }
 
@@ -284,7 +335,7 @@ void Shadows::handDeleted(ofxBlob &_blob){
             //
             delete hands[ _blob.id ];
             hands.erase( _blob.id );
-            ofLog(OF_LOG_NOTICE,"Deleting shadow idº " + ofToString( _blob.id ));
+            //ofLog(OF_LOG_NOTICE,"Deleting shadow idº " + ofToString( _blob.id ));
             
         } else {
             

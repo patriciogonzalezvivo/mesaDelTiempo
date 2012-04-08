@@ -185,7 +185,7 @@ void testApp::mouseMoved(int x, int y ){
 void testApp::mousePressed(int x, int y, int button){
     ofPoint mouse = ofPoint(x,y);
     
-    if ( tSurface.getSurface().isOver(mouse) ){
+    if ( tSurface.getSurface().isOver(mouse) && !tSurface.getSurface().bEditMode){
         ofxBlob pretendBlob;
         
         pretendBlob.id = 0;
@@ -210,7 +210,7 @@ void testApp::mousePressed(int x, int y, int button){
 void testApp::mouseDragged(int x, int y, int button){
     ofPoint mouse = ofPoint(x,y);
     
-    if ( tSurface.getSurface().isOver(mouse) ){
+    if ( tSurface.getSurface().isOver(mouse) && !tSurface.getSurface().bEditMode ){
         ofxBlob pretendBlob;
         
         pretendBlob.id = 0;
@@ -235,7 +235,7 @@ void testApp::mouseDragged(int x, int y, int button){
 void testApp::mouseReleased(int x, int y, int button){
     ofPoint mouse = ofPoint(x,y);
     
-    if ( tSurface.getSurface().isOver(mouse) ){
+    if ( tSurface.getSurface().isOver(mouse) && !tSurface.getSurface().bEditMode){
         ofxBlob pretendBlob;
         
         pretendBlob.id = 0;
@@ -267,5 +267,8 @@ void testApp::dragEvent(ofDragInfo dragInfo){
 }
 
 void testApp::exit(){
+    if (game != NULL)
+        game->reset();
+    
     tSurface.exit();
 }
