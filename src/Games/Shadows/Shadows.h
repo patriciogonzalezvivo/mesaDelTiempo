@@ -35,13 +35,14 @@ private:
     ofPolyline  getContour(ofxBlob& _blob);
     
     map<int,AnimatedShadow*>    hands;
-    vector<int>                 intervShadows;
     
     AnimatedShadow* currentShadow;
     
     ofShader blurShader[2];
     ofFbo    preBlurFbo[2];
     
+    int     countDown;
+    int     nLastShadows;
     bool    bNew;
 };
 

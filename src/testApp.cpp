@@ -4,8 +4,6 @@
 void testApp::setup(){
     ofEnableAlphaBlending();
     ofEnableSmoothing();
-    ofSetVerticalSync(false);
-    
     logo.loadImage("logo.jpg");
     
     ofAddListener(tSurface.calibrationDone, this, &testApp::calibrationDone);

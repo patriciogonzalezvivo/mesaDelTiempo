@@ -114,10 +114,12 @@ void Shadows::reset(){
     }
     
     hands.clear();
-    intervShadows.clear();
     
     currentShadow = NULL;
     bNew = false;
+    
+    countDown = 0;
+    nLastShadows = 0;
 }
 
 void Shadows::update(){
@@ -129,57 +131,48 @@ void Shadows::update(){
     
     ofClear(255,255);
 
-    //  Play the shadows animation allways from the last up to the first one
-    //  Ever time a new shadow it´s made, the cicle start´s from the beginning.
-    //
-    ofFill();
-    if (currentShadow != NULL){
-        if (currentShadow->bActive){
-            
-            
-            if ( currentShadow->isInterv() != -1 ){
-                map<int,AnimatedShadow*>::iterator it;
+    if ( countDown == 0){
+        //  Play the shadows animation one by one from the last up to the first one
+        //  Ever time a new shadow it´s made, the cicle start´s from the beginning.
+        //
+        ofFill();
+        if (currentShadow != NULL){
+            if (currentShadow->bActive){
                 
-                it = hands.find( currentShadow->isInterv() );
-                
-                if (it != hands.end() ){
-                    if (it->second->bActive){
-                        intervShadows.push_back(currentShadow->isInterv());
+                if ( currentShadow->draw() ){
+                    if (bNew){
+                        playLast();
+                        bNew = false;
+                    } else {
+                        playNext();
                     }
                 }
-                
             }
+        }
+    } else {
+        
+        int clamp = nLastShadows;
+        
+        for( map<int,AnimatedShadow*>::reverse_iterator rit = hands.rbegin(); rit != hands.rend(); rit++ ){
             
-            if ( currentShadow->draw() ){
-                if (bNew){
-                    playLast();
-                    bNew = false;
-                } else {
-                    playNext();
+            if ( clamp > 0 ){
+                if ( rit->second->bActive ) {
+                    rit->second->draw();
+                    clamp--;
                 }
+            } else if ( clamp == 0){
+                break;
             }
         }
-    }
-    
-    //ofEnableBlendMode(OF_BLENDMODE_SCREEN);
-    //  Play the interventions to the past shadows
-    //
-    for(int i = intervShadows.size() - 1; i >= 0; i--){
-        map<int,AnimatedShadow*>::iterator it;
         
-        it = hands.find( intervShadows[i] );
+        countDown--;
         
-        if (it != hands.end() ){
-    
-            if ( hands[ intervShadows[i] ]->bActive ){
-                if ( hands[ intervShadows[i] ]->draw() ){
-                    intervShadows.erase( intervShadows.begin() + i);
-                }
-            }
+        if ((countDown == 0) && 
+            (nLastShadows > 0) ){
+            countDown = 500;
+            nLastShadows--;
         }
     }
-    //ofDisableBlendMode();
-    //ofEnableBlendMode(OF_BLENDMODE_ALPHA);
     
     ofPopStyle();
     preBlurFbo[0].end();
@@ -230,12 +223,10 @@ void Shadows::update(){
     
     //  Write debug information
     //
-    ofSetColor(0,255);
-    ofDrawBitmapString( "Total shadows: " + ofToString(hands.size()), 200, 200);
-    if (currentShadow != NULL)
-        ofDrawBitmapString( "Playing idº: " + ofToString(currentShadow->getId()), 200, 215);
+    //ofSetColor(0,255);
+    //ofDrawBitmapString( ofToString(countDown), 200,200);
+    //ofDrawBitmapString( "Total shadows: " + ofToString(hands.size()), 200, 215);
     
-    ofDrawBitmapString( "Total interventions: " + ofToString(intervShadows.size()), 200, 230);
     ofDisableBlendMode();
     ofEnableBlendMode(OF_BLENDMODE_ALPHA);
     
@@ -277,13 +268,6 @@ void Shadows::handAdded(ofxBlob &_blob){
         newShadow->addFrame( contourLine, _blob.nFingers );
         hands[ newShadow->getId() ] = newShadow;
         //ofLog(OF_LOG_NOTICE,"Adding shadow idº " + ofToString( newShadow->getId() ));
-        
-        if (currentShadow != NULL){
-            //  If it's playing a shadow insert the id in order to record witch one makes an intervention
-            //  this will trigger the playing of this shadow
-            currentShadow->addIntervention( newShadow->getId() );
-            //ofLog(OF_LOG_NOTICE,"Adding intervention to shadow idº " + ofToString( currentShadow->getId() ));
-        }
     }
 }
 
@@ -343,6 +327,9 @@ void Shadows::handDeleted(ofxBlob &_blob){
             //
             hands[ _blob.id ]->bActive = true;  // this means it´s goign to be played and no longer edited
             bNew = true;                        // and the the sistem that we have a new one
+            
+            countDown = 500;
+            nLastShadows++;
             
             //  When the game starts currentShadow it's just a NULL and nothing it´s going to happend
             //  until new blob arrive and take the place of currentShadow.

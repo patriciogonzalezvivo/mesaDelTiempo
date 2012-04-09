@@ -53,7 +53,7 @@ void AnimatedShadow::addFrame( ofPolyline &_contourLine, int _nFingers){
         ShadowShape newShape;
         newShape.contour = _contourLine.getSmoothed(1,1);
         newShape.haveHole = false;
-        newShape.interv = -1;
+        //newShape.interv = -1;
         
         shapes.push_back( newShape );
     }
@@ -72,7 +72,7 @@ void AnimatedShadow::insertHole( ofPolyline &holeContourLine ){
     }
 }
 
-
+/*
 void AnimatedShadow::addIntervention( int _nId ){
     if ((shapes.size() > 0) &&
         (bActive) &&
@@ -81,7 +81,7 @@ void AnimatedShadow::addIntervention( int _nId ){
         cout << "Intervention of blob " << _nId << " was added at frame " << currentFrame << " of blob " << getId() << endl;
         shapes[currentFrame].interv = _nId;
     }
-}
+}*/
 
 bool AnimatedShadow::draw(){
     bool finish = true;
