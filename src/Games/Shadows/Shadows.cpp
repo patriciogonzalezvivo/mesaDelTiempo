@@ -33,74 +33,7 @@ void Shadows::init(ofRectangle _space){
     ofClear(0,0);
     fbo.end();
     
-    //  Allocate the fbo for the blur
-    //
-    for(int i = 0; i < 2; i++){
-        preBlurFbo[i].allocate(width, height);
-        preBlurFbo[i].begin();
-        ofClear(0,0);
-        preBlurFbo[i].end();
-    }
-    
-    //  Load both blur shaders
-    //
-    string fragmentHorizontalBlurShader = STRINGIFY(
-                                                    uniform sampler2DRect backbuffer;
-                                                    uniform float radius;
-                                                    
-                                                    const float total = (1. + 8. + 28. + 56.) * 2. + 70.;
-                                                    
-                                                    void main(void) {
-                                                        vec2 st = gl_TexCoord[0].st;
-                                                        
-                                                        vec4 color = vec4(0.0,0.0,0.0,0.0);
-                                                        color += (1. / total) * texture2DRect(backbuffer, st - radius * vec2(4. / 4., 0.));
-                                                        color += (8. / total)  * texture2DRect(backbuffer, st - radius * vec2(3. / 4., 0.));
-                                                        color += (28. / total)  * texture2DRect(backbuffer, st - radius * vec2(2. / 4., 0.));
-                                                        color += (56. / total)  * texture2DRect(backbuffer, st - radius * vec2(1. / 4., 0.));
-                                                        
-                                                        color +=  (70. / total) * texture2DRect(backbuffer, st);
-                                                        
-                                                        color += (1. / total) * texture2DRect(backbuffer, st + radius * vec2(4. / 4., 0.));
-                                                        color += (8. / total)  * texture2DRect(backbuffer, st + radius * vec2(3. / 4., 0.));
-                                                        color += (28. / total)  * texture2DRect(backbuffer, st + radius * vec2(2. / 4., 0.));
-                                                        color += (56. / total)  * texture2DRect(backbuffer, st + radius * vec2(1. / 4., 0.));
-                                                        
-                                                        gl_FragColor = color;
-                                                    } 
-                                                    );
-    blurShader[0].unload();
-    blurShader[0].setupShaderFromSource(GL_FRAGMENT_SHADER, fragmentHorizontalBlurShader);
-    blurShader[0].linkProgram();
-    
-    string fragmentVerticalBlurShader = STRINGIFY(
-                                                  uniform sampler2DRect backbuffer;
-                                                  uniform float radius;
-                                                  
-                                                  const float total = (1. + 8. + 28. + 56.) * 2. + 70.;
-                                                  
-                                                  void main(void) {
-                                                      vec2 st = gl_TexCoord[0].st;
-                                                      
-                                                      vec4 color = vec4(0.0,0.0,0.0,0.0);
-                                                      color += (1. / total) * texture2DRect(backbuffer, st - radius * vec2(0., 4. / 4.));
-                                                      color += (8. / total)  * texture2DRect(backbuffer, st - radius * vec2(0., 3. / 4.));
-                                                      color += (28. / total)  * texture2DRect(backbuffer, st - radius * vec2(0., 2. / 4.));
-                                                      color += (56. / total)  * texture2DRect(backbuffer, st - radius * vec2(0., 1. / 4.));
-                                                      
-                                                      color +=  (70. / total) * texture2DRect(backbuffer, st);
-                                                      
-                                                      color += (1. / total) * texture2DRect(backbuffer, st + radius * vec2(0., 4. / 4.));
-                                                      color += (8. / total)  * texture2DRect(backbuffer, st + radius * vec2(0., 3. / 4.));
-                                                      color += (28. / total)  * texture2DRect(backbuffer, st + radius * vec2(0., 2. / 4.));
-                                                      color += (56. / total)  * texture2DRect(backbuffer, st + radius * vec2(0., 1. / 4.));
-                                                      
-                                                      gl_FragColor = color;
-                                                  } 
-                                                  );
-    blurShader[1].unload();
-    blurShader[1].setupShaderFromSource(GL_FRAGMENT_SHADER, fragmentVerticalBlurShader);
-    blurShader[1].linkProgram();
+    blur.allocate(width,height);
     
     //  Clean the variables and the start
     //
@@ -126,11 +59,10 @@ void Shadows::update(){
     
     //  FBO pre-blur effect
     //
-    preBlurFbo[0].begin();
+    blur.begin();
     ofPushStyle();
-    
     ofClear(255,255);
-
+    
     if ( countDown == 0){
         //  Play the shadows animation one by one from the last up to the first one
         //  Ever time a new shadow it´s made, the cicle start´s from the beginning.
@@ -155,13 +87,12 @@ void Shadows::update(){
         
         for( map<int,AnimatedShadow*>::reverse_iterator rit = hands.rbegin(); rit != hands.rend(); rit++ ){
             
-            if ( clamp > 0 ){
+            if ((clamp > 0) || 
+                rit->second->getCurrentFrame() != 0){
                 if ( rit->second->bActive ) {
                     rit->second->draw();
                     clamp--;
                 }
-            } else if ( clamp == 0){
-                break;
             }
         }
         
@@ -175,24 +106,15 @@ void Shadows::update(){
     }
     
     ofPopStyle();
-    preBlurFbo[0].end();
-        
-    //  PingPong cicles for blur post-process
-    //
-    for(int j = 0; j < 6; j++) {    
-        preBlurFbo[(j+1)%2].begin();
-        blurShader[j%2].begin();
-        blurShader[j%2].setUniform1f("radius", 5);
-        preBlurFbo[j%2].draw(0,0);
-        blurShader[j%2].end();
-        preBlurFbo[(j+1)%2].end();
-    }
+    blur.end();
+    
+    blur.update();
     
     //  Final Rendering width letters and debug information
     //
     fbo.begin();
     ofPushStyle();
-    
+
     //  Background gradient
     //
 	ofMesh mesh;
@@ -219,13 +141,13 @@ void Shadows::update(){
     //  Draw Blured shadows
     //
     ofSetColor(255, 255);
-    preBlurFbo[1].draw(0,0);
+    blur.getTextureReference().draw(0,0);
     
     //  Write debug information
     //
-    //ofSetColor(0,255);
-    //ofDrawBitmapString( ofToString(countDown), 200,200);
-    //ofDrawBitmapString( "Total shadows: " + ofToString(hands.size()), 200, 215);
+    ofSetColor(0,255);
+    ofDrawBitmapString( ofToString(countDown), 200,200);
+    ofDrawBitmapString( "Total shadows: " + ofToString(hands.size()), 200, 215);
     
     ofDisableBlendMode();
     ofEnableBlendMode(OF_BLENDMODE_ALPHA);
@@ -311,7 +233,7 @@ void Shadows::handDeleted(ofxBlob &_blob){
         //
         
         if (!hands[ _blob.id ]->isHand() && 
-            !hands[ _blob.id ]->size() < 5 ){
+            !hands[ _blob.id ]->size() < 30 ){
             
             //  if the shadow never gave a single finger or it didn't get enought frames
             //  probably it's just junk...

@@ -25,6 +25,7 @@ public:
     AnimatedShadow(int _nId);
 
     int     getId() const { return nId; };
+    int     getCurrentFrame() const { return currentFrame; };
     int     size() const { return shapes.size(); };
     ShadowShape& operator[](int _n){ if ( (_n >= 0) && (_n < shapes.size()) ) return shapes[_n]; };
     bool    isInside( ofPoint &_centroid ) { if (size() > 0) return shapes[size()-1].contour.inside(_centroid); };

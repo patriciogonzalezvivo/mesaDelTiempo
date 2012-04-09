@@ -11,6 +11,8 @@
 
 #include "ofMain.h"
 
+#include "ofxFX.h"
+
 #include "Game.h"
 #include "AnimatedShadow.h"
 
@@ -38,9 +40,8 @@ private:
     
     AnimatedShadow* currentShadow;
     
-    ofShader blurShader[2];
-    ofFbo    preBlurFbo[2];
-    
+    ofxBlur blur;
+     
     int     countDown;
     int     nLastShadows;
     bool    bNew;
