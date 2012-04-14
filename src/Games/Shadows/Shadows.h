@@ -43,8 +43,9 @@ private:
     AnimatedText    text;
     ofImage         background;
     
-    ofxBlur blur;
-    ofxBlur blurText;
+    ofxBlur         blur;
+    ofxBlur         blurText;
+    ofxTint         tint;
      
     int     countDown;
     int     nLastShadows;

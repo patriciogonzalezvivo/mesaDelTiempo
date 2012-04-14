@@ -43,7 +43,11 @@ void Shadows::init(ofRectangle _space){
     blurText.allocate(width,height);
     
     text.load("shadows/texto.xml");
-    text.setWidth(space.width*0.5);
+    text.set(0, 0, space.width*0.8, space.height*0.8);
+    
+    blurText.allocate(text.width, text.height);
+    tint.allocate(text.width, text.height);
+    tint.setZoom(60);
     
     //  Clean the variables and the start
     //
@@ -118,23 +122,34 @@ void Shadows::update(){
     //
     blurText.begin();
     ofEnableBlendMode(OF_BLENDMODE_ALPHA);
-    ofClear(255, 255);
-    ofSetColor(58,30,0, text.getNormTransitionValue() * 255);
-    text.draw(space.getCenter().x, space.getCenter().y);
+    ofClear(0, 255);
+    ofSetColor( ofMap( text.getNormTransitionValue(), 0.0, 0.5, 0.0, 1.0, true) * 255,255);
+    text.draw();
     ofDisableBlendMode();
     blurText.end();
-    blurText.setRadius( (1.0 - text.getNormTransitionValue()) * 10 );
-    blurText.setPasses( 1 + (1.0-text.getNormTransitionValue()) * 10 );
-    blurText.update();
     
+    ofSetColor(255, 255);
+    blurText.setRadius( 1.0 + ( 1.0-ofMap(text.getNormTransitionValue(), 0.0, 0.5, 0.0, 1.0, true) ) * 10 );
+    blurText.setPasses( 1.0 + ( 1.0-ofMap(text.getNormTransitionValue(), 0.0, 0.5, 0.0, 1.0, true) ) * 10 );
+    blurText.update();
+
+    tint.setFade( 0.2 + (1.0-text.getNormTransitionValue()) *0.8 );
+    if (text.getNormTransitionValue() < 0.01){
+        tint.clear();
+    }
+    
+    tint.setTexture(blur.getTextureReference(),0);
+    tint.update();
     
     //  FINAL RENDER
     //  ----------------------------------------------------------
     //
     fbo.begin();
     ofPushStyle();
-    ofSetColor(255, 255);
     
+    ofEnableBlendMode(OF_BLENDMODE_ALPHA);
+    
+    ofSetColor(255, 255);
     //  Background gradient
     //
 	ofMesh mesh;
@@ -162,17 +177,18 @@ void Shadows::update(){
     ofSetColor(255, 50);
     background.draw(0,0,width,height);
     
-    ofEnableBlendMode(OF_BLENDMODE_MULTIPLY);
-    
     //  Draw Blured shadows
     //
     ofSetColor(255, 255);
+    ofEnableBlendMode(OF_BLENDMODE_MULTIPLY);
     blur.getTextureReference().draw(0,0);
 
     //  Draw Text
     //
     ofSetColor(255, 255);
-    blurText.getTextureReference().draw(0,0);
+    ofEnableBlendMode(OF_BLENDMODE_MULTIPLY);
+    tint.getTextureReference().draw(space.getCenter().x-text.width*0.5,
+                                    space.getCenter().y-text.height*0.5);
     
     //  Write debug information
     //
