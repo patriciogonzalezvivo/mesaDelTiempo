@@ -1,0 +1,55 @@
+<font>Cardinal-Alternate.ttf</font>
+<fontSize>44</fontSize>
+<dpi>150</dpi>
+<secondForChar>0.13</secondForChar>
+<waitingTime>0.5</waitingTime>
+<interLineSpace>1.5</interLineSpace>
+
+<line>
+    <align>CENTER</align>
+    <text>Texto para Sombras</text>
+</line>
+<line>
+    <align>LEFT</align>
+    <text>Hay juegos que requieren de muy poco.</text>
+</line>
+<line>
+    <align>RIGHT</align>
+    <text>A veces... tan sólo de un otro con quien jugar.</text>
+</line>
+<line>
+    <align>CENTER</align>
+    <text>Hacer sombras es uno de los pasa-tiempos más antiguos que tenemos.</text>
+</line>
+<line>
+    <align>LEFT</align>
+    <text>Es el antepasado de la tele, el cine y el teatro.</text>
+</line>
+<line>
+    <align>CENTER</align>
+    <text>Basta una audiencia, una fuente de luz y un algo sobre el cual proyectar...</text>
+</line>
+<line>
+    <align>RIGHT</align>
+    <text>... como para dejarnos transportarnos con la imaginación.</text>
+</line>
+<line>
+    <align>LEFT</align>
+    <text>Hoy, la propuesta es jugar con los que jugaron antes ...</text>
+</line>
+<line>
+    <align>RIGHT</align>
+    <text> ... a la vez que lo hacemos con los que vendrán.</text>
+</line>
+<line>
+    <align>CENTER</align>
+    <text>Abrimos así una brecha en el tiempo.</text>
+</line>
+<line>
+    <align>CENTER</align>
+    <text>Jugar con los que pasaron y ya no están.</text>
+</line>
+<line>
+    <align>CENTER</align>
+    <text>Jugar con los que vendrán.</text>
+</line>

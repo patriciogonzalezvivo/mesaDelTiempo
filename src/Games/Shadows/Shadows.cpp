@@ -10,7 +10,6 @@
 #include "Shadows.h"
 
 Shadows::Shadows(){
-    
     //  Screen resolution
     //
     width = 1024;
@@ -18,6 +17,13 @@ Shadows::Shadows(){
 }
 
 void Shadows::init(ofRectangle _space){
+    
+    background.loadImage("shadows/fondo.jpg");
+    
+    //  Screen resolution
+    //
+    //width = background.getWidth();
+    //height = background.getHeight();
     
     //  Asign a space (it´s the surface area)
     //
@@ -34,6 +40,10 @@ void Shadows::init(ofRectangle _space){
     fbo.end();
     
     blur.allocate(width,height);
+    blurText.allocate(width,height);
+    
+    text.load("shadows/texto.xml");
+    text.setWidth(space.width*0.5);
     
     //  Clean the variables and the start
     //
@@ -57,12 +67,12 @@ void Shadows::reset(){
 
 void Shadows::update(){
     
-    //  FBO pre-blur effect
+    //  SHADOWS RENDER
+    //  ----------------------------------------------------
     //
     blur.begin();
     ofPushStyle();
     ofClear(255,255);
-    
     if ( countDown == 0){
         //  Play the shadows animation one by one from the last up to the first one
         //  Ever time a new shadow it´s made, the cicle start´s from the beginning.
@@ -82,11 +92,8 @@ void Shadows::update(){
             }
         }
     } else {
-        
         int clamp = nLastShadows;
-        
         for( map<int,AnimatedShadow*>::reverse_iterator rit = hands.rbegin(); rit != hands.rend(); rit++ ){
-            
             if ((clamp > 0) || 
                 rit->second->getCurrentFrame() != 0){
                 if ( rit->second->bActive ) {
@@ -95,26 +102,39 @@ void Shadows::update(){
                 }
             }
         }
-        
         countDown--;
-        
         if ((countDown == 0) && 
             (nLastShadows > 0) ){
             countDown = 500;
             nLastShadows--;
         }
     }
-    
     ofPopStyle();
     blur.end();
-    
     blur.update();
     
-    //  Final Rendering width letters and debug information
+    //  TEXT RENDER
+    //  ---------------------------------------------------------
+    //
+    blurText.begin();
+    ofEnableBlendMode(OF_BLENDMODE_ALPHA);
+    ofClear(255, 255);
+    ofSetColor(58,30,0, text.getNormTransitionValue() * 255);
+    text.draw(space.getCenter().x, space.getCenter().y);
+    ofDisableBlendMode();
+    blurText.end();
+    blurText.setRadius( (1.0 - text.getNormTransitionValue()) * 10 );
+    blurText.setPasses( 1 + (1.0-text.getNormTransitionValue()) * 10 );
+    blurText.update();
+    
+    
+    //  FINAL RENDER
+    //  ----------------------------------------------------------
     //
     fbo.begin();
     ofPushStyle();
-
+    ofSetColor(255, 255);
+    
     //  Background gradient
     //
 	ofMesh mesh;
@@ -137,21 +157,31 @@ void Shadows::update(){
 	mesh.draw();
 	glDepthMask(true);
     
+    //  Background texture
+    //
+    ofSetColor(255, 50);
+    background.draw(0,0,width,height);
+    
     ofEnableBlendMode(OF_BLENDMODE_MULTIPLY);
+    
     //  Draw Blured shadows
     //
     ofSetColor(255, 255);
     blur.getTextureReference().draw(0,0);
+
+    //  Draw Text
+    //
+    ofSetColor(255, 255);
+    blurText.getTextureReference().draw(0,0);
     
     //  Write debug information
     //
-    ofSetColor(0,255);
-    ofDrawBitmapString( ofToString(countDown), 200,200);
-    ofDrawBitmapString( "Total shadows: " + ofToString(hands.size()), 200, 215);
+    //ofSetColor(0,255);
+    //ofDrawBitmapString( ofToString(countDown), 200,200);
+    //ofDrawBitmapString( "Total shadows: " + ofToString(hands.size()), 200, 215);
     
     ofDisableBlendMode();
     ofEnableBlendMode(OF_BLENDMODE_ALPHA);
-    
     ofPopStyle();
     fbo.end();
 }

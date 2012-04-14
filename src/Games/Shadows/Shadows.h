@@ -14,6 +14,7 @@
 #include "ofxFX.h"
 
 #include "Game.h"
+#include "AnimatedText.h"
 #include "AnimatedShadow.h"
 
 class Shadows: public Game {
@@ -37,10 +38,13 @@ private:
     ofPolyline  getContour(ofxBlob& _blob);
     
     map<int,AnimatedShadow*>    hands;
-    
+
     AnimatedShadow* currentShadow;
+    AnimatedText    text;
+    ofImage         background;
     
     ofxBlur blur;
+    ofxBlur blurText;
      
     int     countDown;
     int     nLastShadows;

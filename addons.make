@@ -1,3 +1,4 @@
+ofxFX
 ofxSurface
 ofxBlobTracker
 ofxGui
