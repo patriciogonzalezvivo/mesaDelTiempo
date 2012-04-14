@@ -138,7 +138,7 @@ void Shadows::update(){
         tint.clear();
     }
     
-    tint.setTexture(blur.getTextureReference(),0);
+    tint.setTexture(blurText.getTextureReference(),0);
     tint.update();
     
     //  FINAL RENDER
