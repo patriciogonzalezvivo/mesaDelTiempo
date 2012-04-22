@@ -12,10 +12,11 @@
 #include "ofMain.h"
 
 #include "ofxFX.h"
+#include "ofxTextSuite.h"
 
 #include "Game.h"
-#include "AnimatedText.h"
 #include "AnimatedShadow.h"
+
 
 class Shadows: public Game {
 public:
@@ -40,9 +41,10 @@ private:
     map<int,AnimatedShadow*>    hands;
 
     AnimatedShadow* currentShadow;
-    AnimatedText    text;
+    
     ofImage         background;
     
+    ofxTextSequencer text;
     ofxBlur         blur;
     ofxBlur         blurText;
     ofxTint         tint;

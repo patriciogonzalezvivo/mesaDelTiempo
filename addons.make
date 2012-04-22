@@ -1,7 +1,8 @@
 ofxFX
 ofxSurface
 ofxBlobTracker
-ofxGui
+ofxTextSuite
 ofxKinect
+ofxGui
 ofxOpenCV
 ofxXmlSettings

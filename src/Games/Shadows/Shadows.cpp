@@ -123,7 +123,7 @@ void Shadows::update(){
     blurText.begin();
     ofEnableBlendMode(OF_BLENDMODE_ALPHA);
     ofClear(0, 255);
-    ofSetColor( ofMap( text.getNormTransitionValue(), 0.0, 0.5, 0.0, 1.0, true) * 255,255);
+    text.setColor( ofMap( text.getNormTransitionValue(), 0.0, 0.5, 0.0, 1.0, true) * 255,255);
     text.draw();
     ofDisableBlendMode();
     blurText.end();

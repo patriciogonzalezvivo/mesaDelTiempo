@@ -1,8 +1,8 @@
 <font>shadows/Cardinal-Alternate.ttf</font>
 <fontSize>44</fontSize>
 <dpi>150</dpi>
-<secondForChar>0.13</secondForChar>
-<waitingTime>0.5</waitingTime>
+<secondForChar>0.3</secondForChar>
+<waitingTime>1.0</waitingTime>
 <interLineSpace>1.5</interLineSpace>
 
 <line>
@@ -15,19 +15,19 @@
 </line>
 <line>
     <align>RIGHT</align>
-    <text>A veces... tan sólo de un otro con quien jugar.</text>
+    <text>A veces... tan sólo de otros con quien jugar.</text>
 </line>
 <line>
     <align>CENTER</align>
-    <text>Hacer sombras es uno de los pasa-tiempos más antiguos que tenemos.</text>
+    <text>Hacer sombras es uno de los pasatiempos más antiguos que tenemos.</text>
 </line>
 <line>
     <align>LEFT</align>
-    <text>Es el antepasado de la tele, el cine y el teatro.</text>
+    <text>Es el antepasado de la tele, del cine y del teatro.</text>
 </line>
 <line>
     <align>CENTER</align>
-    <text>Basta una audiencia, una fuente de luz y un algo sobre el cual proyectar...</text>
+    <text>Basta una audiencia, una fuente de luz y algo sobre el cual proyectar...</text>
 </line>
 <line>
     <align>RIGHT</align>
@@ -35,7 +35,7 @@
 </line>
 <line>
     <align>LEFT</align>
-    <text>Hoy, la propuesta es jugar con los que jugaron antes ...</text>
+    <text>Las sombras nos invitan a jugar con los que jugaron antes ...</text>
 </line>
 <line>
     <align>RIGHT</align>
