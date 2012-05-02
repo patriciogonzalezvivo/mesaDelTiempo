@@ -33,8 +33,8 @@ void testApp::loadGame(){
     
     if (XML.loadFile("settings.xml")){
         sGameName   = XML.getValue("game", "pong");
-        bUpdateHands = XML.getValue("updatehands", 1);
-        bUpdateObjects = XML.getValue("updateobjects", 1);
+        //bUpdateHands = XML.getValue("updatehands", 1);
+        //bUpdateObjects = XML.getValue("updateobjects", 1);
         
         killGame();         //  if it«s a game running kill it
         
@@ -87,16 +87,29 @@ void testApp::calibrationDone(ofPolyline &_surface){
         game = new Simon();
         ofLog(OF_LOG_NOTICE, "Loading Simon game");
         game->init( _surface.getBoundingBox() );
+        bUpdateHands = false;
+        bUpdateObjects = true;
         bStart = true;
     } else if (sGameName == "pong"){
         game = new Pong();
         ofLog(OF_LOG_NOTICE, "Loading Pong game");
         game->init( _surface.getBoundingBox() );
+        bUpdateHands = true;
+        bUpdateObjects = false;
         bStart = true;
     } else if (sGameName == "shadows"){
         game = new Shadows();
         ofLog(OF_LOG_NOTICE, "Loading Shadows game");
         game->init( _surface.getBoundingBox() );
+        bUpdateHands = true;
+        bUpdateObjects = false;
+        bStart = true;
+    } else if (sGameName == "oca"){
+        game = new Oca();
+        ofLog(OF_LOG_NOTICE, "Loading Oca game");
+        game->init( _surface.getBoundingBox() );
+        bUpdateHands = false;
+        bUpdateObjects = true;
         bStart = true;
     }
 }
