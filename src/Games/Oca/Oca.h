@@ -9,13 +9,13 @@
 #define OCAGAME
 
 #include "ofMain.h"
+
 #include "Game.h"
+#include "TextSequencer.h"
 
 #include "Place.h"
-#include "ofxTextSuite.h"
 
 #include "ofxFX.h"
-
 
 typedef struct {
     ofPoint pos;

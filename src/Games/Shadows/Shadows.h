@@ -11,9 +11,9 @@
 #include "ofMain.h"
 
 #include "ofxFX.h"
-#include "ofxTextSuite.h"
 
 #include "Game.h"
+#include "TextSequencer.h"
 #include "AnimatedShadow.h"
 
 
