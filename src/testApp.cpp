@@ -58,6 +58,7 @@ void testApp::update(){
     //  If the game starts. Update it
     if (bStart){
         game->update();
+        game->render();
     }
 }
 

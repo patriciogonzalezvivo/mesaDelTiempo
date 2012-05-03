@@ -1,9 +1,8 @@
 //
 //  Oca.cpp
-//  OcaSketch
 //
-//  Created by Patricio González Vivo on 4/15/12.
-//  Copyright (c) 2012 PatricioGonzalezVivo.com. All rights reserved.
+//  Created by Patricio Gonzalez Vivo on 4/1/12.
+//  Copyright (c) 2012 http://PatricioGonzalezVivo.com All rights reserved.
 //
 
 #include "Oca.h"
@@ -49,7 +48,7 @@ void Oca::reset(){
     tint.allocate(centerSpace.width, centerSpace.height);
     tint.setZoom(60);
     
-    text.load("Oca/texto.xml");
+    text.loadSequence("Oca/texto.xml");
     text.set(0, 0, centerSpace.width*0.9, centerSpace.height*0.7);
     text.play();
     
@@ -101,39 +100,7 @@ bool Oca::loadPlaces(string _xmlConfigFile){
 }
 
 void Oca::update(){
-    
-    blur.begin();
-    ofEnableBlendMode(OF_BLENDMODE_ALPHA);
-    ofClear(0, 255);
-    ofSetColor( ofMap( text.getNormTransitionValue(), 0.0, 0.5, 0.0, 1.0, true) * 255,255);
-    text.draw();
-    ofDisableBlendMode();
-    blur.end();
-    
-    ofSetColor(255, 255);
-    blur.setRadius( 1.0 + ( 1.0-ofMap(text.getNormTransitionValue(), 0.0, 0.5, 0.0, 1.0, true) ) * 10 );
-    blur.setPasses( 1.0 + ( 1.0-ofMap(text.getNormTransitionValue(), 0.0, 0.5, 0.0, 1.0, true) ) * 10 );
-    blur.update();
-    
-    tint.setFade( 0.2 + (1.0-text.getNormTransitionValue()) *0.8 );
-    if (text.getNormTransitionValue() < 0.01){
-        tint.clear();
-    }
-    
-    tint.setTexture(blur.getTextureReference(),0);
-    tint.update();
-    
-    //  RENDER
-    //  --------------------------------------------------
-    //
-    fbo.begin();
-    ofClear(0,255);
-    ofPushStyle();
-    ofSetColor(255,255);
-    
-    background.draw(space);
-    
-    //  Draw Places
+    //  Places update
     //
     bool  empty = true;
     for(int i = places.size()-1; i >= 0; i--){
@@ -152,11 +119,49 @@ void Oca::update(){
         
         if (empty)
             places[i]->turnTo( 0.0 );
-        else 
+        else {
             places[i]->turnTo( 1.0 );
-        
-        //if ( ( i < places.size()-1 ) || !empty )
-            places[i]->draw();
+        }
+    }
+    
+    //  Text update
+    //
+    blur.begin();
+    ofEnableBlendMode(OF_BLENDMODE_ALPHA);
+    ofClear(0, 255);
+    ofSetColor( ofMap( text.getNormTransitionValue(), 0.0, 0.5, 0.0, 1.0, true) * 255,255);
+    text.update();
+    text.draw();
+    ofDisableBlendMode();
+    blur.end();
+    
+    ofSetColor(255, 255);
+    blur.setRadius( 1.0 + ( 1.0-ofMap(text.getNormTransitionValue(), 0.0, 0.5, 0.0, 1.0, true) ) * 10 );
+    blur.setPasses( 1.0 + ( 1.0-ofMap(text.getNormTransitionValue(), 0.0, 0.5, 0.0, 1.0, true) ) * 10 );
+    blur.update();
+    
+    tint.setFade( 0.2 + (1.0-text.getNormTransitionValue()) *0.8 );
+    if (text.getNormTransitionValue() < 0.01){
+        tint.clear();
+    }
+    tint.setTexture(blur.getTextureReference(),0);
+    tint.update();
+}
+
+void Oca::render(){
+    fbo.begin();
+    ofClear(0,255);
+    ofPushStyle();
+    ofSetColor(255,255);
+    
+    //  Draw Background
+    //
+    background.draw(space);
+    
+    //  Draw Places
+    //
+    for(int i = 0; i < places.size(); i++){
+        places[i]->draw();
     }
     
     //  Draw the deck mask

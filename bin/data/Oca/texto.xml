@@ -4,16 +4,17 @@
         <size>34</size>
         <dpi>90</dpi>
     </font>
+    
     <scale>1.0</scale>
-    <speed>3.0</speed>
-    <spin>100</spin>
     <secForChar>0.13</secForChar>
     <secBetweenPhrase>0.5</secBetweenPhrase>
-    <shape>SPIRAL</shape>
-    <hAlign>LEFT</hAlign>
+    
+    <shape>BLOCK</shape>
+    <hAlign>CENTER</hAlign>
     <vAlign>MIDDLE</vAlign>
+    
 </default>
 
 <phrase>
-    <text> . </text>
+    <text>Juego de la Oca</text>
 </phrase>

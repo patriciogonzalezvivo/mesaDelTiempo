@@ -1,9 +1,8 @@
 //
 //  Oca.h
-//  OcaSketch
 //
-//  Created by Patricio González Vivo on 4/15/12.
-//  Copyright (c) 2012 PatricioGonzalezVivo.com. All rights reserved.
+//  Created by Patricio Gonzalez Vivo on 4/1/12.
+//  Copyright (c) 2012 http://PatricioGonzalezVivo.com All rights reserved.
 //
 
 #ifndef OCAGAME
@@ -33,6 +32,7 @@ public:
     void    reset();
     
     void    update();
+    void    render();
     
     void    objectAdded(ofxBlob &_blob);
     void    objectMoved(ofxBlob &_blob);

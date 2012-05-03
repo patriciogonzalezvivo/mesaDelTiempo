@@ -1,9 +1,8 @@
 //
 //  Shadows.cpp
-//  mdt-Core
 //
-//  Created by Patricio González Vivo on 4/6/12.
-//  Copyright (c) 2012 PatricioGonzalezVivo.com. All rights reserved.
+//  Created by Patricio Gonzalez Vivo on 4/1/12.
+//  Copyright (c) 2012 http://PatricioGonzalezVivo.com All rights reserved.
 //
 
 #define STRINGIFY(A) #A
@@ -42,7 +41,7 @@ void Shadows::init(ofRectangle _space){
     blur.allocate(width,height);
     blurText.allocate(width,height);
     
-    text.load("shadows/texto.xml");
+    text.loadSequence("shadows/texto.xml");
     text.set(0, 0, space.width*0.8, space.height*0.8);
     
     blurText.allocate(text.width, text.height);
@@ -71,7 +70,7 @@ void Shadows::reset(){
 
 void Shadows::update(){
     
-    //  SHADOWS RENDER
+    //  SHADOWS FBO RENDER
     //  ----------------------------------------------------
     //
     blur.begin();
@@ -117,13 +116,14 @@ void Shadows::update(){
     blur.end();
     blur.update();
     
-    //  TEXT RENDER
+    //  TEXT FBO RENDER
     //  ---------------------------------------------------------
     //
     blurText.begin();
     ofEnableBlendMode(OF_BLENDMODE_ALPHA);
     ofClear(0, 255);
     ofSetColor( ofMap( text.getNormTransitionValue(), 0.0, 0.5, 0.0, 1.0, true) * 255,255);
+    text.update();
     text.draw();
     ofDisableBlendMode();
     blurText.end();
@@ -140,17 +140,17 @@ void Shadows::update(){
     
     tint.setTexture(blurText.getTextureReference(),0);
     tint.update();
-    
-    //  FINAL RENDER
-    //  ----------------------------------------------------------
-    //
+}
+
+void Shadows::render(){
     fbo.begin();
     ofPushStyle();
     
     ofEnableBlendMode(OF_BLENDMODE_ALPHA);
     
     ofSetColor(255, 255);
-    //  Background gradient
+    
+    //  Background Gradient Mesh
     //
 	ofMesh mesh;
 	mesh.setMode(OF_PRIMITIVE_TRIANGLE_FAN);
@@ -177,24 +177,18 @@ void Shadows::update(){
     ofSetColor(255, 50);
     background.draw(0,0,width,height);
     
-    //  Draw Blured shadows
+    //  Draw Blured shadows fbo
     //
     ofSetColor(255, 255);
     ofEnableBlendMode(OF_BLENDMODE_MULTIPLY);
     blur.getTextureReference().draw(0,0);
-
-    //  Draw Text
+    
+    //  Draw Text fbo
     //
     ofSetColor(255, 255);
     ofEnableBlendMode(OF_BLENDMODE_MULTIPLY);
     tint.getTextureReference().draw(space.getCenter().x-text.width*0.5,
                                     space.getCenter().y-text.height*0.5);
-    
-    //  Write debug information
-    //
-    //ofSetColor(0,255);
-    //ofDrawBitmapString( ofToString(countDown), 200,200);
-    //ofDrawBitmapString( "Total shadows: " + ofToString(hands.size()), 200, 215);
     
     ofDisableBlendMode();
     ofEnableBlendMode(OF_BLENDMODE_ALPHA);

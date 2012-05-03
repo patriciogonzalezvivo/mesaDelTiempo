@@ -1,9 +1,8 @@
 //
 //  Place.cpp
-//  OcaSketch
 //
-//  Created by Patricio González Vivo on 4/15/12.
-//  Copyright (c) 2012 PatricioGonzalezVivo.com. All rights reserved.
+//  Created by Patricio Gonzalez Vivo on 4/1/12.
+//  Copyright (c) 2012 http://PatricioGonzalezVivo.com All rights reserved.
 //
 
 #include "Place.h"
@@ -62,11 +61,14 @@ void Place::draw(){
         image.draw(x,y,width,height);
     } else if ( nState == 1){ 
         ofSetColor(255, 255);
-        
+        image.draw(x,y,width,height);
+    } else if ( nState < 2){
         if (bAnimated)
             sequence.getFrameForTime(ofGetElapsedTimef())->draw(x,y,width,height);
         else
             image.draw(x,y,width,height);
+    }  else if ( nState == 2){
+        turnToState = 1.0;
     }
         
 }

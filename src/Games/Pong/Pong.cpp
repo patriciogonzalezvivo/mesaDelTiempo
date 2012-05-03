@@ -1,9 +1,8 @@
 //
 //  Pong.cpp
-//  museoDelJuguete
 //
-//  Created by Patricio González Vivo on 3/27/12.
-//  Copyright (c) 2012 PatricioGonzalezVivo.com. All rights reserved.
+//  Created by Patricio Gonzalez Vivo on 4/1/12.
+//  Copyright (c) 2012 http://PatricioGonzalezVivo.com All rights reserved.
 //
 
 #include "Pong.h"
@@ -59,11 +58,15 @@ void Pong::handMoved(ofxBlob &_blob){
 void Pong::update(){
     ball.update();
     
-    //player1.setFromCenter(space.x+60, player1.getCenter().y + ( player1Position - player1.getCenter().y)*0.2, pixel, pixel*4);
+    player1.setFromCenter(space.x+60, player1.getCenter().y + ( player1Position - player1.getCenter().y)*0.2, pixel, pixel*4);
     player2.setFromCenter(space.x+space.width-60, player2.getCenter().y + ( player2Position - player2.getCenter().y)*0.2, pixel, pixel*4);
-    player1.setFromCenter(space.x+60, ball.getCenter().y, pixel, pixel*4);
     
+    //  AutoPlayer 1
+    //
+    //player1.setFromCenter(space.x+60, ball.getCenter().y, pixel, pixel*4);
+}
 
+void Pong::render(){
     fbo.begin();
     ofClear(0);
     

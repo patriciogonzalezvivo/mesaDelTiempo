@@ -1,13 +1,11 @@
 //
 //  Game.h
-//  mdt-Core
 //
-//  Created by Patricio González Vivo on 4/2/12.
-//  Copyright (c) 2012 PatricioGonzalezVivo.com. All rights reserved.
+//  Created by Patricio Gonzalez Vivo on 4/1/12.
+//  Copyright (c) 2012 http://PatricioGonzalezVivo.com All rights reserved.
 //
 
-#ifndef mdt_Core_Game_h
-#define mdt_Core_Game_h
+#pragma once
 
 #include "ofMain.h"
 #include "ofxBlob.h"
@@ -31,16 +29,13 @@ public:
     virtual void    objectDeleted(ofxBlob &_blob) {};
     
     virtual void    update(){};
+    virtual void    render(){};
     
     ofTexture&  getTextureReference(){ return fbo.getTextureReference(); };
     
 protected:
     ofRectangle space;
-    
     ofFbo       fbo;
     
     int         width, height;
 };
-
-
-#endif

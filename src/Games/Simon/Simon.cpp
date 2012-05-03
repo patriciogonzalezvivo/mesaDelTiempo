@@ -1,9 +1,8 @@
 //
 //  Simon.cpp
-//  mdt-Simon
 //
-//  Created by Patricio González Vivo on 4/1/12.
-//  Copyright (c) 2012 PatricioGonzalezVivo.com. All rights reserved.
+//  Created by Patricio Gonzalez Vivo on 4/1/12.
+//  Copyright (c) 2012 http://PatricioGonzalezVivo.com All rights reserved.
 //
 
 #include "Simon.h"
@@ -169,9 +168,9 @@ void Simon::update(){
             }
         }
     }
-    
-    //  Render
-    //
+}
+
+void Simon::render(){
     fbo.begin();
     ofClear(0,255);
     ofPushStyle();
@@ -225,16 +224,6 @@ void Simon::update(){
         led.draw(space.x + space.width*0.44 , space.y+space.height*0.605, led.getWidth()*0.2, led.getHeight()*0.2);
     }
     
-    /*
-    //  DEBUG tool
-    //
-    ofSetColor(255, 255);
-    ofDrawBitmapString("Turn: " + ofToString(turn), space.x + 15, space.y+15);
-    ofDrawBitmapString("CounterDown: " + ofToString(countDown), space.x + 15, space.y+30);
-    if ((secuence.size() > 0) && (secuence.size() != nextButton))
-        ofDrawBitmapString("Next is " + ofToString(secuence[nextButton]) + " the " + ofToString(nextButton) + "/" + ofToString(secuence.size()) , space.x + 15,space.y+ 45);
-    
-    */
     ofPopStyle();
     fbo.end();
 }

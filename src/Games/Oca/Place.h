@@ -1,9 +1,8 @@
 //
 //  Place.h
-//  OcaSketch
 //
-//  Created by Patricio González Vivo on 4/15/12.
-//  Copyright (c) 2012 PatricioGonzalezVivo.com. All rights reserved.
+//  Created by Patricio Gonzalez Vivo on 4/1/12.
+//  Copyright (c) 2012 http://PatricioGonzalezVivo.com All rights reserved.
 //
 
 #ifndef PLACE
@@ -22,6 +21,7 @@ public:
     void    setImage(string _imgFile);
     void    setMessage(string _message){ message = _message;};
     
+    float   getState(){return nState;};
     string  getMessage(){ return message; };
     
     void    turnTo(int _state){turnToState = _state;};

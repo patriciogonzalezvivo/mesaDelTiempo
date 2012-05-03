@@ -1,9 +1,8 @@
 //
 //  Pong.h
-//  museoDelJuguete
 //
-//  Created by Patricio González Vivo on 3/27/12.
-//  Copyright (c) 2012 PatricioGonzalezVivo.com. All rights reserved.
+//  Created by Patricio Gonzalez Vivo on 4/1/12.
+//  Copyright (c) 2012 http://PatricioGonzalezVivo.com All rights reserved.
 //
 
 #ifndef PONGGAME
@@ -24,6 +23,7 @@ public:
     void        handMoved(ofxBlob &_blob);
     
     void        update();
+    void        render();
     
 private:
     void        point(int &playerNumber);
