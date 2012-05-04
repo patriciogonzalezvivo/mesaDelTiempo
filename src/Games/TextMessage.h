@@ -6,9 +6,25 @@
 //  Copyright (c) 2012 PatricioGonzalezVivo.com. All rights reserved.
 //
 
-#ifndef mdt_Core_TextMessage_h
-#define mdt_Core_TextMessage_h
+#ifndef TEXTMESSAGE
+#define TEXTMESSAGE
+
+#include "ofMain.h"
+
+#include "TextSequencer.h"
+#include "ofxXmlSettings.h"
 
 
+class TextMessage: public TextSequencer {
+public:
+    TextMessage();
+    
+    bool    loadStyle(string _xmlFile);
+    
+    void    addMessage(string _message );
+    void    addMessage( textPhrase &_phrase );
+    
+    void    update();
+};
 
 #endif
