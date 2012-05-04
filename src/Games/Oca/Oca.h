@@ -12,6 +12,7 @@
 
 #include "Game.h"
 #include "TextSequencer.h"
+#include "InkAnimation.h"
 
 #include "Place.h"
 

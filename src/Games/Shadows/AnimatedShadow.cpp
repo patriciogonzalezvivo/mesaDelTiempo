@@ -71,17 +71,6 @@ void AnimatedShadow::insertHole( ofPolyline &holeContourLine ){
     }
 }
 
-/*
-void AnimatedShadow::addIntervention( int _nId ){
-    if ((shapes.size() > 0) &&
-        (bActive) &&
-        (currentFrame < (shapes.size()*0.5) )){
-        
-        cout << "Intervention of blob " << _nId << " was added at frame " << currentFrame << " of blob " << getId() << endl;
-        shapes[currentFrame].interv = _nId;
-    }
-}*/
-
 bool AnimatedShadow::draw(){
     bool finish = true;
     

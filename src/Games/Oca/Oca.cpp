@@ -44,18 +44,9 @@ void Oca::reset(){
     loadPlaces("Oca/config.xml");
     
     dragonBackground.set( places[25]->getBoundingBox() );
-    dragonBackground.begin();
-    ofPushMatrix();
-    ofTranslate(-places[25]->getBoundingBox().x, -places[25]->getBoundingBox().y);
-    ofClear(0,255);
-    ofSetColor(255,255);
-    ofBeginShape();
-    for(int i = 0; i < places[25]->size(); i++){
-        ofVertex( places[25]->getVertices()[i] );
-    }
-    ofEndShape();
-    ofPopMatrix();
-    dragonBackground.end();
+    dragonBackground.setZoom(60);
+    dragonBackground.clear();
+    
     
     ficha.pos = places[0]->getBoundingBox().getCenter();
     ficha.placeN = 0;
@@ -130,6 +121,22 @@ void Oca::update(){
         }
     }
 
+    //  Dragon Background 
+    //
+    dragonBackground.setFade( 0.2 + (1.0- places[25]->getState() ) *0.8  );
+    if (places[25]->getState() < 0.01)
+        dragonBackground.clear();
+    dragonBackground.begin();
+    ofTranslate(-places[25]->getBoundingBox().x,-places[25]->getBoundingBox().y);
+    ofPushMatrix();
+    ofClear(0,255);
+    ofSetColor(places[25]->getState()*200,255);
+    ofBeginShape();
+    for(int i = 0; i < places[25]->size(); i++)
+        ofVertex( places[25]->getVertices()[i] );
+    ofEndShape();
+    ofPopMatrix();
+    dragonBackground.end();
     dragonBackground.update();
 }
 
@@ -143,7 +150,13 @@ void Oca::render(){
     //
     background.draw(space);
     
+    ofEnableBlendMode(OF_BLENDMODE_MULTIPLY);
+    ofSetColor(255,255);
     dragonBackground.draw();
+    ofDisableBlendMode();
+    
+    ofSetColor(255, 255);
+    ofEnableBlendMode(OF_BLENDMODE_ALPHA);
     
     //  Draw Places
     //
