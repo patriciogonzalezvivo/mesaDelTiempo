@@ -4,7 +4,7 @@
         <size>44</size>
         <dpi>90</dpi>
     </font>
-    <shape>BLOCK</shape>
+    <shape>ARC</shape>
     <hAlign>CENTER</hAlign>
     <vAlign>MIDDLE</vAlign>
     <speed>1.0</speed>

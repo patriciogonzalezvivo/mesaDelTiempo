@@ -41,9 +41,9 @@ public:
 private:
     bool    loadPlaces(string xmlConfigFile);
     
-    vector<Place*>   places;
-    ofImage         mask;
     ofImage         background;
+    vector<Place*>  places;
+    ofImage         mask;
     
     Ficha           ficha;
     

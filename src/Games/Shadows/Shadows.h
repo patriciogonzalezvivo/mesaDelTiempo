@@ -14,8 +14,9 @@
 
 #include "Game.h"
 #include "TextSequencer.h"
-#include "AnimatedShadow.h"
+#include "InkAnimation.h"
 
+#include "AnimatedShadow.h"
 
 class Shadows: public Game {
 public:
@@ -45,9 +46,9 @@ private:
     ofImage         background;
     
     TextSequencer   text;
+    InkAnimation    textAnimation;
+    
     ofxBlur         blur;
-    ofxBlur         blurText;
-    ofxTint         tint;
      
     int     countDown;
     int     nLastShadows;

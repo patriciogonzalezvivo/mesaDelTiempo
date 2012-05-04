@@ -93,24 +93,26 @@ bool Oca::loadPlaces(string _xmlConfigFile){
 void Oca::update(){
     //  Places update
     //
-    bool  empty = true;
+    bool passed = false;
     for(int i = places.size()-1; i >= 0; i--){
+        bool over = false;
         //  Activar (nLevel) todos los casilleros anteriores
         //  al lugar donde este la última ficha
         //
-        if (empty){
+        if ( !passed ){
             if (places[i]->inside( ficha.pos )){
                 if ( ficha.placeN != i){
                     ficha.placeN = i;
                 }
-                empty = false;
+                passed = true;
+                over = true;
             }
         }
         
-        if (empty)
-            places[i]->turnTo( 0.0 );
-        else {
+        if (passed){
             places[i]->turnTo( 1.0 );
+        } else {
+            places[i]->turnTo( 0.0 );
         }
     }
 }

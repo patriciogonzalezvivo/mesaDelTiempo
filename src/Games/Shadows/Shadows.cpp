@@ -39,14 +39,10 @@ void Shadows::init(ofRectangle _space){
     fbo.end();
     
     blur.allocate(width,height);
-    blurText.allocate(width,height);
     
     text.loadSequence("shadows/texto.xml");
     text.set(0, 0, space.width*0.8, space.height*0.8);
-    
-    blurText.allocate(text.width, text.height);
-    tint.allocate(text.width, text.height);
-    tint.setZoom(60);
+    textAnimation.set( space );
     
     //  Clean the variables and the start
     //
@@ -70,20 +66,19 @@ void Shadows::reset(){
 
 void Shadows::update(){
     
-    //  SHADOWS FBO RENDER
-    //  ----------------------------------------------------
+    //  shadow bluring
     //
     blur.begin();
     ofPushStyle();
     ofClear(255,255);
     if ( countDown == 0){
+        
         //  Play the shadows animation one by one from the last up to the first one
         //  Ever time a new shadow it´s made, the cicle start´s from the beginning.
         //
         ofFill();
         if (currentShadow != NULL){
             if (currentShadow->bActive){
-                
                 if ( currentShadow->draw() ){
                     if (bNew){
                         playLast();
@@ -116,30 +111,10 @@ void Shadows::update(){
     blur.end();
     blur.update();
     
-    //  TEXT FBO RENDER
-    //  ---------------------------------------------------------
+    //  Animate the text
     //
-    blurText.begin();
-    ofEnableBlendMode(OF_BLENDMODE_ALPHA);
-    ofClear(0, 255);
-    ofSetColor( ofMap( text.getNormTransitionValue(), 0.0, 0.5, 0.0, 1.0, true) * 255,255);
     text.update();
-    text.draw();
-    ofDisableBlendMode();
-    blurText.end();
-    
-    ofSetColor(255, 255);
-    blurText.setRadius( 1.0 + ( 1.0-ofMap(text.getNormTransitionValue(), 0.0, 0.5, 0.0, 1.0, true) ) * 10 );
-    blurText.setPasses( 1.0 + ( 1.0-ofMap(text.getNormTransitionValue(), 0.0, 0.5, 0.0, 1.0, true) ) * 10 );
-    blurText.update();
-
-    tint.setFade( 0.2 + (1.0-text.getNormTransitionValue()) *0.8 );
-    if (text.getNormTransitionValue() < 0.01){
-        tint.clear();
-    }
-    
-    tint.setTexture(blurText.getTextureReference(),0);
-    tint.update();
+    textAnimation.update(text);
 }
 
 void Shadows::render(){
@@ -147,7 +122,6 @@ void Shadows::render(){
     ofPushStyle();
     
     ofEnableBlendMode(OF_BLENDMODE_ALPHA);
-    
     ofSetColor(255, 255);
     
     //  Background Gradient Mesh
@@ -187,11 +161,10 @@ void Shadows::render(){
     //
     ofSetColor(255, 255);
     ofEnableBlendMode(OF_BLENDMODE_MULTIPLY);
-    tint.getTextureReference().draw(space.getCenter().x-text.width*0.5,
-                                    space.getCenter().y-text.height*0.5);
-    
+    textAnimation.draw();
     ofDisableBlendMode();
     ofEnableBlendMode(OF_BLENDMODE_ALPHA);
+    
     ofPopStyle();
     fbo.end();
 }
