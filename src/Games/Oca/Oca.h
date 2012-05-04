@@ -45,12 +45,7 @@ private:
     ofImage         mask;
     ofImage         background;
     
-    ofRectangle     centerSpace;
-    ofxBlur         blur;
-    ofxTint         tint;
-    ofxTextSequencer text;
-    
-    Ficha         ficha;
+    Ficha           ficha;
     
     float           scaleFactor;
     bool            bChange;

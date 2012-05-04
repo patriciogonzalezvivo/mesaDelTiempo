@@ -1,5 +1,5 @@
 //
-//  ofxTextSequencer.cpp
+//  TextSequencer.cpp
 //
 //  Created by Patricio Gonzalez Vivo on 4/1/12.
 //  Copyright (c) 2012 http://PatricioGonzalezVivo.com All rights reserved.
@@ -7,7 +7,7 @@
 
 #include "TextSequencer.h"
 
-ofxTextSequencer::ofxTextSequencer(){
+TextSequencer::TextSequencer(){
     currentLine = 0;
     countDown   = 1.0;
     seconds     = 1.0;
@@ -19,12 +19,10 @@ ofxTextSequencer::ofxTextSequencer(){
     defaultShape        =   OF_TEXT_SHAPE_BLOCK;
     
     bPlay       = false;
-    bMessage    = false;
-    
     text        = NULL;
 }
 
-bool ofxTextSequencer::loadSequence(string _xmlFile){
+bool TextSequencer::loadSequence(string _xmlFile){
     bool    success = false;
     
     ofxXmlSettings XML;
@@ -124,9 +122,6 @@ bool ofxTextSequencer::loadSequence(string _xmlFile){
             XML.popTag();
         }
         
-        if (totalLines > 0)
-            bMessage = false;
-        
         countDown = secBetweenPhrase;
         currentLine = -1;
         bWaiting = true;
@@ -137,41 +132,7 @@ bool ofxTextSequencer::loadSequence(string _xmlFile){
     return success;
 }
 
-void  ofxTextSequencer::showMessage(string _message){
-    textPhrase  nPhrase;
-    nPhrase.text    =   _message;
-    nPhrase.seconds =   message.text.length() * secForChar;
-    nPhrase.speed   =   defaultSpeed;
-    
-    nPhrase.hAlign  =   defaultHoriAlign;
-    nPhrase.vAlign  =   defaultVertAlign;
-    nPhrase.scale   =   1.0;
-    nPhrase.shape   =   defaultShape;
-    nPhrase.fontFile=   defaultFontFile;
-    nPhrase.fontSize=   defaultFontSize;
-    nPhrase.fontDpi =   defaultFontDpi;
-    nPhrase.spin    =   defaultSpin;
-    
-    showMessage(nPhrase);
-}
-
-void ofxTextSequencer::showMessage( textPhrase &_phrase ){
-    message = _phrase;
-    bMessage = true;
-    
-    if (bWaiting){
-        countDown = 0;
-    } else {
-        float halfOfTime = seconds*0.5;
-        if (countDown < halfOfTime){
-            countDown = halfOfTime + ( halfOfTime - countDown ); 
-        }
-        
-        speed *= 2.0;
-    }
-}
-
-void ofxTextSequencer::setNextPhrase(textPhrase &_phrase ){
+void TextSequencer::setNextPhrase(textPhrase &_phrase ){
     rawText     = _phrase.text;
     spin        = _phrase.spin;
 
@@ -208,7 +169,7 @@ void ofxTextSequencer::setNextPhrase(textPhrase &_phrase ){
     }
 }
 
-void ofxTextSequencer::update(){
+void TextSequencer::update(){
     
     countDown -= (1/ofGetFrameRate())*speed;
     
@@ -220,24 +181,15 @@ void ofxTextSequencer::update(){
             //
             bWaiting = false;
             
-            if (!bMessage){
-                
-                //  If there is not any message on the pull
-                //  jump to next phrase of the script
-                //
-                currentLine = (currentLine+1)%script.size();
-                setNextPhrase( script[currentLine] );
-                
-            } else {
-                
-                bMessage = false;
-                setNextPhrase( message );
-                
-            }
+            //  If there is not any message on the pull
+            //  jump to next phrase of the script
+            //
+            currentLine = (currentLine+1)%script.size();
+            setNextPhrase( script[currentLine] );
         }
     } else {
         if ((text != NULL) && ( spin > 0)) {
-            text->setText(spinningString( rawText, spin , (1.0-(countDown/seconds))*(rawText.size()+spin) ));
+            text->setText( spinningString( rawText, spin , (1.0-(countDown/seconds))*(rawText.size()+spin) ));
         }
         
         if ( countDown <= 0){
@@ -246,28 +198,18 @@ void ofxTextSequencer::update(){
             speed       = 1.0;
         }
     }
-    
-    
 }
 
-void ofxTextSequencer::draw(){
-    
-    if ( !bWaiting ){
+void TextSequencer::draw(){
+    if ( !bWaiting && (script.size() > 0) ){
         if (text != NULL){
             text->draw();
         } else
             ofLog(OF_LOG_ERROR,"Text trying to be render with out loading it");
     } 
-    
-    /*
-    ofPushView();
-    ofNoFill();
-    ofSetColor(100);
-    ofRect( (ofRectangle) *this );
-    ofPopView();*/
 }
 
-string ofxTextSequencer::spinningString(string _orginalText, int _nChars, int _offset){
+string TextSequencer::spinningString(string _orginalText, int _nChars, int _offset){
     string rta;
     
     int indexText = 0;

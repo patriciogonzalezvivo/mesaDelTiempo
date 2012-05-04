@@ -43,15 +43,6 @@ void Oca::reset(){
     places.clear();
     loadPlaces("Oca/config.xml");
     
-    centerSpace = places[ places.size()-1 ]->getBoundingBox();
-    blur.allocate(centerSpace.width, centerSpace.height);
-    tint.allocate(centerSpace.width, centerSpace.height);
-    tint.setZoom(60);
-    
-    text.loadSequence("Oca/texto.xml");
-    text.set(0, 0, centerSpace.width*0.9, centerSpace.height*0.7);
-    text.play();
-    
     ficha.pos = places[0]->getBoundingBox().getCenter();
     ficha.placeN = 0;
 }
@@ -111,7 +102,6 @@ void Oca::update(){
             if (places[i]->inside( ficha.pos )){
                 if ( ficha.placeN != i){
                     ficha.placeN = i;
-                    text.showMessage( places[i]->getMessage() );
                 }
                 empty = false;
             }
@@ -123,29 +113,6 @@ void Oca::update(){
             places[i]->turnTo( 1.0 );
         }
     }
-    
-    //  Text update
-    //
-    blur.begin();
-    ofEnableBlendMode(OF_BLENDMODE_ALPHA);
-    ofClear(0, 255);
-    ofSetColor( ofMap( text.getNormTransitionValue(), 0.0, 0.5, 0.0, 1.0, true) * 255,255);
-    text.update();
-    text.draw();
-    ofDisableBlendMode();
-    blur.end();
-    
-    ofSetColor(255, 255);
-    blur.setRadius( 1.0 + ( 1.0-ofMap(text.getNormTransitionValue(), 0.0, 0.5, 0.0, 1.0, true) ) * 10 );
-    blur.setPasses( 1.0 + ( 1.0-ofMap(text.getNormTransitionValue(), 0.0, 0.5, 0.0, 1.0, true) ) * 10 );
-    blur.update();
-    
-    tint.setFade( 0.2 + (1.0-text.getNormTransitionValue()) *0.8 );
-    if (text.getNormTransitionValue() < 0.01){
-        tint.clear();
-    }
-    tint.setTexture(blur.getTextureReference(),0);
-    tint.update();
 }
 
 void Oca::render(){
@@ -168,14 +135,6 @@ void Oca::render(){
     //
     ofSetColor(255,255);
     mask.draw(space);
-    
-    //  Draw the centered text
-    //
-    ofSetColor(255, 255);
-    ofEnableBlendMode(OF_BLENDMODE_MULTIPLY);
-    tint.getTextureReference().draw(centerSpace.getCenter().x-tint.getWidth()*0.5,
-                                    centerSpace.getCenter().y-tint.getHeight()*0.5);
-    ofDisableBlendMode();
     
     //  Draw the ficha
     //

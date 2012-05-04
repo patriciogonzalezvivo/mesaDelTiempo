@@ -61,7 +61,13 @@ void Place::draw(){
         image.draw(x,y,width,height);
     } else if ( nState == 1){ 
         ofSetColor(255, 255);
-        image.draw(x,y,width,height);
+        
+        if (bAnimated)
+            sequence.getFrameForTime(ofGetElapsedTimef())->draw(x,y,width,height);
+        else
+            image.draw(x,y,width,height);
+        
+        //image.draw(x,y,width,height);
     } else if ( nState < 2){
         if (bAnimated)
             sequence.getFrameForTime(ofGetElapsedTimef())->draw(x,y,width,height);

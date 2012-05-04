@@ -27,39 +27,35 @@ typedef struct {
     verticalAlignment       vAlign;
 } textPhrase;
 
-class ofxTextSequencer: public ofRectangle {
+class TextSequencer: public ofRectangle {
 public:
-    ofxTextSequencer();
+    TextSequencer();
     
     bool    loadSequence(string _xmlFile);
     void    play(){ bPlay = true; };
     void    stop(){ bPlay = false;};
     
-    void    setSpeed(float _speed){ speed = _speed;};
-    void    setSecForChar( float _secForChar){ secForChar = _secForChar; };
-    void    setSecBetweenPhrases( float _secBetweenPhrase){ secBetweenPhrase = _secBetweenPhrase;};
-    void    setNextPhrase(textPhrase &_phrase );
+    virtual void    setSpeed(float _speed){ speed = _speed;};
+    virtual void    setSecForChar( float _secForChar){ secForChar = _secForChar; };
+    virtual void    setSecBetweenPhrases( float _secBetweenPhrase){ secBetweenPhrase = _secBetweenPhrase;};
+    virtual void    setNextPhrase(textPhrase &_phrase );
     
-    float   getNormTransitionValue(){ return sin( (countDown/seconds) * PI );};
+    virtual float   getNormTransitionValue(){ return sin( (countDown/seconds) * PI );};
     
-    void    showMessage(string _message );
-    void    showMessage( textPhrase &_phrase );
+    virtual void    update();
+    virtual void    draw();
     
-    void    update();
-    void    draw();
+protected:
+    virtual string      spinningString(string _orginalText, int _nChars, int _offset);
     
-private:
-    string      spinningString(string _orginalText, int _nChars, int _offset);
-    vector<textPhrase> script;
-    textPhrase      message;
+    vector<textPhrase>  script;
+    string              rawText;
+    ofxTextShape        *text;
     
-    string          rawText;
-    ofxTextShape    *text;
-    
-    textShape   defaultShape;
-    string      defaultFontFile;
-    float       defaultFontSize, defaultFontDpi, defaultSpeed;
-    int         defaultSpin;
+    textShape           defaultShape;
+    string              defaultFontFile;
+    float               defaultFontSize, defaultFontDpi, defaultSpeed;
+    int                 defaultSpin;
     verticalAlignment   defaultVertAlign;
     horizontalAlignment defaultHoriAlign;
     
@@ -67,7 +63,7 @@ private:
     float   speed, seconds, countDown;
     int     currentLine, spin;
     
-    bool    bWaiting, bMessage, bPlay;
+    bool    bWaiting, bPlay;
 };
 
 #endif

@@ -44,7 +44,7 @@ private:
     
     ofImage         background;
     
-    ofxTextSequencer text;
+    TextSequencer   text;
     ofxBlur         blur;
     ofxBlur         blurText;
     ofxTint         tint;
