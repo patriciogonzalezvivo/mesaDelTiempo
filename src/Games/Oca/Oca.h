@@ -42,6 +42,7 @@ private:
     bool    loadPlaces(string xmlConfigFile);
     
     ofImage         background;
+    ofxTint         dragonBackground;
     vector<Place*>  places;
     ofImage         mask;
     

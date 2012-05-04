@@ -43,6 +43,8 @@ void Oca::reset(){
     places.clear();
     loadPlaces("Oca/config.xml");
     
+    dragonBackground.set( places[25]->getBoundingBox() );
+    
     ficha.pos = places[0]->getBoundingBox().getCenter();
     ficha.placeN = 0;
 }
