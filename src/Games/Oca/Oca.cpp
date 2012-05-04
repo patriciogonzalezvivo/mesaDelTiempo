@@ -44,7 +44,7 @@ void Oca::reset(){
     loadPlaces("Oca/config.xml");
     
     dragonBackground.set( places[25]->getBoundingBox() );
-    dragonBackground.setZoom(60);
+    //dragonBackground.setZoom(60);
     dragonBackground.clear();
     
     
@@ -129,7 +129,7 @@ void Oca::update(){
 
     //  Dragon Background 
     //
-    dragonBackground.setFade( 0.2 + (1.0- ofMap(places[25]->getState(), 0.9, 2.0, 0.0,1.0,true) ) *0.8  ); //0.2 + (1.0- places[25]->getState() ) *0.8  );
+    dragonBackground.setFade( 0.2 + (1.0- ofClamp(places[25]->getState(), 0.0, 1.0) ) *0.8  ); //0.2 + (1.0- places[25]->getState() ) *0.8  );
     
     if (places[25]->getState() < 0.01)
         dragonBackground.clear();
@@ -138,7 +138,7 @@ void Oca::update(){
     ofTranslate(-places[25]->getBoundingBox().x,-places[25]->getBoundingBox().y);
     ofPushMatrix();
     ofClear(0,255);
-    ofSetColor( ofMap(places[25]->getState(), 1.0, 2.0, 0.0,1.0,true) *200,255);//places[25]->getState()*200,255);
+    ofSetColor( ofClamp(places[25]->getState(), 0.0, 1.0) *200,255);//places[25]->getState()*200,255);
     ofBeginShape();
     for(int i = 0; i < places[25]->size(); i++)
         ofVertex( places[25]->getVertices()[i] );
