@@ -161,8 +161,8 @@ void TextSequencer::setNextPhrase(textPhrase &_phrase ){
     }
     
     if (text != NULL){
-        text->loadFont( _phrase.fontFile, _phrase.fontSize, _phrase.fontDpi );
         text->set(x,y,width,height);
+        text->loadFont( _phrase.fontFile, _phrase.fontSize, _phrase.fontDpi );
         text->setScale( _phrase.scale );
         text->setText( _phrase.text );
         text->setAlignment(_phrase.hAlign, _phrase.vAlign);

@@ -33,8 +33,6 @@ void testApp::loadGame(){
     
     if (XML.loadFile("settings.xml")){
         sGameName   = XML.getValue("game", "pong");
-        //bUpdateHands = XML.getValue("updatehands", 1);
-        //bUpdateObjects = XML.getValue("updateobjects", 1);
         
         killGame();         //  if it«s a game running kill it
         
