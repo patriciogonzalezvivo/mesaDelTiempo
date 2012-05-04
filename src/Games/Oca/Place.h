@@ -17,7 +17,8 @@ public:
     Place( int _nId );
     
     void    setId(int _nid){nId == _nid;};
-    void    setScale(float _scale){scale = _scale;};
+    void    setState(float _state){ nState = _state;};
+    void    setScale(float _scale){ scale = _scale;};
     void    setImage(string _imgFile);
     void    setMessage(string _message){ message = _message;};
     
@@ -25,6 +26,7 @@ public:
     string  getMessage(){ return message; };
     
     void    turnTo(int _state){turnToState = _state;};
+    void    turnToMax(){ if ( turnToState < 1.0 ) turnTo(2.0); }
     void    draw();
 
 private:

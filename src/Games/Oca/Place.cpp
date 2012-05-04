@@ -35,8 +35,6 @@ void Place::setImage(string _imgFile){
     string animationFolder = "Oca/"+ file.getBaseName(); //file.getEnclosingDirectory() + file.getBaseName();
     
     if (dir.listDir(animationFolder) > 0){
-        
-        cout << "Load animation sequence on " << animationFolder << endl;
         sequence.loadSequence(animationFolder);
         sequence.preloadAllFrames();
         sequence.setFrameRate(3);
@@ -56,25 +54,25 @@ void Place::draw(){
         nState -= 0.01;
     }
     
-    if ( nState < 1){
+    if ( nState <= 1){
+        
         ofSetColor(255, nState*255);
         image.draw(x,y,width,height);
-    } else if ( nState == 1){ 
-        ofSetColor(255, 255);
         
         if (bAnimated)
-            sequence.getFrameForTime(ofGetElapsedTimef())->draw(x,y,width,height);
-        else
-            image.draw(x,y,width,height);
+            sequence.setFrame(0);
         
-        //image.draw(x,y,width,height);
-    } else if ( nState < 2){
-        if (bAnimated)
-            sequence.getFrameForTime(ofGetElapsedTimef())->draw(x,y,width,height);
-        else
+    } else if ( nState <= 2){
+        
+        ofSetColor(255);
+        if (bAnimated && ( sequence.getCurrentFrame() < sequence.getTotalFrames()-1 ) ){
+            sequence.getFrameAtPercent(nState-1.0) ->draw(x,y,width,height);
+        } else {
+            turnTo(1);
             image.draw(x,y,width,height);
-    }  else if ( nState == 2){
-        turnToState = 1.0;
+        }
     }
         
+    //ofSetColor(0);
+    //ofDrawBitmapString(ofToString(nState), getCentroid2D() );
 }

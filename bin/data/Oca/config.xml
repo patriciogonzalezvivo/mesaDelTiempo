@@ -1,5 +1,5 @@
 <place>
-    <id>00</id>
+    <id>0</id>
     <baseImage>Oca/00.png</baseImage>
     <message>Casillero 00</message>
     <mask>
@@ -54,7 +54,7 @@
     </mask>
 </place>
 <place>
-    <id>01</id>
+    <id>1</id>
     <baseImage>Oca/01.png</baseImage>
     <message>Casillero 01: Había una vez en un país muy muy lejano una huevo.                      Este no era un huevo cualquiera esra un huevo inquieto y curioso....                   Un día de la nada comenzó a moverse.... </message>
     <mask>
@@ -85,7 +85,7 @@
     </mask>
 </place>
 <place>
-    <id>02</id>
+    <id>2</id>
     <baseImage>Oca/02.png</baseImage>
     <message>Casillero 02</message>
     <mask>
@@ -128,7 +128,7 @@
     </mask>
 </place>
 <place>
-    <id>03</id>
+    <id>3</id>
     <baseImage>Oca/03.png</baseImage>
     <message>Casillero 03</message>
     <mask>
@@ -171,7 +171,7 @@
     </mask>
 </place>
 <place>
-    <id>04</id>
+    <id>4</id>
     <baseImage>Oca/04.png</baseImage>
     <message>Casillero 04</message>
     <mask>
@@ -202,7 +202,7 @@
     </mask>
 </place>
 <place>
-    <id>05</id>
+    <id>5</id>
     <baseImage>Oca/05.png</baseImage>
     <message>Casillero 05</message>
     <mask>
@@ -264,7 +264,7 @@
     </mask>
 </place>
 <place>
-    <id>07</id>
+    <id>7</id>
     <baseImage>Oca/07.png</baseImage>
     <message>Casillero 07</message>
     <mask>
@@ -295,7 +295,7 @@
     </mask>
 </place>
 <place>
-    <id>08</id>
+    <id>8</id>
     <baseImage>Oca/08.png</baseImage>
     <message>Casillero 08</message>
     <mask>
@@ -342,7 +342,7 @@
     </mask>
 </place>
 <place>
-    <id>09</id>
+    <id>9</id>
     <baseImage>Oca/09.png</baseImage>
     <message>Casillero 09</message>
     <mask>

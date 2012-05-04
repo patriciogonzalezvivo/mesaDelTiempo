@@ -109,13 +109,19 @@ void Oca::update(){
                 if ( ficha.placeN != i){
                     ficha.placeN = i;
                 }
+                
+                if ( places[i]->getState() >= 1.8 ){
+                    places[i]->setState(0.99);
+                }
+                
                 passed = true;
                 over = true;
             }
         }
         
         if (passed){
-            places[i]->turnTo( 1.0 );
+            //places[i]->turnTo( 1.0 );
+            places[i]->turnToMax();
         } else {
             places[i]->turnTo( 0.0 );
         }
@@ -123,14 +129,16 @@ void Oca::update(){
 
     //  Dragon Background 
     //
-    dragonBackground.setFade( 0.2 + (1.0- places[25]->getState() ) *0.8  );
+    dragonBackground.setFade( 0.2 + (1.0- ofMap(places[25]->getState(), 0.9, 2.0, 0.0,1.0,true) ) *0.8  ); //0.2 + (1.0- places[25]->getState() ) *0.8  );
+    
     if (places[25]->getState() < 0.01)
         dragonBackground.clear();
+    
     dragonBackground.begin();
     ofTranslate(-places[25]->getBoundingBox().x,-places[25]->getBoundingBox().y);
     ofPushMatrix();
     ofClear(0,255);
-    ofSetColor(places[25]->getState()*200,255);
+    ofSetColor( ofMap(places[25]->getState(), 1.0, 2.0, 0.0,1.0,true) *200,255);//places[25]->getState()*200,255);
     ofBeginShape();
     for(int i = 0; i < places[25]->size(); i++)
         ofVertex( places[25]->getVertices()[i] );
