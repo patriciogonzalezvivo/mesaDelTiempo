@@ -43,10 +43,15 @@ void Oca::reset(){
     places.clear();
     loadPlaces("Oca/config.xml");
     
+    forestBackground.set( places[10]->getBoundingBox() );
+    forestBackground.setZoom(60);
+    forestBackground.clear();
+    
     dragonBackground.set( places[25]->getBoundingBox() );
-    //dragonBackground.setZoom(60);
     dragonBackground.clear();
     
+    obj09.loadImage("Oca/09alt/09-00.png");
+    obj17.loadImage("Oca/17alt/17-00.png");
     
     ficha.pos = places[0]->getBoundingBox().getCenter();
     ficha.placeN = 0;
@@ -66,7 +71,7 @@ bool Oca::loadPlaces(string _xmlConfigFile){
             
             Place *newPlace = new Place( XML.getValue("id", -1) );
             newPlace->setMessage (XML.getValue("message", "NO MESSAGE") );
-            newPlace->setScale( scaleFactor );
+            //newPlace->setScale( scaleFactor );
             
             // Load the mask path
             if ( XML.pushTag("mask") ){
@@ -107,6 +112,19 @@ void Oca::update(){
         if ( !passed ){
             if (places[i]->inside( ficha.pos )){
                 if ( ficha.placeN != i){
+                    
+                    if ( i < 4 ){
+                        obj09.loadImage("Oca/09alt/09-00.png");
+                    } else if (i <= 7){
+                        obj09.loadImage("Oca/09alt/09-0"+ofToString(i-3)+".png");
+                    } 
+                    
+                    if ( i < 13){
+                        obj17.loadImage("Oca/17alt/17-00.png");
+                    } else if (i == 13){
+                        obj17.loadImage("Oca/17alt/17-01.png");
+                    }
+                    
                     ficha.placeN = i;
                 }
                 
@@ -127,18 +145,34 @@ void Oca::update(){
         }
     }
 
+    //  Forest Background 
+    //
+    forestBackground.setFade( 0.2 + (1.0- ofClamp(places[10]->getState(), 0.0, 1.0) ) *0.8  );     
+    if (places[10]->getState() < 0.01)
+        forestBackground.clear();
+    forestBackground.begin();
+    ofTranslate(-places[10]->getBoundingBox().x,-places[10]->getBoundingBox().y);
+    ofPushMatrix();
+    ofClear(0,255);
+    ofSetColor( ofClamp(places[10]->getState(), 0.0, 1.0) *200,255);
+    ofBeginShape();
+    for(int i = 0; i < places[10]->size(); i++)
+        ofVertex( places[10]->getVertices()[i] );
+    ofEndShape();
+    ofPopMatrix();
+    forestBackground.end();
+    forestBackground.update();
+    
     //  Dragon Background 
     //
-    dragonBackground.setFade( 0.2 + (1.0- ofClamp(places[25]->getState(), 0.0, 1.0) ) *0.8  ); //0.2 + (1.0- places[25]->getState() ) *0.8  );
-    
+    dragonBackground.setFade( 0.2 + (1.0- ofClamp(places[25]->getState(), 0.0, 1.0) ) *0.8  );
     if (places[25]->getState() < 0.01)
         dragonBackground.clear();
-    
     dragonBackground.begin();
     ofTranslate(-places[25]->getBoundingBox().x,-places[25]->getBoundingBox().y);
     ofPushMatrix();
     ofClear(0,255);
-    ofSetColor( ofClamp(places[25]->getState(), 0.0, 1.0) *200,255);//places[25]->getState()*200,255);
+    ofSetColor( ofClamp(places[25]->getState(), 0.0, 1.0) *200,255);
     ofBeginShape();
     for(int i = 0; i < places[25]->size(); i++)
         ofVertex( places[25]->getVertices()[i] );
@@ -160,6 +194,7 @@ void Oca::render(){
     
     ofEnableBlendMode(OF_BLENDMODE_MULTIPLY);
     ofSetColor(255,255);
+    forestBackground.draw();
     dragonBackground.draw();
     ofDisableBlendMode();
     
@@ -171,6 +206,16 @@ void Oca::render(){
     for(int i = 0; i < places.size(); i++){
         places[i]->draw();
     }
+    
+    //  Draw Object Picked
+    //
+    ofSetColor( ofClamp( places[9]->getState(), 0.0, 1.0)*200, 255);
+    obj09.draw(places[9]->getBoundingBox());
+    
+    //  Draw Friend
+    //
+    ofSetColor( 255, ofClamp( places[13]->getState(), 0.0, 1.0)*255);
+    obj17.draw(places[17]->getBoundingBox());
     
     //  Draw the deck mask
     //

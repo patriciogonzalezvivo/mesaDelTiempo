@@ -44,6 +44,9 @@ private:
     
     ofImage         background;
     ofxTint         dragonBackground;
+    ofxTint         forestBackground;
+    ofImage         obj09;
+    ofImage         obj17;
     vector<Place*>  places;
     ofImage         mask;
     
