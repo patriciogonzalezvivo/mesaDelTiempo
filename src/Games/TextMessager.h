@@ -6,8 +6,8 @@
 //  Copyright (c) 2012 PatricioGonzalezVivo.com. All rights reserved.
 //
 
-#ifndef TEXTMESSAGE
-#define TEXTMESSAGE
+#ifndef TEXTMESSAGER
+#define TEXTMESSAGER
 
 #include "ofMain.h"
 
@@ -15,9 +15,9 @@
 #include "ofxXmlSettings.h"
 
 
-class TextMessage: public TextSequencer {
+class TextMessager: public TextSequencer {
 public:
-    TextMessage();
+    TextMessager();
     
     bool    loadStyle(string _xmlFile);
     
