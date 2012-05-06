@@ -2,6 +2,7 @@
     <id>0</id>
     <baseImage>Oca/00.png</baseImage>
     <message>Casillero 00</message>
+    <angle>15</angle>
     <mask>
         <point>
             <x>0.247345</x>
@@ -55,6 +56,7 @@
 </place>
 <place>
     <id>1</id>
+    <angle>0</angle>
     <baseImage>Oca/01.png</baseImage>
     <message>Casillero 01: Había una vez en un país muy muy lejano una huevo.Este no era un huevo cualquiera esra un huevo inquieto y curioso....Un día de la nada comenzó a moverse.... </message>
     <mask>
@@ -86,6 +88,7 @@
 </place>
 <place>
     <id>2</id>
+    <angle>-30</angle>
     <baseImage>Oca/02.png</baseImage>
     <message>Casillero 02</message>
     <mask>
@@ -129,6 +132,7 @@
 </place>
 <place>
     <id>3</id>
+    <angle>-50</angle>
     <baseImage>Oca/03.png</baseImage>
     <message>Casillero 03</message>
     <mask>
@@ -172,6 +176,7 @@
 </place>
 <place>
     <id>4</id>
+    <angle>-70</angle>
     <baseImage>Oca/04.png</baseImage>
     <message>Casillero 04</message>
     <mask>
@@ -203,6 +208,7 @@
 </place>
 <place>
     <id>5</id>
+    <angle>-80</angle>
     <baseImage>Oca/05.png</baseImage>
     <message>Casillero 05</message>
     <mask>
@@ -234,6 +240,7 @@
 </place>
 <place>
     <id>06</id>
+    <angle>-90</angle>
     <baseImage>Oca/06.png</baseImage>
     <message>Casillero 06</message>
     <mask>
@@ -265,6 +272,7 @@
 </place>
 <place>
     <id>7</id>
+    <angle>-110</angle>
     <baseImage>Oca/07.png</baseImage>
     <message>Casillero 07</message>
     <mask>
@@ -296,6 +304,7 @@
 </place>
 <place>
     <id>8</id>
+    <angle>-120</angle>
     <baseImage>Oca/08.png</baseImage>
     <message>Casillero 08</message>
     <mask>
@@ -343,6 +352,7 @@
 </place>
 <place>
     <id>9</id>
+    <angle>-140</angle>
     <baseImage>Oca/09.png</baseImage>
     <message>Casillero 09</message>
     <mask>
@@ -374,6 +384,7 @@
 </place>
 <place>
     <id>10</id>
+    <angle>-180</angle>
     <baseImage>Oca/10.png</baseImage>
     <message>Casillero 10</message>
     <mask>
@@ -453,6 +464,7 @@
 </place>
 <place>
     <id>11</id>
+    <angle>-220</angle>
     <baseImage>Oca/11.png</baseImage>
     <message>Casillero 11</message>
     <mask>
@@ -484,6 +496,7 @@
 </place>
 <place>
     <id>12</id>
+    <angle>-230</angle>
     <baseImage>Oca/12.png</baseImage>
     <message>Casillero 12</message>
     <mask>
@@ -531,6 +544,7 @@
 </place>
 <place>
     <id>13</id>
+    <angle>-260</angle>
     <baseImage>Oca/13.png</baseImage>
     <message>Casillero 13</message>
     <mask>
@@ -578,6 +592,7 @@
 </place>
 <place>
     <id>14</id>
+    <angle>-280</angle>
     <baseImage>Oca/14.png</baseImage>
     <message>Casillero 14</message>
     <mask>
@@ -625,6 +640,7 @@
 </place>
 <place>
     <id>15</id>
+    <angle>-320</angle>
     <baseImage>Oca/15.png</baseImage>
     <message>Casillero 15</message>
     <mask>
@@ -672,6 +688,7 @@
 </place>
 <place>
     <id>16</id>
+    <angle>0</angle>
     <baseImage>Oca/16.png</baseImage>
     <message>Casillero 16</message>
     <mask>
@@ -731,6 +748,7 @@
 </place>
 <place>
     <id>17</id>
+    <angle>-40</angle>
     <baseImage>Oca/17.png</baseImage>
     <message>Casillero 17</message>
     <mask>
@@ -778,6 +796,7 @@
 </place>
 <place>
     <id>18</id>
+    <angle>-80</angle>
     <baseImage>Oca/18.png</baseImage>
     <message>Casillero 18</message>
     <mask>
@@ -825,6 +844,7 @@
 </place>
 <place>
     <id>19</id>
+    <angle>-120</angle>
     <baseImage>Oca/19.png</baseImage>
     <message>Casillero 19</message>
     <mask>
@@ -872,6 +892,7 @@
 </place>
 <place>
     <id>20</id>
+    <angle>-160</angle>
     <baseImage>Oca/20.png</baseImage>
     <message>Casillero 20</message>
     <mask>
@@ -919,6 +940,7 @@
 </place>
 <place>
     <id>21</id>
+    <angle>-230</angle>
     <baseImage>Oca/21.png</baseImage>
     <message>Casillero 21</message>
     <mask>
@@ -1054,6 +1076,7 @@
 </place>
 <place>
     <id>22</id>
+    <angle>-330</angle>
     <baseImage>Oca/22.png</baseImage>
     <message>Casillero 22</message>
     <mask>
@@ -1101,6 +1124,7 @@
 </place>
 <place>
     <id>23</id>
+    <angle>0</angle>
     <baseImage>Oca/23.png</baseImage>
     <message>Casillero 23</message>
     <mask>
@@ -1148,6 +1172,7 @@
 </place>
 <place>
     <id>24</id>
+    <angle>-45</angle>
     <baseImage>Oca/24.png</baseImage>
     <message>Casillero 24</message>
     <mask>
@@ -1195,6 +1220,7 @@
 </place>
 <place>
     <id>25</id>
+    <angle>-157</angle>
     <baseImage>Oca/25.png</baseImage>
     <message>Casillero 25</message>
     <mask>
@@ -1342,6 +1368,7 @@
 </place>
 <place>
     <id>26</id>
+    <angle>-320</angle>
     <baseImage>Oca/26.png</baseImage>
     <message>Casillero 26</message>
     <mask>

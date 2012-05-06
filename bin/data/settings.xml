@@ -1,25 +1,25 @@
 <game>oca</game>
 <Alt_de_Obj>35.65</Alt_de_Obj>
-<Dist_de_Sup>890</Dist_de_Sup>
+<Dist_de_Sup>1033.5</Dist_de_Sup>
 <humbral>56</humbral>
 <surface>
     <id>0</id>
     <texture>
         <point>
-            <x>175.535</x>
-            <y>52.1526</y>
+            <x>1304.54</x>
+            <y>25.1526</y>
         </point>
         <point>
-            <x>1105.43</x>
-            <y>52.1511</y>
+            <x>2234.43</x>
+            <y>25.1511</y>
         </point>
         <point>
-            <x>1105.43</x>
-            <y>749.572</y>
+            <x>2234.43</x>
+            <y>722.572</y>
         </point>
         <point>
-            <x>175.536</x>
-            <y>749.572</y>
+            <x>1304.54</x>
+            <y>722.572</y>
         </point>
     </texture>
     <mask>

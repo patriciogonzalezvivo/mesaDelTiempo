@@ -22,7 +22,7 @@ Oca::~Oca(){
 
 void Oca::init(ofRectangle _space){
     ofPoint center = ofPoint(_space.getCenter().x * width,_space.getCenter().y * height);
-    float scaleFactor = _space.height;
+    scaleFactor = _space.height;
     
     space.setFromCenter(center, 
                         scaleFactor * height, 
@@ -36,13 +36,11 @@ void Oca::init(ofRectangle _space){
     mask.loadImage("Oca/mask.png");
     background.loadImage("Oca/background.jpg");
     
-    text.set(space);
-    /*
     text.setFromCenter(space.x+space.width*0.5, 
                        space.y+space.height*0.5,
                        space.width*0.8, 
                        space.height*0.8);
-    */
+    
     text.loadSequence("Oca/style.xml");
     reset();
 }
@@ -101,6 +99,8 @@ bool Oca::loadPlaces(string _xmlConfigFile){
                 XML.popTag(); // Pop "mask"
             }
             
+            newPlace->setScale( scaleFactor );
+            newPlace->setAngle( XML.getValue("angle", 0.0) );
             newPlace->setImage( XML.getValue("baseImage", "00.png") );
             
             places.push_back(newPlace);
@@ -139,6 +139,7 @@ void Oca::update(){
                     }
                     
                     text.addMessage( places[i]->getMessage() );
+                    textAngle = places[i]->getAngle();
                     ficha.placeN = i;
                 }
                 
@@ -232,12 +233,19 @@ void Oca::render(){
     
     //  Draw the deck mask
     //
-    ofSetColor(255,255);
+    ofSetColor(255,(1.0-ofMap( text.getNormTransitionValue(), 0.0, 0.5, 0.0, 1.0, true)) * 255);
     mask.draw(space);
     
     //  Draw text
     //
+    ofPushMatrix();
+    ofTranslate(space.getCenter());
+    ofRotateZ( textAngle );
+    ofSetColor(0,ofMap( text.getNormTransitionValue(), 0.0, 0.5, 0.0, 1.0, true) * 255);
+    ofTranslate(-space.getCenter().x,
+                -space.getCenter().y);
     text.draw();
+    ofPopMatrix();
     
     //  Draw the ficha
     //

@@ -8,14 +8,14 @@
 #include "Place.h"
 
 Place::Place(){
-    scale       =   1.0;
+    angle       =   0.0;
     nState      =   1.0;
     turnToState =   1;
     bAnimated   =   false;
 }
 
 Place::Place( int _nId ){
-    scale       =   1.0;
+    angle       =   0.0;
     nState      =   1.0;
     turnToState =   1;
     bAnimated   =   false;

@@ -40,7 +40,7 @@ public:
     virtual void    setSecBetweenPhrases( float _secBetweenPhrase){ secBetweenPhrase = _secBetweenPhrase;};
     virtual void    setNextPhrase(textPhrase &_phrase );
     
-    virtual float   getNormTransitionValue(){ return sin( (countDown/seconds) * PI );};
+    virtual float   getNormTransitionValue();
     
     virtual void    update();
     virtual void    draw();

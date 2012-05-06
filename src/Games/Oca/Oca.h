@@ -53,6 +53,7 @@ private:
     
     Ficha           ficha;
     
+    float           scaleFactor, textAngle;
     bool            bChange;
 };
 

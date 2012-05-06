@@ -1,6 +1,6 @@
 <default>
     <font>
-        <file>oca/chrismas.ttf</file>
+        <file>oca/washi.ttf</file>
         <size>44</size>
         <dpi>90</dpi>
     </font>
@@ -10,6 +10,6 @@
     <speed>1.0</speed>
     <scale>1.0</scale>
     <spin>0</spin>
-    <secForChar>0.13</secForChar>
+    <secForChar>0.3</secForChar>
     <secBetweenPhrase>1.0</secBetweenPhrase>
 </default>

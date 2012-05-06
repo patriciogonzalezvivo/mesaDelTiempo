@@ -141,8 +141,9 @@ void TextMessager::update(){
             countDown   = secBetweenPhrase;
             speed       = 1.0;
             
-            if ((text != NULL)&&(!bMessage)){
-                text->setText(" ");
+            if ( (text != NULL) && (!bMessage) ){
+                rawText = " ";
+                text->setText(rawText);
             }
         }
     }
