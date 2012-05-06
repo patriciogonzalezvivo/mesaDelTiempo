@@ -41,6 +41,7 @@ public:
     
 private:
     bool    loadPlaces(string xmlConfigFile);
+    void    updateBackground(int _placeNumber, ofxTint& _backgroundEffect);
     
     TextMessager    text;
     
@@ -52,7 +53,6 @@ private:
     
     Ficha           ficha;
     
-    float           scaleFactor;
     bool            bChange;
 };
 

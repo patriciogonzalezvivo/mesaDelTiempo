@@ -52,7 +52,7 @@ bool TextMessager::loadStyle(string _xmlFile){
             defaultShape = OF_TEXT_SHAPE_SPIRAL;
         }
         
-        string defVerAlign = XML.getValue("default:hAlign", "CENTER");
+        string defVerAlign = XML.getValue("default:vAlign", "MIDDLE");
         if (defVerAlign == "TOP"){
             defaultVertAlign = OF_TEXT_ALIGN_TOP;
         } else if ( defVerAlign == "BOTTOM"){
@@ -61,7 +61,7 @@ bool TextMessager::loadStyle(string _xmlFile){
             defaultVertAlign = OF_TEXT_ALIGN_MIDDLE;
         }
         
-        string defHorAlign = XML.getValue("default:vAlign", "TOP");
+        string defHorAlign = XML.getValue("default:hAlign", "CENTER");
         if (defHorAlign == "LEFT"){
             defaultHoriAlign = OF_TEXT_ALIGN_LEFT;
         } else if ( defHorAlign == "RIGHT"){
@@ -74,6 +74,7 @@ bool TextMessager::loadStyle(string _xmlFile){
         
         countDown = secBetweenPhrase;
         bWaiting = true;
+        bMessage = false;
     } else {
         ofLog(OF_LOG_ERROR, "File " + ofToDataPath(_xmlFile) + " could not be opened" );
     }
@@ -126,16 +127,12 @@ void TextMessager::update(){
                 setNextPhrase( message );
                 bMessage = false;
             } else {
-                
-                //  If there are no more phrases on the pull
-                //  it stay on bWaiting mode for two more seconds
-                //
                 bWaiting = false;
                 countDown = 1.0;
             }
         }
     } else {
-        if ((text != NULL) && ( spin > 0)) {
+        if ( (text != NULL) && (  spin > 0) ){
             text->setText(spinningString( rawText, spin , (1.0-(countDown/seconds))*(rawText.size()+spin) ));
         }
         
@@ -143,8 +140,19 @@ void TextMessager::update(){
             bWaiting    = true;
             countDown   = secBetweenPhrase;
             speed       = 1.0;
+            
+            if ((text != NULL)&&(!bMessage)){
+                text->setText(" ");
+            }
         }
     }
-    
-    
+}
+
+void TextMessager::draw(){
+    if ( !bWaiting ){
+        if (text != NULL){
+            text->draw();
+        } else
+            ofLog(OF_LOG_ERROR,"Text trying to be render with out loading it");
+    } 
 }

@@ -22,7 +22,7 @@ Oca::~Oca(){
 
 void Oca::init(ofRectangle _space){
     ofPoint center = ofPoint(_space.getCenter().x * width,_space.getCenter().y * height);
-    scaleFactor = _space.height;
+    float scaleFactor = _space.height;
     
     space.setFromCenter(center, 
                         scaleFactor * height, 
@@ -36,23 +36,34 @@ void Oca::init(ofRectangle _space){
     mask.loadImage("Oca/mask.png");
     background.loadImage("Oca/background.jpg");
     
+    text.set(space);
+    /*
+    text.setFromCenter(space.x+space.width*0.5, 
+                       space.y+space.height*0.5,
+                       space.width*0.8, 
+                       space.height*0.8);
+    */
     text.loadSequence("Oca/style.xml");
-    text.set(0, 0, space.width*0.8, space.height*0.8);
-    
     reset();
 }
 
 void Oca::reset(){
+    
+    //  Load each place of the deck
+    //
     places.clear();
     loadPlaces("Oca/config.xml");
     
+    //  Setup spacial backgrounds
+    //
     forestBackground.set( places[10]->getBoundingBox() );
     forestBackground.setZoom(60);
     forestBackground.clear();
-    
     dragonBackground.set( places[25]->getBoundingBox() );
     dragonBackground.clear();
     
+    //  Load neutral images of interactive places
+    //
     obj09.loadImage("Oca/09alt/09-00.png");
     obj17.loadImage("Oca/17alt/17-00.png");
     
@@ -74,7 +85,6 @@ bool Oca::loadPlaces(string _xmlConfigFile){
             
             Place *newPlace = new Place( XML.getValue("id", -1) );
             newPlace->setMessage (XML.getValue("message", "NO MESSAGE") );
-            //newPlace->setScale( scaleFactor );
             
             // Load the mask path
             if ( XML.pushTag("mask") ){
@@ -153,41 +163,34 @@ void Oca::update(){
     //
     text.update();
     
-    //  Forest Background 
+    //  Forest and Dragon Background update
     //
-    forestBackground.setFade( 0.2 + (1.0- ofClamp(places[10]->getState(), 0.0, 1.0) ) *0.8  );     
-    if (places[10]->getState() < 0.01)
-        forestBackground.clear();
-    forestBackground.begin();
-    ofTranslate(-places[10]->getBoundingBox().x,-places[10]->getBoundingBox().y);
-    ofPushMatrix();
-    ofClear(0,255);
-    ofSetColor( ofClamp(places[10]->getState(), 0.0, 1.0) *200,255);
-    ofBeginShape();
-    for(int i = 0; i < places[10]->size(); i++)
-        ofVertex( places[10]->getVertices()[i] );
-    ofEndShape();
-    ofPopMatrix();
-    forestBackground.end();
-    forestBackground.update();
+    updateBackground(10, forestBackground);
+    updateBackground(25, dragonBackground);
+}
+
+void Oca::updateBackground(int _placeNumber, ofxTint& _backgroundEffect){
+    _backgroundEffect.setFade( 0.2 + (1.0- ofClamp(places[10]->getState(), 0.0, 1.0) ) *0.8  ); 
     
-    //  Dragon Background 
-    //
-    dragonBackground.setFade( 0.2 + (1.0- ofClamp(places[25]->getState(), 0.0, 1.0) ) *0.8  );
-    if (places[25]->getState() < 0.01)
-        dragonBackground.clear();
-    dragonBackground.begin();
-    ofTranslate(-places[25]->getBoundingBox().x,-places[25]->getBoundingBox().y);
-    ofPushMatrix();
-    ofClear(0,255);
-    ofSetColor( ofClamp(places[25]->getState(), 0.0, 1.0) *200,255);
-    ofBeginShape();
-    for(int i = 0; i < places[25]->size(); i++)
-        ofVertex( places[25]->getVertices()[i] );
-    ofEndShape();
-    ofPopMatrix();
-    dragonBackground.end();
-    dragonBackground.update();
+    if (places[_placeNumber]->getState() < 0.01)
+        forestBackground.clear();
+    
+    _backgroundEffect.begin();
+        ofTranslate(-places[_placeNumber]->getBoundingBox().x,
+                    -places[_placeNumber]->getBoundingBox().y);
+    
+        ofPushMatrix();
+            ofClear(0,255);
+            ofSetColor( ofClamp(places[_placeNumber]->getState(), 0.0, 1.0) *200,255);
+            ofBeginShape();
+                for(int i = 0; i < places[_placeNumber]->size(); i++)
+                    ofVertex( places[_placeNumber]->getVertices()[i] );
+            ofEndShape();
+        ofPopMatrix();
+    
+    _backgroundEffect.end();
+    
+    _backgroundEffect.update();
 }
 
 void Oca::render(){
@@ -200,6 +203,8 @@ void Oca::render(){
     //
     background.draw(space);
     
+    //  Draw forest and dragon background
+    //
     ofEnableBlendMode(OF_BLENDMODE_MULTIPLY);
     ofSetColor(255,255);
     forestBackground.draw();
@@ -230,6 +235,8 @@ void Oca::render(){
     ofSetColor(255,255);
     mask.draw(space);
     
+    //  Draw text
+    //
     text.draw();
     
     //  Draw the ficha

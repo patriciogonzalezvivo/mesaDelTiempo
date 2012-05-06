@@ -49,7 +49,7 @@ bool TextSequencer::loadSequence(string _xmlFile){
             defaultShape = OF_TEXT_SHAPE_SPIRAL;
         }
         
-        string defVerAlign = XML.getValue("default:hAlign", "CENTER");
+        string defVerAlign = XML.getValue("default:vAlign", "MIDDLE");
         if (defVerAlign == "TOP"){
             defaultVertAlign = OF_TEXT_ALIGN_TOP;
         } else if ( defVerAlign == "BOTTOM"){
@@ -58,7 +58,7 @@ bool TextSequencer::loadSequence(string _xmlFile){
             defaultVertAlign = OF_TEXT_ALIGN_MIDDLE;
         }
         
-        string defHorAlign = XML.getValue("default:vAlign", "TOP");
+        string defHorAlign = XML.getValue("default:hAlign", "CENTER");
         if (defHorAlign == "LEFT"){
             defaultHoriAlign = OF_TEXT_ALIGN_LEFT;
         } else if ( defHorAlign == "RIGHT"){

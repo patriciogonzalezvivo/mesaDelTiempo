@@ -25,11 +25,11 @@ public:
     void    addMessage( textPhrase &_phrase );
     
     void    update();
+    void    draw();
     
 private:
     textPhrase  message;
     bool        bMessage;
-    
 };
 
 #endif
