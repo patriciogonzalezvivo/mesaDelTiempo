@@ -6,14 +6,15 @@
 //  Copyright (c) 2012 PatricioGonzalezVivo.com. All rights reserved.
 //
 
-#include "TextMessage.h"
+#include "TextMessager.h"
 
 
-TextMessage::TextMessage(){
+TextMessager::TextMessager(){
     currentLine = 0;
     countDown   = 1.0;
     seconds     = 1.0;
     speed       = 1.0;
+    spin        = 0;
     
     defaultFontFile     =   "helvetica.ttf";
     defaultFontSize     =   30.0;
@@ -25,7 +26,7 @@ TextMessage::TextMessage(){
     text        = NULL;
 }
 
-bool TextMessage::loadStyle(string _xmlFile){
+bool TextMessager::loadStyle(string _xmlFile){
     bool    success = false;
     
     ofxXmlSettings XML;
@@ -82,7 +83,7 @@ bool TextMessage::loadStyle(string _xmlFile){
     return success;
 }
 
-void  TextMessage::addMessage(string _message){
+void  TextMessager::addMessage(string _message){
     textPhrase  nPhrase;
     nPhrase.text    =   _message;
     nPhrase.seconds =   _message.length() * secForChar;
@@ -100,7 +101,7 @@ void  TextMessage::addMessage(string _message){
     addMessage(nPhrase);
 }
 
-void TextMessage::addMessage( textPhrase &_phrase ){
+void TextMessager::addMessage( textPhrase &_phrase ){
 
     script.push_back(_phrase);
     
@@ -116,7 +117,7 @@ void TextMessage::addMessage( textPhrase &_phrase ){
     }
 }
 
-void TextMessage::update(){
+void TextMessager::update(){
     
     countDown -= (1/ofGetFrameRate())*speed;
     

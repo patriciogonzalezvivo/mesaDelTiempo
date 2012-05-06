@@ -34,6 +34,8 @@ public:
     }
     
     void    update( TextSequencer & _tSeq ){
+        ofPushView();
+        ofPushStyle();
         
         begin();
         ofPushMatrix();
@@ -49,6 +51,9 @@ public:
         end();
         
         update(_tSeq.getNormTransitionValue());
+        
+        ofPopView();
+        ofPopStyle();
     }
     
     void    begin(){

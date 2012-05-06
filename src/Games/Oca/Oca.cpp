@@ -32,9 +32,12 @@ void Oca::init(ofRectangle _space){
     fbo.begin();
     ofClear(0,255);
     fbo.end();
-    
+
     mask.loadImage("Oca/mask.png");
     background.loadImage("Oca/background.jpg");
+    
+    text.loadSequence("Oca/style.xml");
+    text.set(0, 0, space.width*0.8, space.height*0.8);
     
     reset();
 }
@@ -125,6 +128,7 @@ void Oca::update(){
                         obj17.loadImage("Oca/17alt/17-01.png");
                     }
                     
+                    text.addMessage( places[i]->getMessage() );
                     ficha.placeN = i;
                 }
                 
@@ -145,6 +149,10 @@ void Oca::update(){
         }
     }
 
+    //  Animate the text
+    //
+    text.update();
+    
     //  Forest Background 
     //
     forestBackground.setFade( 0.2 + (1.0- ofClamp(places[10]->getState(), 0.0, 1.0) ) *0.8  );     
@@ -221,6 +229,8 @@ void Oca::render(){
     //
     ofSetColor(255,255);
     mask.draw(space);
+    
+    text.draw();
     
     //  Draw the ficha
     //

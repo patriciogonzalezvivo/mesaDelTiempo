@@ -1,6 +1,6 @@
 <default>
     <font>
-        <file>shadows/chrismas.ttf</file>
+        <file>oca/chrismas.ttf</file>
         <size>44</size>
         <dpi>90</dpi>
     </font>
@@ -13,43 +13,3 @@
     <secForChar>0.3</secForChar>
     <secBetweenPhrase>1.0</secBetweenPhrase>
 </default>
-
-<phrase>
-    <text>Juego de las Sombras</text>
-    <font>
-        <size>70</size>
-    </font>
-</phrase>
-<phrase>
-    <text>Hay juegos que requieren de muy poco.</text>
-</phrase>
-<phrase>
-    <text>A veces... tan sólo de otros con quien jugar.</text>
-</phrase>
-<phrase>
-    <text>Hacer sombras es uno de los pasatiempos más antiguos que tenemos.</text>
-</phrase>
-<phrase>
-    <text>Es el antepasado de la tele, del cine y del teatro.</text>
-</phrase>
-<phrase>
-    <text>Basta una audiencia, una fuente de luz y algo sobre el cual proyectar...</text>
-</phrase>
-<phrase>
-    <text>... como para dejarnos transportarnos con la imaginación.</text>
-</phrase>
-<phrase>
-    <text>Las sombras nos invitan a jugar con los que jugaron antes ...</text>
-</phrase>
-<phrase>
-    <text> ... a la vez que lo hacemos con los que vendrán.</text>
-</phrase>
-<phrase>
-    <text>Abrimos así una brecha en el tiempo.</text>
-</phrase>
-<phrase>
-    <text>Jugar con los que pasaron y ya no están.</text>
-</phrase>
-<phrase>
-    <text>Jugar con los que vendrán.</text>
-</phrase>

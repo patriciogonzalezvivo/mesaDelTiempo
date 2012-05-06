@@ -11,7 +11,7 @@
 #include "ofMain.h"
 
 #include "Game.h"
-#include "TextSequencer.h"
+#include "TextMessager.h"
 #include "InkAnimation.h"
 
 #include "Place.h"
@@ -42,13 +42,13 @@ public:
 private:
     bool    loadPlaces(string xmlConfigFile);
     
-    ofImage         background;
+    TextMessager    text;
+    
     ofxTint         dragonBackground;
     ofxTint         forestBackground;
-    ofImage         obj09;
-    ofImage         obj17;
+    ofImage         background, mask;
+    ofImage         obj09, obj17;
     vector<Place*>  places;
-    ofImage         mask;
     
     Ficha           ficha;
     

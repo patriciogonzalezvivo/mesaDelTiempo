@@ -56,7 +56,7 @@
 <place>
     <id>1</id>
     <baseImage>Oca/01.png</baseImage>
-    <message>Casillero 01: Había una vez en un país muy muy lejano una huevo.                      Este no era un huevo cualquiera esra un huevo inquieto y curioso....                   Un día de la nada comenzó a moverse.... </message>
+    <message>Casillero 01: Había una vez en un país muy muy lejano una huevo.Este no era un huevo cualquiera esra un huevo inquieto y curioso....Un día de la nada comenzó a moverse.... </message>
     <mask>
         <point>
             <x>0.469629</x>
