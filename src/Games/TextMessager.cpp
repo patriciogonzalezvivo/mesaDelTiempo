@@ -10,7 +10,6 @@
 
 
 TextMessager::TextMessager(){
-    currentLine = 0;
     countDown   = 1.0;
     seconds     = 1.0;
     speed       = 1.0;
@@ -20,10 +19,10 @@ TextMessager::TextMessager(){
     defaultFontSize     =   30.0;
     defaultFontDpi      =   90;
     defaultShape        =   OF_TEXT_SHAPE_BLOCK;
-    
-    bPlay       = false;
-    
+
     text        = NULL;
+    bMessage    = false;
+    bWaiting    = true;
 }
 
 bool TextMessager::loadStyle(string _xmlFile){
@@ -74,7 +73,6 @@ bool TextMessager::loadStyle(string _xmlFile){
         }
         
         countDown = secBetweenPhrase;
-        currentLine = -1;
         bWaiting = true;
     } else {
         ofLog(OF_LOG_ERROR, "File " + ofToDataPath(_xmlFile) + " could not be opened" );
@@ -103,16 +101,12 @@ void  TextMessager::addMessage(string _message){
 
 void TextMessager::addMessage( textPhrase &_phrase ){
 
-    script.push_back(_phrase);
+    message = _phrase;
+    bMessage = true;
     
     if (bWaiting){
         countDown = 0;
     } else {
-        float halfOfTime = seconds*0.5;
-        if (countDown < halfOfTime){
-            countDown = halfOfTime + ( halfOfTime - countDown ); 
-        }
-        
         speed *= 2.0;
     }
 }
@@ -128,21 +122,16 @@ void TextMessager::update(){
             //
             bWaiting = false;
             
-            if ( script.size() > 0){
-                
-                //  Delete the first one of the pull and read the 
-                //  one that it´s on the front.
-                //  
-                script.erase(script.begin());
-                currentLine = 0;
-                setNextPhrase( script[currentLine] );
+            if ( bMessage ){
+                setNextPhrase( message );
+                bMessage = false;
             } else {
                 
                 //  If there are no more phrases on the pull
                 //  it stay on bWaiting mode for two more seconds
                 //
                 bWaiting = false;
-                countDown = 2.0*speed;
+                countDown = 1.0;
             }
         }
     } else {

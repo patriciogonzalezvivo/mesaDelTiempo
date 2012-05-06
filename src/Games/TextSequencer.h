@@ -48,7 +48,6 @@ public:
 protected:
     virtual string      spinningString(string _orginalText, int _nChars, int _offset);
     
-    vector<textPhrase>  script;
     string              rawText;
     ofxTextShape        *text;
     
@@ -61,9 +60,14 @@ protected:
     
     float   secBetweenPhrase, secForChar;
     float   speed, seconds, countDown;
-    int     currentLine, spin;
+    int     spin;
     
-    bool    bWaiting, bPlay;
+    bool    bWaiting;
+    
+private:
+    vector<textPhrase>  script;
+    int                 currentLine;
+    bool                bPlay;
 };
 
 #endif

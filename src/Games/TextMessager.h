@@ -25,6 +25,11 @@ public:
     void    addMessage( textPhrase &_phrase );
     
     void    update();
+    
+private:
+    textPhrase  message;
+    bool        bMessage;
+    
 };
 
 #endif
