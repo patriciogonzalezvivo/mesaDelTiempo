@@ -15,6 +15,7 @@
  *      - F4:   Reset surface coorners
  *
  *      - d/D:  debug mode ON/OFF
+ *      - h/H:  turn ON/OFF this help screen
  *
  *      - l/L:  load/reload previus calibration setup and then load the game
  *      - c/C:  calibrate and then load the game
@@ -74,6 +75,7 @@ public:
     bool    bUpdateObjects;
     bool    bUpdateHands;
     bool    bStart;
+    bool    bHelp;
     
     void    loadGame();
     void    killGame();

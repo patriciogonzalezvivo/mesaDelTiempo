@@ -2,6 +2,7 @@ ofxFX
 ofxSurface
 ofxBlobTracker
 ofxTextSuite
+ofxImageSequence
 ofxKinect
 ofxGui
 ofxOpenCV

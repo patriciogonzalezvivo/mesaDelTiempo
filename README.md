@@ -9,6 +9,8 @@ It´s a set of interactive games based on Kinect technologie inspired on old gam
 
 ## Addons need
 
+Download and install: 
+
 - [ofxFX](https://github.com/patriciogonzalezvivo/ofxFX)
 
 - [ofxSurface](https://github.com/patriciogonzalezvivo/ofxSurface)
@@ -17,7 +19,12 @@ It´s a set of interactive games based on Kinect technologie inspired on old gam
 
 - [ofxTextSuite](https://github.com/patriciogonzalezvivo/ofxTextSuite)
 
+- [ofxImageSequence](https://github.com/Flightphase/ofxImageSequence) 
+
 - [ofxKinect](https://github.com/ofTheo/ofxKinect)
+
+
+Native:
 
 - ofxGui
 

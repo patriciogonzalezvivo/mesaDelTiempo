@@ -1,5 +1,22 @@
  #include "testApp.h"
 
+string helpScreen = "\n \
+    - F1:   Fullscreen ON/OFF\n \
+    - F2:   Surface Edit-Mode on/off\n \
+    - F3:   Masking-Mode ON/OFF (need Edit-Mode ) \n \
+    \n \
+            On mask mode on:\n \
+                            - x: delete mask path point\n \
+                            - r: reset mask path\n \
+    \n \
+    - F4:   Reset surface coorners\n \
+    \n \
+    - d/D:  debug mode ON/OFF\n \
+    - h/H:  turn ON/OFF this help screen\n \
+    \n \
+    - l/L:  load/reload previus calibration setup and then load the game\n \
+    - c/C:  calibrate and then load the game \n";
+
 //-------------------------------------------------------------- SETING
 void testApp::setup(){
     ofEnableAlphaBlending();
@@ -18,6 +35,7 @@ void testApp::setup(){
     //
     game = NULL;
     bStart = false;
+    bHelp = false;
     bUpdateHands = false;
     bUpdateObjects = false;
     tSurface.bDebug = false;
@@ -71,7 +89,11 @@ void testApp::draw(){
     } else {
         tSurface.draw(logo.getTextureReference());
     }
-    
+
+    if (bHelp){
+        ofSetColor(255);
+        ofDrawBitmapString(helpScreen, 100,100);
+    }
 }
 
 //-------------------------------------------------------------- EVENTS
@@ -183,6 +205,10 @@ void testApp::keyPressed(int key){
         case 'R':
             game->reset();
             break;
+        case 'h':
+        case 'H':
+            bHelp = !bHelp;
+            break;    
     }
 }
 
