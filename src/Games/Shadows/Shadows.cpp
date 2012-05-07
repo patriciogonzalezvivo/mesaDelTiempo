@@ -41,8 +41,14 @@ void Shadows::init(ofRectangle _space){
     blur.allocate(width,height);
     
     text.loadSequence("shadows/texto.xml");
-    text.set(0, 0, space.width*0.8, space.height*0.8);
-    textAnimation.set( space );
+    text.set(0,0,space.width*0.8, space.height*0.8);
+    ofRectangle area;
+    area.setFromCenter(space.x+space.width*0.5, 
+                       space.y+space.height*0.5,
+                       text.width,
+                       text.height);
+    
+    textAnimation.set(area);
     
     //  Clean the variables and the start
     //

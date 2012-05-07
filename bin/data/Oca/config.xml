@@ -1,8 +1,9 @@
 <place>
     <id>0</id>
+    <angle>15</angle>
+    <loop>0</loop>
     <baseImage>Oca/00.png</baseImage>
     <message>Casillero 00</message>
-    <angle>15</angle>
     <mask>
         <point>
             <x>0.247345</x>
@@ -56,6 +57,7 @@
 </place>
 <place>
     <id>1</id>
+    <loop>1</loop>
     <angle>0</angle>
     <baseImage>Oca/01.png</baseImage>
     <message>Casillero 01: Había una vez en un país muy muy lejano una huevo.Este no era un huevo cualquiera esra un huevo inquieto y curioso....Un día de la nada comenzó a moverse.... </message>

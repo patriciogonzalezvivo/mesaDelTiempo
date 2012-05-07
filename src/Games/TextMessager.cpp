@@ -157,3 +157,11 @@ void TextMessager::draw(){
             ofLog(OF_LOG_ERROR,"Text trying to be render with out loading it");
     } 
 }
+
+float TextMessager::getNormTransitionValue(){ 
+    if ( bWaiting || ( rawText == " ") || (text == NULL) ){
+        return 0;
+    } else {  
+        return sin( (countDown/seconds) * PI );
+    }
+};

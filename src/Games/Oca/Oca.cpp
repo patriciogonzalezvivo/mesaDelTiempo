@@ -34,6 +34,7 @@ void Oca::init(ofRectangle _space){
     fbo.end();
 
     mask.loadImage("Oca/mask.png");
+    maskBack.loadImage("Oca/mask-back-90.png");
     background.loadImage("Oca/background.jpg");
     
     text.setFromCenter(space.x+space.width*0.5, 
@@ -55,7 +56,7 @@ void Oca::reset(){
     //  Setup spacial backgrounds
     //
     forestBackground.set( places[10]->getBoundingBox() );
-    forestBackground.setZoom(60);
+    forestBackground.setZoom(30);
     forestBackground.clear();
     dragonBackground.set( places[25]->getBoundingBox() );
     dragonBackground.clear();
@@ -100,6 +101,7 @@ bool Oca::loadPlaces(string _xmlConfigFile){
             }
             
             newPlace->setScale( scaleFactor );
+            newPlace->setLoop( XML.getValue("loop", false) );
             newPlace->setAngle( XML.getValue("angle", 0.0) );
             newPlace->setImage( XML.getValue("baseImage", "00.png") );
             
@@ -153,7 +155,6 @@ void Oca::update(){
         }
         
         if (passed){
-            //places[i]->turnTo( 1.0 );
             places[i]->turnToMax();
         } else {
             places[i]->turnTo( 0.0 );
@@ -171,10 +172,10 @@ void Oca::update(){
 }
 
 void Oca::updateBackground(int _placeNumber, ofxTint& _backgroundEffect){
-    _backgroundEffect.setFade( 0.2 + (1.0- ofClamp(places[10]->getState(), 0.0, 1.0) ) *0.8  ); 
+    _backgroundEffect.setFade( 0.2 + (1.0- ofClamp(places[_placeNumber]->getState(), 0.0, 1.0) ) *0.8  ); 
     
     if (places[_placeNumber]->getState() < 0.01)
-        forestBackground.clear();
+        _backgroundEffect.clear();
     
     _backgroundEffect.begin();
         ofTranslate(-places[_placeNumber]->getBoundingBox().x,
@@ -233,19 +234,22 @@ void Oca::render(){
     
     //  Draw the deck mask
     //
-    ofSetColor(255,(1.0-ofMap( text.getNormTransitionValue(), 0.0, 0.5, 0.0, 1.0, true)) * 255);
+    ofSetColor(255, 255);
+    //ofSetColor(255,(1.0-ofMap( text.getNormTransitionValue(), 0.0, 0.5, 0.0, 1.0, true)) * 255);
     mask.draw(space);
     
     //  Draw text
     //
-    ofPushMatrix();
-    ofTranslate(space.getCenter());
-    ofRotateZ( textAngle );
+    ofSetColor(255,ofMap( text.getNormTransitionValue(), 0.0, 0.5, 0.0, 1.0, true) * 255);
+    maskBack.draw(space);
+    
+    //ofPushMatrix();
+    //ofTranslate(space.getCenter());
+    //ofRotateZ( textAngle );
+    //ofTranslate(-space.getCenter().x,-space.getCenter().y);
     ofSetColor(0,ofMap( text.getNormTransitionValue(), 0.0, 0.5, 0.0, 1.0, true) * 255);
-    ofTranslate(-space.getCenter().x,
-                -space.getCenter().y);
     text.draw();
-    ofPopMatrix();
+    //ofPopMatrix();
     
     //  Draw the ficha
     //

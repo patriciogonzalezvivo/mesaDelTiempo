@@ -32,14 +32,13 @@ public:
     TextSequencer();
     
     bool    loadSequence(string _xmlFile);
-    void    play(){ bPlay = true; };
-    void    stop(){ bPlay = false;};
     
     virtual void    setSpeed(float _speed){ speed = _speed;};
     virtual void    setSecForChar( float _secForChar){ secForChar = _secForChar; };
     virtual void    setSecBetweenPhrases( float _secBetweenPhrase){ secBetweenPhrase = _secBetweenPhrase;};
     virtual void    setNextPhrase(textPhrase &_phrase );
     
+    virtual string  getText(){return rawText;};
     virtual float   getNormTransitionValue();
     
     virtual void    update();
@@ -67,7 +66,6 @@ protected:
 private:
     vector<textPhrase>  script;
     int                 currentLine;
-    bool                bPlay;
 };
 
 #endif

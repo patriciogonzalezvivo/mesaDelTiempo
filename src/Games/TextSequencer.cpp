@@ -18,7 +18,6 @@ TextSequencer::TextSequencer(){
     defaultFontDpi      =   90;
     defaultShape        =   OF_TEXT_SHAPE_BLOCK;
     
-    bPlay       = false;
     text        = NULL;
 }
 
@@ -210,11 +209,11 @@ void TextSequencer::draw(){
 }
 
 float TextSequencer::getNormTransitionValue(){ 
-    if ( bWaiting || ( rawText == " ") || (text == NULL) ){
-        return 0;
-    } else {  
+    //if ( bWaiting || ( rawText == " ") || (text == NULL) ){
+    //    return 0;
+    //} else {  
         return sin( (countDown/seconds) * PI );
-    }
+    //}
 };
 
 string TextSequencer::spinningString(string _orginalText, int _nChars, int _offset){

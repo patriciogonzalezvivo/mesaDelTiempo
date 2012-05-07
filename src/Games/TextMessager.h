@@ -21,12 +21,13 @@ public:
     
     bool    loadStyle(string _xmlFile);
     
+    float   getNormTransitionValue();
+    
     void    addMessage(string _message );
     void    addMessage( textPhrase &_phrase );
     
     void    update();
     void    draw();
-    
 private:
     textPhrase  message;
     bool        bMessage;

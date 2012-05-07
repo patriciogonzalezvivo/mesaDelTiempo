@@ -1,6 +1,6 @@
 <default>
     <font>
-        <file>oca/washi.ttf</file>
+        <file>Oca/washi.ttf</file>
         <size>70</size>
         <dpi>90</dpi>
     </font>
@@ -9,7 +9,7 @@
     <vAlign>MIDDLE</vAlign>
     <speed>3.0</speed>
     <scale>1.0</scale>
-    <spin>125</spin>
+    <spin>130</spin>
     <secForChar>0.3</secForChar>
     <secBetweenPhrase>1.0</secBetweenPhrase>
 </default>

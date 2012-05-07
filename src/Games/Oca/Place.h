@@ -21,6 +21,7 @@ public:
     void    setAngle(float _angle){ angle = _angle;};
     void    setState(float _state){ nState = _state;};
     void    setImage(string _imgFile);
+    void    setLoop(bool _loop = false){ bLoop = _loop;};
     void    setMessage(string _message){ message = _message;};
     
     float   getState(){return nState;};
@@ -46,7 +47,7 @@ private:
     
     int     turnToState;
     int     nId;
-    bool    bAnimated;
+    bool    bAnimated, bLoop;
 };
 
 #endif

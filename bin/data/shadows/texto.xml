@@ -1,6 +1,6 @@
 <default>
     <font>
-        <file>shadows/chrismas.ttf</file>
+        <file>shadows/cardinal-alt.ttf</file>
         <size>44</size>
         <dpi>90</dpi>
     </font>
@@ -16,9 +16,6 @@
 
 <phrase>
     <text>Juego de las Sombras</text>
-    <font>
-        <size>70</size>
-    </font>
 </phrase>
 <phrase>
     <text>Hay juegos que requieren de muy poco.</text>
@@ -36,7 +33,7 @@
     <text>Basta una audiencia, una fuente de luz y algo sobre el cual proyectar...</text>
 </phrase>
 <phrase>
-    <text>... como para dejarnos transportarnos con la imaginación.</text>
+    <text>... como para dejarnos transportar con la imaginación.</text>
 </phrase>
 <phrase>
     <text>Las sombras nos invitan a jugar con los que jugaron antes ...</text>

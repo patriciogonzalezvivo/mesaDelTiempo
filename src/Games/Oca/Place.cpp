@@ -11,6 +11,7 @@ Place::Place(){
     angle       =   0.0;
     nState      =   1.0;
     turnToState =   1;
+    bLoop       =   false;
     bAnimated   =   false;
 }
 
@@ -18,6 +19,7 @@ Place::Place( int _nId ){
     angle       =   0.0;
     nState      =   1.0;
     turnToState =   1;
+    bLoop       =   false;
     bAnimated   =   false;
     setId(_nId);
 }
