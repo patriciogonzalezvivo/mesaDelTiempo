@@ -96,7 +96,7 @@ bool TextSequencer::loadSequence(string _xmlFile){
                 newPhrase.shape = OF_TEXT_SHAPE_SPIRAL;
             }
             
-            string alignment = XML.getValue("hAlign", defVerAlign);
+            string alignment = XML.getValue("hAlign", defHorAlign);
             if (alignment == "LEFT"){
                 newPhrase.hAlign = OF_TEXT_ALIGN_LEFT;
             } else if ( alignment == "RIGHT"){
@@ -107,7 +107,7 @@ bool TextSequencer::loadSequence(string _xmlFile){
                 newPhrase.hAlign = OF_TEXT_ALIGN_CENTER;
             }
             
-            alignment = XML.getValue("vAlign", defHorAlign);
+            alignment = XML.getValue("vAlign", defVerAlign);
             if (alignment == "TOP"){
                 newPhrase.vAlign = OF_TEXT_ALIGN_TOP;
             } else if ( alignment == "BOTTOM"){

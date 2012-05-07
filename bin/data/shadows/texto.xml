@@ -1,7 +1,7 @@
 <default>
     <font>
         <file>shadows/cardinal-alt.ttf</file>
-        <size>44</size>
+        <size>50</size>
         <dpi>90</dpi>
     </font>
     <shape>BLOCK</shape>
@@ -16,6 +16,9 @@
 
 <phrase>
     <text>Juego de las Sombras</text>
+    <font>
+        <size>70</size>
+    </font>
 </phrase>
 <phrase>
     <text>Hay juegos que requieren de muy poco.</text>
