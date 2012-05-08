@@ -4,12 +4,12 @@
         <size>70</size>
         <dpi>90</dpi>
     </font>
-    <shape>BLOCK</shape>
+    <shape>SPIRAL</shape>
     <hAlign>CENTER</hAlign>
     <vAlign>MIDDLE</vAlign>
     <speed>3.0</speed>
     <scale>1.0</scale>
-    <spin>0</spin>
+    <spin>100</spin>
     <secForChar>0.3</secForChar>
     <secBetweenPhrase>1.0</secBetweenPhrase>
 </default>

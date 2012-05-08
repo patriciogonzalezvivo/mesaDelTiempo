@@ -22,7 +22,7 @@ Oca::~Oca(){
 
 void Oca::init(ofRectangle _space){
     ofPoint center = ofPoint(_space.getCenter().x * width,_space.getCenter().y * height);
-    scaleFactor = _space.height;
+    scaleFactor = _space.height * 0.85;
     
     space.setFromCenter(center, 
                         scaleFactor * height, 
@@ -34,7 +34,7 @@ void Oca::init(ofRectangle _space){
     fbo.end();
 
     mask.loadImage("Oca/mask.png");
-    maskBack.loadImage("Oca/mask-back-90.png");
+    maskBack.loadImage("Oca/mask-back-80.png");
     background.loadImage("Oca/background.jpg");
     
     text.setFromCenter(space.x+space.width*0.5, 
@@ -125,30 +125,8 @@ void Oca::update(){
         //  al lugar donde este la última ficha
         //
         if ( !passed ){
-            if (places[i]->inside( ficha.pos )){
-                if ( ficha.placeN != i){
-                    
-                    if ( i < 4 ){
-                        obj09.loadImage("Oca/09alt/09-00.png");
-                    } else if (i <= 7){
-                        obj09.loadImage("Oca/09alt/09-0"+ofToString(i-3)+".png");
-                    } 
-                    
-                    if ( i < 13){
-                        obj17.loadImage("Oca/17alt/17-00.png");
-                    } else if (i == 13){
-                        obj17.loadImage("Oca/17alt/17-01.png");
-                    }
-                    
-                    text.addMessage( places[i]->getMessage() );
-                    textAngle = places[i]->getAngle();
-                    ficha.placeN = i;
-                }
-                
-                if ( places[i]->getState() >= 1.8 ){
-                    places[i]->setState(0.99);
-                }
-                
+            //if (places[i]->inside( ficha.pos )){
+            if ( ficha.placeN == i){
                 passed = true;
                 over = true;
             }
@@ -264,31 +242,57 @@ void Oca::render(){
 }
 
 void Oca::objectAdded(ofxBlob &_blob){
-    ofPoint _pos;
-    
-    _pos.x = _blob.centroid.x;
-    _pos.y = _blob.centroid.y;
-    
-    ficha.pos.x = _pos.x*width;
-    ficha.pos.y = _pos.y*height;
+    if (_blob.isCircular()){
+        
+        ofPoint pos;
+        pos.x = _blob.centroid.x*width;
+        pos.y = _blob.centroid.y*height;
+        
+        for(int i = 0; i <  places.size(); i++){
+            if ( places[i]->inside(pos) ){
+                ficha.pos = pos;
+                
+                if ( ficha.placeN != i){
+                    
+                    if ( i < 4 ){
+                        obj09.loadImage("Oca/09alt/09-00.png");
+                    } else if (i <= 7){
+                        obj09.loadImage("Oca/09alt/09-0"+ofToString(i-3)+".png");
+                    } 
+                    
+                    if ( i < 13){
+                        obj17.loadImage("Oca/17alt/17-00.png");
+                    } else if (i == 13){
+                        obj17.loadImage("Oca/17alt/17-01.png");
+                    }
+                    
+                    text.addMessage( places[i]->getMessage() );
+                    textAngle = places[i]->getAngle();
+                    ficha.placeN = i;
+                }
+                
+                if ( places[i]->getState() >= 1.8 ){
+                    places[i]->setState(0.99);
+                }
+                
+                break;
+            }
+        }
+    }
 }
 
 void Oca::objectMoved(ofxBlob &_blob){
-    ofPoint _pos;
-    
-    _pos.x = _blob.centroid.x;
-    _pos.y = _blob.centroid.y;
-    
-    ficha.pos.x = _pos.x*width;
-    ficha.pos.y = _pos.y*height;
+    /*
+    if (_blob.isCircular()){
+        ficha.pos.x = _blob.centroid.x*width;
+        ficha.pos.y = _blob.centroid.y*height;
+    }*/
 }
 
 void Oca::objectDeleted(ofxBlob &_blob){
-    ofPoint _pos;
-    
-    _pos.x = _blob.centroid.x;
-    _pos.y = _blob.centroid.y;
-    
-    ficha.pos.x = _pos.x*width;
-    ficha.pos.y = _pos.y*height;
+    /*
+    if (_blob.isCircular()){
+        ficha.pos.x = _blob.centroid.x*width;
+        ficha.pos.y = _blob.centroid.y*height;
+    }*/
 }
