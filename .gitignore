@@ -9,3 +9,4 @@ mesaDelTiempo.xcodeproj/
 obj/
 bin/mesaDelTiempo
 bin/libs/
+bin/mesaDelTiempo_debug
