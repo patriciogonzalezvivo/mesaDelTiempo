@@ -1,15 +1,15 @@
 <default>
     <font>
-        <file>Oca/washi.ttf</file>
+        <file>Oca/cardinal-alt.ttf</file>
         <size>70</size>
         <dpi>90</dpi>
     </font>
-    <shape>SPIRAL</shape>
+    <shape>BLOCK</shape>
     <hAlign>CENTER</hAlign>
     <vAlign>MIDDLE</vAlign>
     <speed>3.0</speed>
     <scale>1.0</scale>
-    <spin>100</spin>
+    <spin>0</spin>
     <secForChar>0.3</secForChar>
     <secBetweenPhrase>1.0</secBetweenPhrase>
 </default>

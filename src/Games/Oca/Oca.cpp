@@ -221,13 +221,13 @@ void Oca::render(){
     ofSetColor(255,ofMap( text.getNormTransitionValue(), 0.0, 0.5, 0.0, 1.0, true) * 255);
     maskBack.draw(space);
     
-    //ofPushMatrix();
-    //ofTranslate(space.getCenter());
-    //ofRotateZ( textAngle );
-    //ofTranslate(-space.getCenter().x,-space.getCenter().y);
+    ofPushMatrix();
+    ofTranslate(space.getCenter());
+    ofRotateZ( textAngle );
+    ofTranslate(-space.getCenter().x,-space.getCenter().y);
     ofSetColor(0,ofMap( text.getNormTransitionValue(), 0.0, 0.5, 0.0, 1.0, true) * 255);
     text.draw();
-    //ofPopMatrix();
+    ofPopMatrix();
     
     //  Draw the ficha
     //

@@ -6,3 +6,6 @@ Project.xcconfig
 .app/
 
 mesaDelTiempo.xcodeproj/
+obj/
+bin/mesaDelTiempo
+bin/libs/
