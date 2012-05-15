@@ -235,7 +235,9 @@ void Oca::render(){
     ofNoFill();
     
     ofColor flame;
-    flame.setHsb(30+ofNoise(ofGetElapsedTimef())*10, 255, 255);
+    flame.setHsb((42./360.)*255+ofNoise(ofGetElapsedTimef())*10, 
+                 (54./100.)*255+ofNoise(ofGetElapsedTimef())*20, 
+                 255);
     ofSetColor(flame);
     ficha.draw(fichaPos.x-60,fichaPos.y-60, 120, 120);
     
