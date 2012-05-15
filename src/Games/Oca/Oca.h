@@ -18,12 +18,6 @@
 
 #include "ofxFX.h"
 
-typedef struct {
-    ofPoint pos;
-    int     placeN;
-} Ficha;
-
-
 class Oca : public Game {
 public:
     Oca();
@@ -41,20 +35,23 @@ public:
     
 private:
     bool    loadPlaces(string xmlConfigFile);
+    void    randomicePlaces();
     void    updateBackground(int _placeNumber, ofxTint& _backgroundEffect);
+    
     
     TextMessager    text;
     
     ofxTint         dragonBackground;
     ofxTint         forestBackground;
-    ofImage         background, mask, maskBack;
+    ofImage         background, mask, maskBack, ficha;
     ofImage         obj09, obj17;
     vector<Place*>  places;
     
-    Ficha           ficha;
+    ofPoint         fichaPos;
+    int             selectedPlace;
     
     float           scaleFactor, textAngle;
-    bool            bChange;
+    bool            bChange,bWaitToSendText;
 };
 
 #endif

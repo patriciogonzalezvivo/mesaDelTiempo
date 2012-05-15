@@ -13,6 +13,8 @@ Place::Place(){
     turnToState =   1;
     bLoop       =   false;
     bAnimated   =   false;
+    bRandom     =   false;
+    bActive     =   true;
 }
 
 Place::Place( int _nId ){
@@ -21,7 +23,28 @@ Place::Place( int _nId ){
     turnToState =   1;
     bLoop       =   false;
     bAnimated   =   false;
+    bRandom     =   false;
+    bActive     =   true;
+    
     setId(_nId);
+}
+
+void Place::turnToMax(){ 
+    if (bActive){
+        if(bAnimated)
+            turnTo(2.0);
+        else
+            turnTo(1.0);
+    } else {
+        turnTo(0.0);
+    }
+}
+
+void Place::randomActive(){
+    if (bRandom)
+        bActive = (ofRandom(1.0) > 0.5)? true : false;
+    else
+        bActive = true;
 }
 
 void Place::setImage(string _imgFile){
@@ -34,7 +57,7 @@ void Place::setImage(string _imgFile){
     height = image.getHeight()*scale;
     
     ofDirectory dir;
-    string animationFolder = "Oca/"+ file.getBaseName(); //file.getEnclosingDirectory() + file.getBaseName();
+    string animationFolder = "Oca/"+ file.getBaseName();
     
     if (dir.listDir(animationFolder) > 0){
         sequence.loadSequence(animationFolder);
@@ -49,12 +72,7 @@ void Place::setImage(string _imgFile){
 }
 
 void Place::draw(){
-
-    if (turnToState > nState){
-        nState += 0.01;
-    } else if (turnToState < nState){
-        nState -= 0.01;
-    }
+    nState = ofLerp(nState, turnToState, 0.01);
     
     if ( nState <= 1){
         
@@ -67,14 +85,19 @@ void Place::draw(){
     } else if ( nState <= 2){
         
         ofSetColor(255);
-        if (bAnimated && ( sequence.getCurrentFrame() < sequence.getTotalFrames()-1 ) ){
-            sequence.getFrameAtPercent(nState-1.0) ->draw(x,y,width,height);
+        if (bAnimated){
+            if (bLoop){
+                sequence.getFrameForTime(ofGetElapsedTimef())->draw(x,y,width,height);
+            } else
+                sequence.getFrameAtPercent(nState-1.0)->draw(x,y,width,height);
         } else {
-            turnTo(1);
+            //turnTo(1);
             image.draw(x,y,width,height);
         }
-    }
-        
+    } 
+
+    //  Debug nState
+    //
     //ofSetColor(0);
     //ofDrawBitmapString(ofToString(nState), getCentroid2D() );
 }

@@ -1,9 +1,10 @@
 <place>
     <id>0</id>
     <angle>15</angle>
-    <loop>0</loop>
+    <loop>1</loop>
+    <random>0</random>
     <baseImage>Oca/00.png</baseImage>
-    <message> Había una vez un huevo... </message>
+    <message> 00 </message>
     <mask>
         <point>
             <x>0.247345</x>
@@ -58,9 +59,10 @@
 <place>
     <id>1</id>
     <loop>1</loop>
+    <random>0</random>
     <angle>0</angle>
     <baseImage>Oca/01.png</baseImage>
-    <message> ... del huevo nació una pequeña Oca ... </message>
+    <message> 01 </message>
     <mask>
         <point>
             <x>0.469629</x>
@@ -91,8 +93,10 @@
 <place>
     <id>2</id>
     <angle>-30</angle>
+    <loop>0</loop>
+    <random>1</random>
     <baseImage>Oca/02.png</baseImage>
-    <message> La Oca cuando estuvo lo suficientemente grande salió a recorrer el mundo ... </message>
+    <message> 02 </message>
     <mask>
         <point>
             <x>0.676718</x>
@@ -135,8 +139,10 @@
 <place>
     <id>3</id>
     <angle>-50</angle>
+    <loop>1</loop>
+    <random>0</random>
     <baseImage>Oca/03.png</baseImage>
-    <message> Un día se encontró con un mago en la calle que que le dio para elegir cuatro objetos mágicos. </message>
+    <message> 03 </message>
     <mask>
         <point>
             <x>0.835161</x>
@@ -179,6 +185,8 @@
 <place>
     <id>4</id>
     <angle>-70</angle>
+    <loop>1</loop>
+    <random>1</random>
     <baseImage>Oca/04.png</baseImage>
     <message>Casillero 04</message>
     <mask>
@@ -211,6 +219,8 @@
 <place>
     <id>5</id>
     <angle>-80</angle>
+    <loop>1</loop>
+    <random>1</random>
     <baseImage>Oca/05.png</baseImage>
     <message>Casillero 05</message>
     <mask>
@@ -243,6 +253,8 @@
 <place>
     <id>06</id>
     <angle>-90</angle>
+    <loop>1</loop>
+    <random>1</random>
     <baseImage>Oca/06.png</baseImage>
     <message>Casillero 06</message>
     <mask>
@@ -275,6 +287,8 @@
 <place>
     <id>7</id>
     <angle>-110</angle>
+    <loop>1</loop>
+    <random>1</random>
     <baseImage>Oca/07.png</baseImage>
     <message>Casillero 07</message>
     <mask>
@@ -307,6 +321,8 @@
 <place>
     <id>8</id>
     <angle>-120</angle>
+    <loop>1</loop>
+    <random>1</random>
     <baseImage>Oca/08.png</baseImage>
     <message>Casillero 08</message>
     <mask>
@@ -355,6 +371,8 @@
 <place>
     <id>9</id>
     <angle>-140</angle>
+    <loop>1</loop>
+    <random>0</random>
     <baseImage>Oca/09.png</baseImage>
     <message>Casillero 09</message>
     <mask>
@@ -387,6 +405,8 @@
 <place>
     <id>10</id>
     <angle>-180</angle>
+    <loop>1</loop>
+    <random>0</random>
     <baseImage>Oca/10.png</baseImage>
     <message>Casillero 10</message>
     <mask>
@@ -467,6 +487,8 @@
 <place>
     <id>11</id>
     <angle>-220</angle>
+    <loop>1</loop>
+    <random>1</random>
     <baseImage>Oca/11.png</baseImage>
     <message>Casillero 11</message>
     <mask>
@@ -499,6 +521,8 @@
 <place>
     <id>12</id>
     <angle>-230</angle>
+    <loop>1</loop>
+    <random>1</random>
     <baseImage>Oca/12.png</baseImage>
     <message>Casillero 12</message>
     <mask>
@@ -547,6 +571,8 @@
 <place>
     <id>13</id>
     <angle>-260</angle>
+    <loop>1</loop>
+    <random>0</random>
     <baseImage>Oca/13.png</baseImage>
     <message>Casillero 13</message>
     <mask>
@@ -595,6 +621,8 @@
 <place>
     <id>14</id>
     <angle>-280</angle>
+    <loop>1</loop>
+    <random>1</random>
     <baseImage>Oca/14.png</baseImage>
     <message>Casillero 14</message>
     <mask>
@@ -643,6 +671,8 @@
 <place>
     <id>15</id>
     <angle>-320</angle>
+    <loop>1</loop>
+    <random>1</random>
     <baseImage>Oca/15.png</baseImage>
     <message>Casillero 15</message>
     <mask>
@@ -691,6 +721,8 @@
 <place>
     <id>16</id>
     <angle>0</angle>
+    <loop>1</loop>
+    <random>1</random>
     <baseImage>Oca/16.png</baseImage>
     <message>Casillero 16</message>
     <mask>
@@ -751,6 +783,8 @@
 <place>
     <id>17</id>
     <angle>-40</angle>
+    <loop>1</loop>
+    <random>1</random>
     <baseImage>Oca/17.png</baseImage>
     <message>Casillero 17</message>
     <mask>
@@ -799,6 +833,8 @@
 <place>
     <id>18</id>
     <angle>-80</angle>
+    <loop>1</loop>
+    <random>1</random>
     <baseImage>Oca/18.png</baseImage>
     <message>Casillero 18</message>
     <mask>
@@ -847,6 +883,8 @@
 <place>
     <id>19</id>
     <angle>-120</angle>
+    <loop>1</loop>
+    <random>1</random>
     <baseImage>Oca/19.png</baseImage>
     <message>Casillero 19</message>
     <mask>
@@ -895,6 +933,8 @@
 <place>
     <id>20</id>
     <angle>-160</angle>
+    <loop>1</loop>
+    <random>1</random>
     <baseImage>Oca/20.png</baseImage>
     <message>Casillero 20</message>
     <mask>
@@ -943,6 +983,8 @@
 <place>
     <id>21</id>
     <angle>-230</angle>
+    <loop>0</loop>
+    <random>1</random>
     <baseImage>Oca/21.png</baseImage>
     <message>Casillero 21</message>
     <mask>
@@ -1079,6 +1121,8 @@
 <place>
     <id>22</id>
     <angle>-330</angle>
+    <loop>1</loop>
+    <random>1</random>
     <baseImage>Oca/22.png</baseImage>
     <message>Casillero 22</message>
     <mask>
@@ -1127,6 +1171,8 @@
 <place>
     <id>23</id>
     <angle>0</angle>
+    <loop>1</loop>
+    <random>1</random>
     <baseImage>Oca/23.png</baseImage>
     <message>Casillero 23</message>
     <mask>
@@ -1175,6 +1221,8 @@
 <place>
     <id>24</id>
     <angle>-45</angle>
+    <loop>1</loop>
+    <random>1</random>
     <baseImage>Oca/24.png</baseImage>
     <message>Casillero 24</message>
     <mask>
@@ -1223,6 +1271,8 @@
 <place>
     <id>25</id>
     <angle>-157</angle>
+    <loop>0</loop>
+    <random>1</random>
     <baseImage>Oca/25.png</baseImage>
     <message>Casillero 25</message>
     <mask>
@@ -1371,6 +1421,8 @@
 <place>
     <id>26</id>
     <angle>-320</angle>
+    <loop>1</loop>
+    <random>1</random>
     <baseImage>Oca/26.png</baseImage>
     <message>Casillero 26</message>
     <mask>
@@ -1474,6 +1526,8 @@
 </place>
 <place>
     <id>27</id>
+    <loop>1</loop>
+    <random>0</random>
     <baseImage>Oca/27.png</baseImage>
     <message>Casillero 27</message>
     <mask>
