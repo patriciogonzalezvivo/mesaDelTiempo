@@ -4,7 +4,7 @@
     <loop>1</loop>
     <random>0</random>
     <baseImage>Oca/00.png</baseImage>
-    <message> 00 </message>
+    <message>Comenzá el juego gritando: Había una vez una pequeña Oca...</message>
     <mask>
         <point>
             <x>0.247345</x>
@@ -62,7 +62,7 @@
     <random>0</random>
     <angle>0</angle>
     <baseImage>Oca/01.png</baseImage>
-    <message> 01 </message>
+    <message>.</message>
     <mask>
         <point>
             <x>0.469629</x>
@@ -96,7 +96,7 @@
     <loop>0</loop>
     <random>1</random>
     <baseImage>Oca/02.png</baseImage>
-    <message> 02 </message>
+    <message> Empezó el viaje y estás de suerte! Podés avanzar hacia donde veas que está la próxima Oca cantando: yo voy De Oca en Oca y tiro porque me toca. Cuando llegás podés tirar otra vez.</message>
     <mask>
         <point>
             <x>0.676718</x>
@@ -142,7 +142,7 @@
     <loop>1</loop>
     <random>0</random>
     <baseImage>Oca/03.png</baseImage>
-    <message> 03 </message>
+    <message>Te encontraste con un Mago Sabio que te dice: Las aventuras son mejores cuando vas haciendo amigos en el camino, más que apurándose sólo por llegar. Luego de escuchar eso cede el turno al jugador de la derecha con un buen guiño.</message>
     <mask>
         <point>
             <x>0.835161</x>
@@ -188,7 +188,7 @@
     <loop>1</loop>
     <random>1</random>
     <baseImage>Oca/04.png</baseImage>
-    <message>Casillero 04</message>
+    <message>Ganaste una manzana que te ayudará a no tener hambre si te toca pasar por el casillero del bosque y no perder el turno. Atenti que cualquier otro jugador que caiga en este casillero te la quita.</message>
     <mask>
         <point>
             <x>0.883806</x>
@@ -222,7 +222,7 @@
     <loop>1</loop>
     <random>1</random>
     <baseImage>Oca/05.png</baseImage>
-    <message>Casillero 05</message>
+    <message>Ganaste una vela que te ayudará a no tener miedo si te toca pasar por los casilleros oscuros (el bosque y el dragón) y no perder el turno. Atenti que cualquier otro jugador que caiga en este casillero, te la quita.</message>
     <mask>
         <point>
             <x>0.921332</x>
@@ -256,7 +256,7 @@
     <loop>1</loop>
     <random>1</random>
     <baseImage>Oca/06.png</baseImage>
-    <message>Casillero 06</message>
+    <message>Ganaste un anillo que te ayudará a vencer al dragón que vive en el ante-penúltimo casillero y no perder el turno. Atenti que cualquier otro jugador que caiga en este casillero, te lo quita.</message>
     <mask>
         <point>
             <x>0.936621</x>
@@ -290,7 +290,7 @@
     <loop>1</loop>
     <random>1</random>
     <baseImage>Oca/07.png</baseImage>
-    <message>Casillero 07</message>
+    <message>.</message>
     <mask>
         <point>
             <x>0.931061</x>
@@ -324,7 +324,7 @@
     <loop>1</loop>
     <random>1</random>
     <baseImage>Oca/08.png</baseImage>
-    <message>Casillero 08</message>
+    <message>Grita bien fuerte: De puente en puente voy, y no me lleva la corriente. Avanzá hasta el próximo puente y cedé el turno a tu compañero de la derecha.</message>
     <mask>
         <point>
             <x>0.885197</x>
@@ -374,7 +374,7 @@
     <loop>1</loop>
     <random>0</random>
     <baseImage>Oca/09.png</baseImage>
-    <message>Casillero 09</message>
+    <message>Tuviste suerte. Volá hacia donde está la siguiente Oca silbando bajito porque zafaste del Bosque Encantado y tirá otra vez.</message>
     <mask>
         <point>
             <x>0.797637</x>
@@ -408,7 +408,7 @@
     <loop>1</loop>
     <random>0</random>
     <baseImage>Oca/10.png</baseImage>
-    <message>Casillero 10</message>
+    <message>Caíste en el Bosque Encantado. A menos que la mazana o la vela tengan el color de tu ficha perdés un turno de paralizado por el miedo.</message>
     <mask>
         <point>
             <x>0.569702</x>
@@ -490,7 +490,7 @@
     <loop>1</loop>
     <random>1</random>
     <baseImage>Oca/11.png</baseImage>
-    <message>Casillero 11</message>
+    <message>.</message>
     <mask>
         <point>
             <x>0.282001</x>
@@ -524,7 +524,7 @@
     <loop>1</loop>
     <random>1</random>
     <baseImage>Oca/12.png</baseImage>
-    <message>Casillero 12</message>
+    <message>Llegaste a un Hostal y te tirás a dormir la siesta. Pérdes un turno haciendo fiaca.</message>
     <mask>
         <point>
             <x>0.198609</x>
@@ -574,7 +574,7 @@
     <loop>1</loop>
     <random>0</random>
     <baseImage>Oca/13.png</baseImage>
-    <message>Casillero 13</message>
+    <message>¡Felicitaciones!!! Te hiciste de un amigo que te puede ayudar a vos o a otros más adelante! </message>
     <mask>
         <point>
             <x>0.171214</x>
