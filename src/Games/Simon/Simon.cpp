@@ -17,8 +17,8 @@ Simon::Simon(){
 void Simon::init(ofRectangle _space){
     ofPoint center = ofPoint(_space.getCenter().x * width,_space.getCenter().y * height);
     space.setFromCenter(center, 
-                        _space.height* height * 0.85, 
-                        _space.height* height * 0.85);
+                        _space.height* height,// * 0.85, 
+                        _space.height* height);// * 0.85);
     
     fbo.allocate(width, height);
     fbo.begin();

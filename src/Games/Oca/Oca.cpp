@@ -23,7 +23,7 @@ Oca::~Oca(){
 
 void Oca::init(ofRectangle _space){
     ofPoint center = ofPoint(_space.getCenter().x * width,_space.getCenter().y * height);
-    scaleFactor = _space.height * 0.85;
+    scaleFactor = _space.height;// * 0.85;
     
     space.setFromCenter(center, 
                         scaleFactor * height, 
