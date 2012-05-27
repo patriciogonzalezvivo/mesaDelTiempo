@@ -36,8 +36,6 @@ void testApp::setup(){
     game = NULL;
     bStart = false;
     bHelp = false;
-    bUpdateHands = false;
-    bUpdateObjects = false;
     tSurface.bDebug = false;
     
     //  Load the Game
@@ -69,7 +67,7 @@ void testApp::update(){
     //  Updatign tSurface mantein the mapping between the game texture and 
     //  the tracking objects/hands. Also if it«s call do the calibration
     //
-    tSurface.update(bUpdateObjects,bUpdateHands);
+    tSurface.update();
     
     //  If the game starts. Update it
     if (bStart){
@@ -108,29 +106,25 @@ void testApp::calibrationDone(ofPolyline &_surface){
         game = new Simon();
         ofLog(OF_LOG_NOTICE, "Loading Simon game");
         game->init( _surface.getBoundingBox() );
-        bUpdateHands = false;
-        bUpdateObjects = true;
+        tSurface.setTrackedSurfaceID(game->getTrackedSurfaceID());
         bStart = true;
     } else if (sGameName == "pong"){
         game = new Pong();
         ofLog(OF_LOG_NOTICE, "Loading Pong game");
         game->init( _surface.getBoundingBox() );
-        bUpdateHands = true;
-        bUpdateObjects = false;
+        tSurface.setTrackedSurfaceID(game->getTrackedSurfaceID());
         bStart = true;
     } else if (sGameName == "shadows"){
         game = new Shadows();
         ofLog(OF_LOG_NOTICE, "Loading Shadows game");
         game->init( _surface.getBoundingBox() );
-        bUpdateHands = true;
-        bUpdateObjects = false;
+        tSurface.setTrackedSurfaceID(game->getTrackedSurfaceID());
         bStart = true;
     } else if (sGameName == "oca"){
         game = new Oca();
         ofLog(OF_LOG_NOTICE, "Loading Oca game");
         game->init( _surface.getBoundingBox() );
-        bUpdateHands = false;
-        bUpdateObjects = true;
+        tSurface.setTrackedSurfaceID(game->getTrackedSurfaceID());
         bStart = true;
     }
 }
@@ -219,76 +213,94 @@ void testApp::mouseMoved(int x, int y ){
 }
 
 void testApp::mousePressed(int x, int y, int button){
-    ofPoint mouse = ofPoint(x,y);
-    
-    if ( tSurface.getSurface().isOver(mouse) && !tSurface.getSurface().bEditMode){
-        ofxBlob pretendBlob;
+    if (game != NULL){
+        ofPoint mouse = ofPoint(x,y);
         
-        pretendBlob.id = 0;
-    
-        if (bUpdateObjects){
-            pretendBlob.centroid = tSurface.getSurface().getScreenToSurface(mouse);
-            pretendBlob.centroid.x /= tSurface.getSurface().getWidth();
-            pretendBlob.centroid.y /= tSurface.getSurface().getHeight();
-            objectAdded(pretendBlob);
-        }
-        
-        if (bUpdateHands){
-            pretendBlob.palm    = tSurface.getSurface().getScreenToSurface(mouse);
-            pretendBlob.palm.x /= tSurface.getSurface().getWidth();
-            pretendBlob.palm.y /= tSurface.getSurface().getHeight();
-            pretendBlob.gotFingers  = true;
-            handAdded(pretendBlob);
+        if ( tSurface.getSurface().isOver(mouse) && !tSurface.getSurface().bEditMode){
+            ofxBlob pretendBlob;
+            
+            pretendBlob.id = 0;
+            
+            if ((game->getTrackedSurfaceID() == TRACK_JUST_OBJECT) || 
+                (game->getTrackedSurfaceID() == TRACK_ACTIVE_OBJECT) ||
+                (game->getTrackedSurfaceID() == TRACK_BOTH)){
+                pretendBlob.centroid = tSurface.getSurface().getScreenToSurface(mouse);
+                pretendBlob.centroid.x /= tSurface.getSurface().getWidth();
+                pretendBlob.centroid.y /= tSurface.getSurface().getHeight();
+                objectAdded(pretendBlob);
+            }
+            
+            if ((game->getTrackedSurfaceID() == TRACK_JUST_HANDS) || 
+                (game->getTrackedSurfaceID() == TRACK_ACTIVE_HANDS) ||
+                (game->getTrackedSurfaceID() == TRACK_BOTH)){
+                pretendBlob.palm    = tSurface.getSurface().getScreenToSurface(mouse);
+                pretendBlob.palm.x /= tSurface.getSurface().getWidth();
+                pretendBlob.palm.y /= tSurface.getSurface().getHeight();
+                pretendBlob.gotFingers  = true;
+                handAdded(pretendBlob);
+            }
         }
     }
 }
 
 void testApp::mouseDragged(int x, int y, int button){
-    ofPoint mouse = ofPoint(x,y);
-    
-    if ( tSurface.getSurface().isOver(mouse) && !tSurface.getSurface().bEditMode ){
-        ofxBlob pretendBlob;
+    if (game != NULL){
+        ofPoint mouse = ofPoint(x,y);
         
-        pretendBlob.id = 0;
-        
-        if (bUpdateObjects){
-            pretendBlob.centroid = tSurface.getSurface().getScreenToSurface(mouse);
-            pretendBlob.centroid.x /= tSurface.getSurface().getWidth();
-            pretendBlob.centroid.y /= tSurface.getSurface().getHeight();
-            objectMoved(pretendBlob);
-        }
-        
-        if (bUpdateHands){
-            pretendBlob.palm    = tSurface.getSurface().getScreenToSurface(mouse);
-            pretendBlob.palm.x /= tSurface.getSurface().getWidth();
-            pretendBlob.palm.y /= tSurface.getSurface().getHeight();
-            pretendBlob.gotFingers  = true;
-            handMoved(pretendBlob);
+        if ( tSurface.getSurface().isOver(mouse) && !tSurface.getSurface().bEditMode ){
+            ofxBlob pretendBlob;
+            
+            pretendBlob.id = 0;
+            
+            if ((game->getTrackedSurfaceID() == TRACK_JUST_OBJECT) || 
+                (game->getTrackedSurfaceID() == TRACK_ACTIVE_OBJECT) ||
+                (game->getTrackedSurfaceID() == TRACK_BOTH)){
+                pretendBlob.centroid = tSurface.getSurface().getScreenToSurface(mouse);
+                pretendBlob.centroid.x /= tSurface.getSurface().getWidth();
+                pretendBlob.centroid.y /= tSurface.getSurface().getHeight();
+                objectMoved(pretendBlob);
+            }
+            
+            if ((game->getTrackedSurfaceID() == TRACK_JUST_HANDS) || 
+                (game->getTrackedSurfaceID() == TRACK_ACTIVE_HANDS) ||
+                (game->getTrackedSurfaceID() == TRACK_BOTH)){
+                pretendBlob.palm    = tSurface.getSurface().getScreenToSurface(mouse);
+                pretendBlob.palm.x /= tSurface.getSurface().getWidth();
+                pretendBlob.palm.y /= tSurface.getSurface().getHeight();
+                pretendBlob.gotFingers  = true;
+                handMoved(pretendBlob);
+            }
         }
     }
 }
 
 void testApp::mouseReleased(int x, int y, int button){
-    ofPoint mouse = ofPoint(x,y);
-    
-    if ( tSurface.getSurface().isOver(mouse) && !tSurface.getSurface().bEditMode){
-        ofxBlob pretendBlob;
+    if (game != NULL){
+        ofPoint mouse = ofPoint(x,y);
         
-        pretendBlob.id = 0;
-        
-        if (bUpdateObjects){
-            pretendBlob.centroid = tSurface.getSurface().getScreenToSurface(mouse);
-            pretendBlob.centroid.x /= tSurface.getSurface().getWidth();
-            pretendBlob.centroid.y /= tSurface.getSurface().getHeight();
-            objectDeleted(pretendBlob);
-        }
-        
-        if (bUpdateHands){
-            pretendBlob.palm    = tSurface.getSurface().getScreenToSurface(mouse);
-            pretendBlob.palm.x /= tSurface.getSurface().getWidth();
-            pretendBlob.palm.y /= tSurface.getSurface().getHeight();
-            pretendBlob.gotFingers  = true;
-            handDeleted(pretendBlob);
+        if ( tSurface.getSurface().isOver(mouse) && !tSurface.getSurface().bEditMode){
+            ofxBlob pretendBlob;
+            
+            pretendBlob.id = 0;
+            
+            if ((game->getTrackedSurfaceID() == TRACK_JUST_OBJECT) || 
+                (game->getTrackedSurfaceID() == TRACK_ACTIVE_OBJECT) ||
+                (game->getTrackedSurfaceID() == TRACK_BOTH)){
+                pretendBlob.centroid = tSurface.getSurface().getScreenToSurface(mouse);
+                pretendBlob.centroid.x /= tSurface.getSurface().getWidth();
+                pretendBlob.centroid.y /= tSurface.getSurface().getHeight();
+                objectDeleted(pretendBlob);
+            }
+            
+            if ((game->getTrackedSurfaceID() == TRACK_JUST_HANDS) || 
+                (game->getTrackedSurfaceID() == TRACK_ACTIVE_HANDS) ||
+                (game->getTrackedSurfaceID() == TRACK_BOTH)){
+                pretendBlob.palm    = tSurface.getSurface().getScreenToSurface(mouse);
+                pretendBlob.palm.x /= tSurface.getSurface().getWidth();
+                pretendBlob.palm.y /= tSurface.getSurface().getHeight();
+                pretendBlob.gotFingers  = true;
+                handDeleted(pretendBlob);
+            }
         }
     }
 }

@@ -8,7 +8,7 @@
 #pragma once
 
 #include "ofMain.h"
-#include "ofxBlob.h"
+#include "ofxTrackedSurface.h"
 
 class Game {
 public:
@@ -19,6 +19,7 @@ public:
     
     int             getWidth() const { return width;};
     int             getHeight() const { return height;};
+    TrackedSurface  getTrackedSurfaceID() const { return trackedSurfaceID;};
     
     virtual void    handAdded(ofxBlob &_blob) {};
     virtual void    handMoved(ofxBlob &_blob) {};
@@ -31,11 +32,13 @@ public:
     virtual void    update(){};
     virtual void    render(){};
     
-    ofTexture&  getTextureReference(){ return fbo.getTextureReference(); };
+    ofTexture&      getTextureReference(){ return fbo.getTextureReference(); };
     
 protected:
-    ofRectangle space;
-    ofFbo       fbo;
+    ofRectangle     space;
+    ofFbo           fbo;
     
-    int         width, height;
+    TrackedSurface  trackedSurfaceID;
+    
+    int             width, height;
 };

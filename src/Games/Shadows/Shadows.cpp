@@ -13,6 +13,7 @@ Shadows::Shadows(){
     //
     width = 1024;
     height = 768;
+    trackedSurfaceID = TRACK_JUST_HANDS;
 }
 
 void Shadows::init(ofRectangle _space){
@@ -109,7 +110,7 @@ void Shadows::update(){
         countDown--;
         if ((countDown == 0) && 
             (nLastShadows > 0) ){
-            countDown = 500;
+            countDown = 50;
             nLastShadows--;
         }
     }
@@ -269,7 +270,7 @@ void Shadows::handDeleted(ofxBlob &_blob){
             hands[ _blob.id ]->bActive = true;  // this means it´s goign to be played and no longer edited
             bNew = true;                        // and the the sistem that we have a new one
             
-            countDown = 500;
+            countDown = 50;
             nLastShadows++;
             
             //  When the game starts currentShadow it's just a NULL and nothing it´s going to happend
