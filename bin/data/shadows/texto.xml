@@ -1,7 +1,7 @@
 <default>
     <font>
-        <file>shadows/cardinal-alt.ttf</file>
-        <size>30</size>
+        <file>shadows/chrismas.ttf</file>
+        <size>70</size>
         <dpi>90</dpi>
     </font>
     <shape>BLOCK</shape>
@@ -17,7 +17,8 @@
 <phrase>
     <text>Juego de las Sombras</text>
     <font>
-        <size>50</size>
+        <file>shadows/cardinal-alt.ttf</file>
+        <size>70</size>
     </font>
 </phrase>
 <phrase>
@@ -40,9 +41,15 @@
 </phrase>
 <phrase>
     <text>Esta Mesa del Tiempo graba y retiene las sombras que hacemos sobre ella y las devuelve enseguida o al cabo de un rato.</text>
+    <font>
+        <size>50</size>
+    </font>
 </phrase>
 <phrase>
     <text>Podemos entonces jugar con las sombras que hicieron otros jugadores que jugaron antes y a la vez podemos grabar nuevas sombras para jugar con los que van a venir después.</text>
+    <font>
+        <size>30</size>
+    </font>
 </phrase>
 <phrase>
     <text>Es una mesa mágica, que nos recuerda que cuando jugamos el tiempo no tiene importancia.</text>

@@ -59,8 +59,12 @@ public:
         //ofTranslate(getCenter().x - _tSeq.width*0.5,getCenter().y - _tSeq.height*0.5);
         ofEnableBlendMode(OF_BLENDMODE_ALPHA);
         ofClear(0, 255);
-        ofSetColor( ofMap( _tSeq.getNormTransitionValue(), 0.0, 0.5, 0.0, 1.0, true) * 255,255);
-        //ofDrawBitmapString("TEST", ofPoint(width*0.5,height*0.5));
+        
+        if ( _tSeq.getNormTransitionValue() > 0.5 )
+            ofSetColor(255);
+        else 
+            ofSetColor( ofMap( _tSeq.getNormTransitionValue(), 0.0, 0.5, 0.0, 1.0, true) * 255,255);
+        
         _tSeq.draw();
         
         ofDisableBlendMode();

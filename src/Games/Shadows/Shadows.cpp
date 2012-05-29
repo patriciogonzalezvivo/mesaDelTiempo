@@ -11,8 +11,11 @@
 Shadows::Shadows(){
     //  Screen resolution
     //
-    width = 1024;
-    height = 768;
+    //width = 1024;
+    //height = 768;
+    
+    width = 1024 * 1.5;
+    height = 768 * 1.5;
     trackedSurfaceID = TRACK_JUST_HANDS;
 }
 

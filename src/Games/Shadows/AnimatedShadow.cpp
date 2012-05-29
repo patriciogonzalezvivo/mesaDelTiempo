@@ -13,6 +13,8 @@ AnimatedShadow::AnimatedShadow(){
     bHand = false;
     bActive = false;
     nId = 0;
+    
+    startTime = ofGetElapsedTimef();
 };
 
 AnimatedShadow::AnimatedShadow(int _nId){
@@ -20,6 +22,7 @@ AnimatedShadow::AnimatedShadow(int _nId){
     bHand = false;
     bActive = false;
     nId = _nId;
+    startTime = ofGetElapsedTimef();
 };
 
 void AnimatedShadow::addFrame( ofxBlob &_blob, float _widht, float _height ){
@@ -50,10 +53,10 @@ void AnimatedShadow::addFrame( ofPolyline &_contourLine, int _nFingers){
         _contourLine.simplify(1);
         
         ShadowShape newShape;
-        newShape.contour = _contourLine.getSmoothed(1,1);
+        newShape.contour = _contourLine.getSmoothed(2,1);
         newShape.haveHole = false;
+        newShape.time = ofGetElapsedTimef() - startTime;
         //newShape.interv = -1;
-        
         shapes.push_back( newShape );
     }
     
@@ -74,14 +77,15 @@ void AnimatedShadow::insertHole( ofPolyline &holeContourLine ){
 bool AnimatedShadow::draw(){
     bool finish = true;
     
-    //  Just draw it´s active
+    //  Just draw if it´s active
     //
     if ( bActive ){
         ofPushStyle();
         
         //  Draw shape
         //
-        ofSetColor(0,sin( (currentFrame/shapes.size() ) * PI ) * 255);
+        //ofSetColor(0,sin( (currentFrame/shapes.size() ) * PI ) * 255);
+        ofSetColor(0, sin( getPosition() * PI ) * 255);
         int nPoints = shapes[currentFrame].contour.getVertices().size();
         ofBeginShape();
         for (int i = 0; i < nPoints; i++){
@@ -93,7 +97,8 @@ bool AnimatedShadow::draw(){
         //
         if ( shapes[currentFrame].haveHole ){
             
-            ofSetColor(255,sin( (currentFrame/shapes.size() ) * PI ) * 255);
+            //ofSetColor(255,sin( (currentFrame/shapes.size() ) * PI ) * 255);
+            ofSetColor(255, sin( getPosition() * PI ) * 255);
             nPoints = shapes[currentFrame].hole.getVertices().size();
             ofBeginShape();
             for (int i = 0; i < nPoints; i++){
@@ -106,12 +111,17 @@ bool AnimatedShadow::draw(){
         
         //  Update drawing frame counter
         //
-        currentFrame += 0.4;
-
-        if ((int)(currentFrame) >= (shapes.size() - 1))
+        currentTime += (1/ofGetFrameRate())*0.8;
+        
+        if ( currentTime >= shapes[currentFrame+1].time )
+            currentFrame++;
+        
+        if ((int)(currentFrame) >= (shapes.size() - 1)){
             currentFrame = 0;
-        else 
+            currentTime = 0;
+        } else { 
             finish = false;
+        }
     }
     
     return finish;

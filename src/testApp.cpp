@@ -213,6 +213,7 @@ void testApp::mouseMoved(int x, int y ){
 }
 
 void testApp::mousePressed(int x, int y, int button){
+    /*
     if (game != NULL){
         ofPoint mouse = ofPoint(x,y);
         
@@ -240,10 +241,11 @@ void testApp::mousePressed(int x, int y, int button){
                 handAdded(pretendBlob);
             }
         }
-    }
+    }*/
 }
 
 void testApp::mouseDragged(int x, int y, int button){
+    /*
     if (game != NULL){
         ofPoint mouse = ofPoint(x,y);
         
@@ -271,10 +273,11 @@ void testApp::mouseDragged(int x, int y, int button){
                 handMoved(pretendBlob);
             }
         }
-    }
+    }*/
 }
 
 void testApp::mouseReleased(int x, int y, int button){
+    /*
     if (game != NULL){
         ofPoint mouse = ofPoint(x,y);
         
@@ -302,7 +305,7 @@ void testApp::mouseReleased(int x, int y, int button){
                 handDeleted(pretendBlob);
             }
         }
-    }
+    }*/
 }
 
 void testApp::windowResized(int w, int h){

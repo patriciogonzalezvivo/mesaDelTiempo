@@ -14,6 +14,7 @@
 struct ShadowShape{
     ofPolyline  contour;    // Contour shape of the Shadow
     ofPolyline  hole;       // Contour of the hole
+    float       time;
     bool        haveHole;   // if it have a hole or not
 };
 
@@ -25,6 +26,13 @@ public:
 
     int     getId() const { return nId; };
     int     getCurrentFrame() const { return currentFrame; };
+    float   getPosition() const {
+        if ( size() >= 2){
+            float total = shapes[size()-1].time;
+            return currentTime/total;
+        }
+    };
+    
     int     size() const { return shapes.size(); };
     ShadowShape& operator[](int _n){ if ( (_n >= 0) && (_n < shapes.size()) ) return shapes[_n]; };
     bool    isInside( ofPoint &_centroid ) { if (size() > 0) return shapes[size()-1].contour.inside(_centroid); };
@@ -41,7 +49,9 @@ public:
     
 private:
     vector<ShadowShape> shapes;
-    float   currentFrame;
+    int     currentFrame;
+    float   currentTime;
+    float   startTime;
     int     nId;
     bool    bHand;
 };
