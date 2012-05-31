@@ -111,7 +111,7 @@ bool AnimatedShadow::draw(){
         
         //  Update drawing frame counter
         //
-        currentTime += (1/ofGetFrameRate())*0.8;
+        currentTime += (1/ofGetFrameRate());//*0.8;
         
         if ( currentTime >= shapes[currentFrame+1].time )
             currentFrame++;

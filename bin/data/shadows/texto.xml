@@ -1,6 +1,6 @@
 <default>
     <font>
-        <file>shadows/chrismas.ttf</file>
+        <file>shadows/washi.ttf</file>
         <size>70</size>
         <dpi>90</dpi>
     </font>
@@ -18,7 +18,7 @@
     <text>Juego de las Sombras</text>
     <font>
         <file>shadows/cardinal-alt.ttf</file>
-        <size>70</size>
+        <size>80</size>
     </font>
 </phrase>
 <phrase>
@@ -29,6 +29,9 @@
 </phrase>
 <phrase>
     <text>Hacer sombras es uno de los pasatiempos más antiguos que tenemos,</text>
+    <font>
+        <size>55</size>
+    </font>
 </phrase>
 <phrase>
     <text>es el antepasado de la tele, del cine y del teatro.</text>
@@ -42,18 +45,18 @@
 <phrase>
     <text>Esta Mesa del Tiempo graba y retiene las sombras que hacemos sobre ella y las devuelve enseguida o al cabo de un rato.</text>
     <font>
-        <size>50</size>
+        <size>40</size>
     </font>
 </phrase>
 <phrase>
     <text>Podemos entonces jugar con las sombras que hicieron otros jugadores que jugaron antes y a la vez podemos grabar nuevas sombras para jugar con los que van a venir después.</text>
     <font>
-        <size>30</size>
+        <size>35</size>
     </font>
 </phrase>
 <phrase>
     <text>Es una mesa mágica, que nos recuerda que cuando jugamos el tiempo no tiene importancia.</text>
-</phrase>
-<phrase>
-    <text>o/ que cuando jugamos lo que menos importa es /el paso del tiempo/ el tiempo</text>
+    <font>
+        <size>35</size>
+    </font>
 </phrase>

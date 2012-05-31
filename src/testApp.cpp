@@ -11,16 +11,19 @@ string helpScreen = "\n \
     \n \
     - F4:   Reset surface coorners\n \
     \n \
+    - m/M:  show/hide mouse\n \
     - d/D:  debug mode ON/OFF\n \
     - h/H:  turn ON/OFF this help screen\n \
     \n \
-    - l/L:  load/reload previus calibration setup and then load the game\n \
+    - l/L:  load/reload previus calibration setup and \n \
+            then load the game\n \
     - c/C:  calibrate and then load the game \n";
 
 //-------------------------------------------------------------- SETING
 void testApp::setup(){
     ofEnableAlphaBlending();
     ofEnableSmoothing();
+    ofSetFrameRate(60);
     logo.loadImage("logo.jpg");
     
     ofAddListener(tSurface.calibrationDone, this, &testApp::calibrationDone);
@@ -36,7 +39,10 @@ void testApp::setup(){
     game = NULL;
     bStart = false;
     bHelp = false;
+    bMouse = false;
     tSurface.bDebug = false;
+    
+    ofHideCursor();
     
     //  Load the Game
     //
@@ -89,8 +95,10 @@ void testApp::draw(){
     }
 
     if (bHelp){
-        ofSetColor(255);
-        ofDrawBitmapString(helpScreen, 100,100);
+        ofSetColor(0,200);
+        ofRect(0,0,ofGetWidth(),ofGetHeight());
+        ofSetColor(255,255);
+        ofDrawBitmapString(helpScreen, 150,250);
     }
 }
 
@@ -202,7 +210,17 @@ void testApp::keyPressed(int key){
         case 'h':
         case 'H':
             bHelp = !bHelp;
-            break;    
+            break; 
+        case 'm':
+        case 'M':
+            bMouse = !bMouse;
+            break; 
+    }
+    
+    if (bMouse){
+        ofShowCursor();
+    } else {
+        ofHideCursor();
     }
 }
 

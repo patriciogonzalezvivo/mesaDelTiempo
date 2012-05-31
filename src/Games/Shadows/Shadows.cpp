@@ -101,9 +101,11 @@ void Shadows::update(){
         }
     } else {
         int clamp = nLastShadows;
+        if (clamp > 5){
+            clamp = 5;
+        }
         for( map<int,AnimatedShadow*>::reverse_iterator rit = hands.rbegin(); rit != hands.rend(); rit++ ){
-            if ((clamp > 0) || 
-                rit->second->getCurrentFrame() != 0){
+            if ((clamp > 0) || rit->second->getCurrentFrame() != 0){
                 if ( rit->second->bActive ) {
                     rit->second->draw();
                     clamp--;
@@ -113,7 +115,7 @@ void Shadows::update(){
         countDown--;
         if ((countDown == 0) && 
             (nLastShadows > 0) ){
-            countDown = 50;
+            countDown = 100;
             nLastShadows--;
         }
     }
@@ -273,7 +275,7 @@ void Shadows::handDeleted(ofxBlob &_blob){
             hands[ _blob.id ]->bActive = true;  // this means it´s goign to be played and no longer edited
             bNew = true;                        // and the the sistem that we have a new one
             
-            countDown = 50;
+            countDown = 100;
             nLastShadows++;
             
             //  When the game starts currentShadow it's just a NULL and nothing it´s going to happend

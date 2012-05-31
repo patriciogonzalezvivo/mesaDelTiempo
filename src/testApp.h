@@ -73,6 +73,7 @@ public:
     string  sGameName;
     bool    bStart;
     bool    bHelp;
+    bool    bMouse;
 
     void    loadGame();
     void    killGame();
