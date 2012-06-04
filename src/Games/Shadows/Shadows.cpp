@@ -16,7 +16,7 @@ Shadows::Shadows(){
     
     width = 1024 * 1.5;
     height = 768 * 1.5;
-    trackedSurfaceID = TRACK_JUST_HANDS;
+    trackMode = TRACK_JUST_HANDS;
 }
 
 void Shadows::init(ofRectangle _space){

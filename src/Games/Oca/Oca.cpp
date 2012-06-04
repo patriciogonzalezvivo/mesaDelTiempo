@@ -11,7 +11,7 @@ Oca::Oca(){
     width = 800*1.771;
     height = 600*1.771;
     bWaitToSendText = false;
-    trackedSurfaceID = TRACK_ACTIVE_OBJECT;
+    trackMode = TRACK_ACTIVE_OBJECT;
 }
 
 Oca::~Oca(){

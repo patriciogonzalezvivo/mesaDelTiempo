@@ -11,7 +11,7 @@ Simon::Simon(){
     width = 800*1.625;
     height = 600*1.625;
 
-    trackedSurfaceID = TRACK_JUST_OBJECT;
+    trackMode = TRACK_JUST_OBJECT;
     nUsers = 2;
 }
 

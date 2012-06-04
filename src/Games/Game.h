@@ -8,7 +8,7 @@
 #pragma once
 
 #include "ofMain.h"
-#include "ofxTrackedSurface.h"
+#include "ofxInteractiveSurface.h"
 
 class Game {
 public:
@@ -19,7 +19,7 @@ public:
     
     int             getWidth() const { return width;};
     int             getHeight() const { return height;};
-    TrackedSurface  getTrackedSurfaceID() const { return trackedSurfaceID;};
+    TrackMode       getTrackMode() const { return trackMode;};
     
     virtual void    handAdded(ofxBlob &_blob) {};
     virtual void    handMoved(ofxBlob &_blob) {};
@@ -38,7 +38,7 @@ protected:
     ofRectangle     space;
     ofFbo           fbo;
     
-    TrackedSurface  trackedSurfaceID;
+    TrackMode       trackMode;
     
     int             width, height;
 };

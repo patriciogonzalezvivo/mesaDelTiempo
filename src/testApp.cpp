@@ -26,13 +26,13 @@ void testApp::setup(){
     ofSetFrameRate(60);
     logo.loadImage("logo.jpg");
     
-    ofAddListener(tSurface.calibrationDone, this, &testApp::calibrationDone);
-    ofAddListener(tSurface.handAdded, this, &testApp::handAdded);
-    ofAddListener(tSurface.handMoved, this, &testApp::handMoved);
-    ofAddListener(tSurface.handDeleted, this, &testApp::handDeleted);
-    ofAddListener(tSurface.objectAdded, this, &testApp::objectAdded);
-    ofAddListener(tSurface.objectMoved, this, &testApp::objectMoved);
-    ofAddListener(tSurface.objectDeleted, this, &testApp::objectDeleted);
+    ofAddListener(iSurface.calibrationDone, this, &testApp::calibrationDone);
+    ofAddListener(iSurface.handAdded, this, &testApp::handAdded);
+    ofAddListener(iSurface.handMoved, this, &testApp::handMoved);
+    ofAddListener(iSurface.handDeleted, this, &testApp::handDeleted);
+    ofAddListener(iSurface.objectAdded, this, &testApp::objectAdded);
+    ofAddListener(iSurface.objectMoved, this, &testApp::objectMoved);
+    ofAddListener(iSurface.objectDeleted, this, &testApp::objectDeleted);
     
     //  Set everthing OFF for default
     //
@@ -40,7 +40,7 @@ void testApp::setup(){
     bStart = false;
     bHelp = false;
     bMouse = false;
-    tSurface.bDebug = false;
+    iSurface.bDebug = false;
     
     ofHideCursor();
     
@@ -58,7 +58,7 @@ void testApp::loadGame(){
         
         killGame();         //  if it«s a game running kill it
         
-        tSurface.load();    //  Re-load the game. This will end in 
+        iSurface.load();    //  Re-load the game. This will end in 
                             //  a "calibrationDone" event. That will l
                             //  anch the [sGameName] game
         
@@ -73,7 +73,7 @@ void testApp::update(){
     //  Updatign tSurface mantein the mapping between the game texture and 
     //  the tracking objects/hands. Also if it«s call do the calibration
     //
-    tSurface.update();
+    iSurface.update();
     
     //  If the game starts. Update it
     if (bStart){
@@ -83,15 +83,15 @@ void testApp::update(){
 }
 
 void testApp::draw(){
-    if (tSurface.bDebug)
+    if (iSurface.bDebug)
         ofBackgroundGradient(ofColor::gray, ofColor::black);
     else
         ofBackground(ofColor::black);
     
     if (bStart){
-        tSurface.draw(game->getTextureReference());
+        iSurface.draw(game->getTextureReference());
     } else {
-        tSurface.draw(logo.getTextureReference());
+        iSurface.draw(logo.getTextureReference());
     }
 
     if (bHelp){
@@ -114,25 +114,25 @@ void testApp::calibrationDone(ofPolyline &_surface){
         game = new Simon();
         ofLog(OF_LOG_NOTICE, "Loading Simon game");
         game->init( _surface.getBoundingBox() );
-        tSurface.setTrackedSurfaceID(game->getTrackedSurfaceID());
+        iSurface.setTrackMode(game->getTrackMode());
         bStart = true;
     } else if (sGameName == "pong"){
         game = new Pong();
         ofLog(OF_LOG_NOTICE, "Loading Pong game");
         game->init( _surface.getBoundingBox() );
-        tSurface.setTrackedSurfaceID(game->getTrackedSurfaceID());
+        iSurface.setTrackMode(game->getTrackMode());
         bStart = true;
     } else if (sGameName == "shadows"){
         game = new Shadows();
         ofLog(OF_LOG_NOTICE, "Loading Shadows game");
         game->init( _surface.getBoundingBox() );
-        tSurface.setTrackedSurfaceID(game->getTrackedSurfaceID());
+        iSurface.setTrackMode(game->getTrackMode());
         bStart = true;
     } else if (sGameName == "oca"){
         game = new Oca();
         ofLog(OF_LOG_NOTICE, "Loading Oca game");
         game->init( _surface.getBoundingBox() );
-        tSurface.setTrackedSurfaceID(game->getTrackedSurfaceID());
+        iSurface.setTrackMode(game->getTrackMode());
         bStart = true;
     }
 }
@@ -189,19 +189,19 @@ void testApp::keyPressed(int key){
             break;
         case 'd':
         case 'D':
-            tSurface.bDebug = !tSurface.bDebug;
+            iSurface.bDebug = !iSurface.bDebug;
             break;
         case 'c':
         case 'C':
             bStart = false;
             delete game;
-            tSurface.calibrate();
+            iSurface.calibrate();
             break;
         case 'l':
         case 'L':
             bStart = false;
             delete game;
-            tSurface.load();
+            iSurface.load();
             break;
         case 'r':
         case 'R':
@@ -339,5 +339,5 @@ void testApp::exit(){
     if (game != NULL)
         game->reset();
     
-    tSurface.exit();
+    iSurface.exit();
 }

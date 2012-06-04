@@ -10,7 +10,7 @@
 Pong::Pong(){
     width = 800;
     height = 600;
-    trackedSurfaceID = TRACK_JUST_HANDS;
+    trackMode = TRACK_JUST_HANDS;
 }
 
 void Pong::init(ofRectangle _space){    

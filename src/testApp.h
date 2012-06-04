@@ -23,7 +23,7 @@
  */
 
 //  MAPPING & TRACKING
-#include "ofxTrackedSurface.h"
+#include "ofxInteractiveSurface.h"
 
 //  GAME
 #include "Game.h"   // This is the parent game class
@@ -53,7 +53,7 @@ public:
     //  MAPPING & TRACKING
     //  ---------------------------
     //
-    ofxTrackedSurface   tSurface;   // it«s in charge of the matching the tracked objects/hands
+    ofxInteractiveSurface   iSurface;   // it«s in charge of the matching the tracked objects/hands
                                     // with the proyected game.
     //  tSurface Events
     void    calibrationDone(ofPolyline &_surface);

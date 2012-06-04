@@ -55,7 +55,7 @@ Download and install:
 
 - [ofxTextSuite](https://github.com/patriciogonzalezvivo/ofxTextSuite)
 
-- [ofxImageSequence](https://github.com/Flightphase/ofxImageSequence) 
+- [ofxImageSequence](https://github.com/patriciogonzalezvivo/ofxImageSequence) 
 
 - [ofxKinect](https://github.com/ofTheo/ofxKinect)
 
