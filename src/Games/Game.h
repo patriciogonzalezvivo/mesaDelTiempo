@@ -19,7 +19,7 @@ public:
     
     int             getWidth() const { return width;};
     int             getHeight() const { return height;};
-    TrackMode       getTrackMode() const { return trackMode;};
+    ofxTrackMode    getTrackMode() const { return trackMode;};
     
     virtual void    handAdded(ofxBlob &_blob) {};
     virtual void    handMoved(ofxBlob &_blob) {};
@@ -38,7 +38,7 @@ protected:
     ofRectangle     space;
     ofFbo           fbo;
     
-    TrackMode       trackMode;
+    ofxTrackMode    trackMode;
     
     int             width, height;
 };
