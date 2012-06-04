@@ -25,11 +25,10 @@ public:
     void    setState(float _state){ nState = _state;};
     void    setImage(string _imgFile);
     void    setLoop(bool _loop = false){ bLoop = _loop;};
-    void    setRandom( bool _random){ bRandom = _random;};
     void    setMessage(string _message){ message = _message;};
     
     //  
-    bool    getActive(){ return bActive; };
+    bool    getActive(){ return (turnToState == nState);};
     float   getState(){ return nState; };
     float   getAngle(){ return angle; };
     float   getTransition(){ return ofClamp(abs(turnToState - nState),0.0,1.0); };
@@ -56,7 +55,7 @@ private:
     
     int     turnToState;
     int     nId;
-    bool    bRandom, bActive, bAnimated, bLoop;
+    bool    bAnimated, bLoop;
 };
 
 #endif

@@ -14,8 +14,6 @@ Place::Place(){
     turnToState =   1;
     bLoop       =   false;
     bAnimated   =   false;
-    bRandom     =   false;
-    bActive     =   true;
 }
 
 Place::Place( int _nId ){
@@ -24,28 +22,15 @@ Place::Place( int _nId ){
     turnToState =   1;
     bLoop       =   false;
     bAnimated   =   false;
-    bRandom     =   false;
-    bActive     =   true;
     
     setId(_nId);
 }
 
 void Place::turnToMax(){ 
-    if (bActive){
-        if(bAnimated)
-            turnTo(2.0);
-        else
-            turnTo(1.0);
-    } else {
-        turnTo(0.0);
-    }
-}
-
-void Place::randomActive(){
-    if (bRandom)
-        bActive = (ofRandom(1.0) > 0.5)? true : false;
+    if(bAnimated)
+        turnTo(2.0);
     else
-        bActive = true;
+        turnTo(1.0);
 }
 
 void Place::setImage(string _imgFile){

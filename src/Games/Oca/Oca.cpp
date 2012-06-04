@@ -56,7 +56,6 @@ void Oca::reset(){
     //
     places.clear();
     loadPlaces("Oca/config.xml");
-    randomicePlaces();
     
     //  Setup spacial backgrounds
     //
@@ -110,7 +109,6 @@ bool Oca::loadPlaces(string _xmlConfigFile){
             newPlace->setLoop( XML.getValue("loop", false) );
             newPlace->setAngle( XML.getValue("angle", 0.0) );
             newPlace->setImage( XML.getValue("baseImage", "00.png") );
-            newPlace->setRandom( XML.getValue("random", false) );
             
             places.push_back(newPlace);
             
@@ -120,15 +118,6 @@ bool Oca::loadPlaces(string _xmlConfigFile){
         ofLog(OF_LOG_ERROR,"Oca: loading file " + _xmlConfigFile );
     
     return loaded; 
-}
-
-void Oca::randomicePlaces(){
-    //  Chequea en casillero está, y sólo cambia los datos si esta posición se actualizó
-    //
-    for(int i = 0; i <  places.size(); i++){
-        places[i]->randomActive();
-    }
-
 }
 
 void Oca::update(){
@@ -267,11 +256,6 @@ void Oca::objectAdded(ofxBlob &_blob){
                     //  Check Special Places
                     //  --------------------------------------------
                     
-                    //  00 Place: active random places
-                    //
-                    if (i == 0){
-                        randomicePlaces();
-                    }
                     
                     //  04-07 Place: magical objects
                     //
@@ -289,11 +273,12 @@ void Oca::objectAdded(ofxBlob &_blob){
                         obj17.loadImage("Oca/17alt/17-01.png");
                     }
                     
-                    //  Muestra el texto si el casillero esta activo
+                    //  TODO: 27 RESET COLORS 
+                    
+                    //  TODO: Muestra el texto si el casillero tiene texto
                     //
-                    if (places[i]->getActive()){ 
-                        bWaitToSendText = true;
-                    }
+                    bWaitToSendText = true;
+                        
                     selectedPlace = i;
                 }
                 break;
@@ -321,6 +306,7 @@ void Oca::objectAdded(ofxBlob &_blob){
             }
         }
         
+        //  Enciende los casilleros relacionados al seleccionado.
     }
 }
 

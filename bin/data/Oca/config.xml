@@ -3,6 +3,7 @@
     <angle>15</angle>
     <loop>1</loop>
     <random>0</random>
+    <colored>0</colored>
     <baseImage>Oca/00.png</baseImage>
     <message>Comenzá el juego gritando: Había una vez una pequeña Oca...</message>
     <mask>
@@ -59,8 +60,9 @@
 <place>
     <id>1</id>
     <loop>1</loop>
-    <random>0</random>
     <angle>0</angle>
+    <random>0</random>
+    <colored>0</colored>
     <baseImage>Oca/01.png</baseImage>
     <message>.</message>
     <mask>
@@ -92,9 +94,10 @@
 </place>
 <place>
     <id>2</id>
-    <angle>-30</angle>
     <loop>0</loop>
+    <angle>-30</angle>
     <random>0</random>
+    <colored>0</colored>
     <baseImage>Oca/02.png</baseImage>
     <message> Empezó el viaje y estás de suerte! Podés avanzar hacia donde veas que está la próxima Oca cantando: yo voy De Oca en Oca y tiro porque me toca. Cuando llegás podés tirar otra vez.</message>
     <mask>
@@ -138,9 +141,10 @@
 </place>
 <place>
     <id>3</id>
-    <angle>-50</angle>
     <loop>1</loop>
+    <angle>-50</angle>
     <random>0</random>
+    <colored>0</colored>
     <baseImage>Oca/03.png</baseImage>
     <message>Te encontraste con un Mago Sabio que te dice: Las aventuras son mejores cuando vas haciendo amigos en el camino, más que apurándose sólo por llegar. Luego de escuchar eso cede el turno al jugador de la derecha con un buen guiño.</message>
     <mask>
@@ -184,9 +188,10 @@
 </place>
 <place>
     <id>4</id>
-    <angle>-70</angle>
     <loop>1</loop>
+    <angle>-70</angle>
     <random>0</random>
+    <colored>1</colored>
     <baseImage>Oca/04.png</baseImage>
     <message>Ganaste una manzana que te ayudará a no tener hambre si te toca pasar por el casillero del bosque y no perder el turno. Atenti que cualquier otro jugador que caiga en este casillero te la quita.</message>
     <mask>
@@ -218,9 +223,10 @@
 </place>
 <place>
     <id>5</id>
-    <angle>-80</angle>
     <loop>1</loop>
+    <angle>-80</angle>
     <random>0</random>
+    <colored>1</colored>
     <baseImage>Oca/05.png</baseImage>
     <message>Ganaste una vela que te ayudará a no tener miedo si te toca pasar por los casilleros oscuros (el bosque y el dragón) y no perder el turno. Atenti que cualquier otro jugador que caiga en este casillero, te la quita.</message>
     <mask>
@@ -252,9 +258,11 @@
 </place>
 <place>
     <id>06</id>
-    <angle>-90</angle>
     <loop>1</loop>
     <random>0</random>
+    <angle>-90</angle>
+    <random>0</random>
+    <colored>1</colored>
     <baseImage>Oca/06.png</baseImage>
     <message>Ganaste un anillo que te ayudará a vencer al dragón que vive en el ante-penúltimo casillero y no perder el turno. Atenti que cualquier otro jugador que caiga en este casillero, te lo quita.</message>
     <mask>
@@ -286,9 +294,10 @@
 </place>
 <place>
     <id>7</id>
-    <angle>-110</angle>
     <loop>1</loop>
+    <angle>-110</angle>
     <random>0</random>
+    <colored>0</colored>
     <baseImage>Oca/07.png</baseImage>
     <message>.</message>
     <mask>
@@ -320,9 +329,10 @@
 </place>
 <place>
     <id>8</id>
-    <angle>-120</angle>
     <loop>1</loop>
+    <angle>-120</angle>
     <random>0</random>
+    <colored>0</colored>
     <baseImage>Oca/08.png</baseImage>
     <message>Grita bien fuerte: De puente en puente voy, y no me lleva la corriente. Avanzá hasta el próximo puente y cedé el turno a tu compañero de la derecha.</message>
     <mask>
@@ -370,9 +380,10 @@
 </place>
 <place>
     <id>9</id>
-    <angle>-140</angle>
     <loop>1</loop>
+    <angle>-140</angle>
     <random>0</random>
+    <colored>0</colored>
     <baseImage>Oca/09.png</baseImage>
     <message>Tuviste suerte. Volá hacia donde está la siguiente Oca silbando bajito porque zafaste del Bosque Encantado y tirá otra vez.</message>
     <mask>
@@ -404,9 +415,10 @@
 </place>
 <place>
     <id>10</id>
-    <angle>-180</angle>
     <loop>1</loop>
+    <angle>-180</angle>
     <random>0</random>
+    <colored>0</colored>
     <baseImage>Oca/10.png</baseImage>
     <message>Caíste en el Bosque Encantado. A menos que la mazana o la vela tengan el color de tu ficha perdés un turno de paralizado por el miedo.</message>
     <mask>
@@ -486,9 +498,10 @@
 </place>
 <place>
     <id>11</id>
-    <angle>-220</angle>
     <loop>1</loop>
+    <angle>-220</angle>
     <random>0</random>
+    <colored>0</colored>
     <baseImage>Oca/11.png</baseImage>
     <message>.</message>
     <mask>
@@ -520,9 +533,10 @@
 </place>
 <place>
     <id>12</id>
-    <angle>-230</angle>
     <loop>1</loop>
+    <angle>-230</angle>
     <random>0</random>
+    <colored>0</colored>
     <baseImage>Oca/12.png</baseImage>
     <message>Llegaste a un Hostal y te tirás a dormir la siesta. Pérdes un turno haciendo fiaca.</message>
     <mask>
@@ -570,9 +584,10 @@
 </place>
 <place>
     <id>13</id>
-    <angle>-260</angle>
     <loop>1</loop>
+    <angle>-260</angle>
     <random>0</random>
+    <colored>0</colored>
     <baseImage>Oca/13.png</baseImage>
     <message>¡Felicitaciones!!! Te hiciste de un amigo que te puede ayudar a vos o a otros más adelante! </message>
     <mask>
@@ -620,9 +635,10 @@
 </place>
 <place>
     <id>14</id>
-    <angle>-280</angle>
     <loop>1</loop>
+    <angle>-280</angle>
     <random>0</random>
+    <colored>0</colored>
     <baseImage>Oca/14.png</baseImage>
     <message>Se largó a llover y vos sin paraguas! Perdés un turno cuidando de no mojarte.</message>
     <mask>
@@ -670,9 +686,10 @@
 </place>
 <place>
     <id>15</id>
-    <angle>-320</angle>
     <loop>1</loop>
+    <angle>-320</angle>
     <random>0</random>
+    <colored>0</colored>
     <baseImage>Oca/15.png</baseImage>
     <message>Vólves al puente anterior lagrimeando un: de puente a puente, retrocedo porque me lleva la corriente.</message>
     <mask>
@@ -720,9 +737,10 @@
 </place>
 <place>
     <id>16</id>
-    <angle>0</angle>
     <loop>1</loop>
+    <angle>0</angle>
     <random>0</random>
+    <colored>0</colored>
     <baseImage>Oca/16.png</baseImage>
     <message>¡Cuidado! Te caíste en el pozo y a menos que caiga alguien en este casillero que te rescate o se encuentre tu amigo con sombrero en el casillero siguiente perdés tres turnos intentando salir.</message>
     <mask>
@@ -782,9 +800,10 @@
 </place>
 <place>
     <id>17</id>
-    <angle>-40</angle>
     <loop>1</loop>
+    <angle>-40</angle>
     <random>0</random>
+    <colored>0</colored>
     <baseImage>Oca/17.png</baseImage>
     <message>Tu amigo te da una mano y avanzás hacia la próxima Oca volando por encima del laberinto.</message>
     <mask>
@@ -832,9 +851,10 @@
 </place>
 <place>
     <id>18</id>
-    <angle>-80</angle>
     <loop>1</loop>
+    <angle>-80</angle>
     <random>0</random>
+    <colored>1</colored>
     <baseImage>Oca/18.png</baseImage>
     <message>Esta brújula evita que pierdas un turno perdido en el laberinto. Si cae otro jugador te lo saca no se entiende!!!</message>
     <mask>
@@ -882,9 +902,10 @@
 </place>
 <place>
     <id>19</id>
-    <angle>-120</angle>
     <loop>1</loop>
+    <angle>-120</angle>
     <random>0</random>
+    <colored>1</colored>
     <baseImage>Oca/19.png</baseImage>
     <message>Esta llave te va a ayudar a salir de la jaula... a menos que otro jugador te la saque.</message>
     <mask>
@@ -932,9 +953,10 @@
 </place>
 <place>
     <id>20</id>
-    <angle>-160</angle>
     <loop>1</loop>
+    <angle>-160</angle>
     <random>0</random>
+    <colored>0</colored>
     <baseImage>Oca/20.png</baseImage>
     <message>.</message>
     <mask>
@@ -982,9 +1004,10 @@
 </place>
 <place>
     <id>21</id>
-    <angle>-230</angle>
     <loop>0</loop>
+    <angle>-230</angle>
     <random>0</random>
+    <colored>0</colored>
     <baseImage>Oca/21.png</baseImage>
     <message>Buscando el baño te metiste en el Laberinto del Minotauro. Vas a perder dos turnos hasta encontrar la salida, a menos que tengas la brújula con el fondo de tu color.</message>
     <mask>
@@ -1120,9 +1143,10 @@
 </place>
 <place>
     <id>22</id>
-    <angle>-330</angle>
     <loop>1</loop>
+    <angle>-330</angle>
     <random>0</random>
+    <colored>0</colored>
     <baseImage>Oca/22.png</baseImage>
     <message>Descanzá y respirá hondo que ya queda poco. </message>
     <mask>
@@ -1170,9 +1194,10 @@
 </place>
 <place>
     <id>23</id>
-    <angle>0</angle>
     <loop>1</loop>
+    <angle>0</angle>
     <random>0</random>
+    <colored>0</colored>
     <baseImage>Oca/23.png</baseImage>
     <message>Perdés un turno intentando salir de la jaula a menos que tengas la llave.</message>
     <mask>
@@ -1220,9 +1245,10 @@
 </place>
 <place>
     <id>24</id>
-    <angle>-45</angle>
     <loop>1</loop>
+    <angle>-45</angle>
     <random>0</random>
+    <colored>0</colored>
     <baseImage>Oca/24.png</baseImage>
     <message>¡Qué suerte la tuya! avanzá hacia la siguiente Oca y hacele el olé al dragón sombra.</message>
     <mask>
@@ -1270,9 +1296,10 @@
 </place>
 <place>
     <id>25</id>
-    <angle>-157</angle>
     <loop>0</loop>
+    <angle>-157</angle>
     <random>0</random>
+    <colored>0</colored>
     <baseImage>Oca/25.png</baseImage>
     <message>La sombra del dragón avanza. Te apichonas del miedo y volvés al segundo casillero!</message>
     <mask>
@@ -1420,9 +1447,10 @@
 </place>
 <place>
     <id>26</id>
-    <angle>-320</angle>
     <loop>1</loop>
+    <angle>-320</angle>
     <random>0</random>
+    <colored>0</colored>
     <baseImage>Oca/26.png</baseImage>
     <message>Casi llegás! estas a un soplo de la meta. Con viento a favor en el próximo turno ganas el juego!! </message>
     <mask>
@@ -1527,7 +1555,9 @@
 <place>
     <id>27</id>
     <loop>1</loop>
+    <angle>0</angle>
     <random>0</random>
+    <colored>0</colored>
     <baseImage>Oca/27.png</baseImage>
     <message>Ganaste pichón!!! Festejá con el resto el fin de esta aventura!</message>
     <mask>

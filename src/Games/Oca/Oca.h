@@ -36,7 +36,6 @@ public:
     
 private:
     bool    loadPlaces(string xmlConfigFile);
-    void    randomicePlaces();
     void    updateBackground(int _placeNumber, ofxTint& _backgroundEffect);
     
     
