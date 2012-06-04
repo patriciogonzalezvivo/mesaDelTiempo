@@ -1,6 +1,6 @@
 ofxKinect
 ofxOpenCv
-ofxSurface
+ofxInteractiveSurface
 ofxBlobTracker
 ofxFX
 ofxTextSuite

@@ -49,21 +49,18 @@ Download and install:
 
 - [ofxFX](https://github.com/patriciogonzalezvivo/ofxFX)
 
-- [ofxSurface](https://github.com/patriciogonzalezvivo/ofxSurface)
-
-- [ofxBlobTracker](https://github.com/patriciogonzalezvivo/ofxBlobTracker)
-
 - [ofxTextSuite](https://github.com/patriciogonzalezvivo/ofxTextSuite)
 
 - [ofxImageSequence](https://github.com/patriciogonzalezvivo/ofxImageSequence) 
 
-- [ofxKinect](https://github.com/ofTheo/ofxKinect)
+- [ofxInteractiveSurface](https://github.com/patriciogonzalezvivo/ofxSurface) That needs:
 
+	* [ofxBlobTracker](https://github.com/patriciogonzalezvivo/ofxBlobTracker)
 
-Native:
+	* [ofxKinect](https://github.com/ofTheo/ofxKinect)
 
-- ofxGui
+	* ofxGui (official OF addon)
+ 
+	* ofxOpenCV (official OF addon)
 
-- ofxOpenCV
-
-- ofxXmlSettings
+	* ofxXmlSettings (official OF addon)
