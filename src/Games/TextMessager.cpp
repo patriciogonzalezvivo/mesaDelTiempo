@@ -1,9 +1,9 @@
 //
 //  TextMessage.cpp
-//  mdt-Core
+//  MesaDelTiempo for http://web.museodeljuguetesi.org.ar/
 //
-//  Created by Patricio González Vivo on 5/3/12.
-//  Copyright (c) 2012 PatricioGonzalezVivo.com. All rights reserved.
+//  Created by Patricio Gonzalez Vivo on 5/3/12.
+//  Copyright (c) 2012 http://PatricioGonzalezVivo.com All rights reserved.
 //
 
 #include "TextMessager.h"

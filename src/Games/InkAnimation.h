@@ -1,9 +1,9 @@
 //
 //  TransitionRect.h
-//  mdt-Core
+//  MesaDelTiempo for http://web.museodeljuguetesi.org.ar/
 //
-//  Created by Patricio González Vivo on 5/4/12.
-//  Copyright (c) 2012 PatricioGonzalezVivo.com. All rights reserved.
+//  Created by Patricio Gonzalez Vivo on 4/5/12.
+//  Copyright (c) 2012 http://PatricioGonzalezVivo.com All rights reserved.
 //
 
 #pragma once
