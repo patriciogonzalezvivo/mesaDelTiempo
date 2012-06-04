@@ -1,3 +1,5 @@
+[![logo](http://www.patriciogonzalezvivo.com/images/mesaDelTiempo.png)](http://www.patriciogonzalezvivo.com)
+
 # Mesa del Tiempo
 ##### by [Patricio Gonzalez Vivo](http://www.patriciogonzalezvivo.com)
 
