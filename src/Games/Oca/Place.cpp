@@ -14,6 +14,7 @@ Place::Place(){
     turnToState =   1;
     bLoop       =   false;
     bAnimated   =   false;
+    lockUntil   =   -1;
 }
 
 Place::Place( int _nId ){
@@ -22,6 +23,7 @@ Place::Place( int _nId ){
     turnToState =   1;
     bLoop       =   false;
     bAnimated   =   false;
+    lockUntil   =   -1;
     
     setId(_nId);
 }

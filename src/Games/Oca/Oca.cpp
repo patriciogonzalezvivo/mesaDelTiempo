@@ -13,6 +13,7 @@ Oca::Oca(){
     height = 600*1.771;
     bWaitToSendText = false;
     trackMode = TRACK_ACTIVE_OBJECT;
+    lockUntil = -1;
 }
 
 Oca::~Oca(){
@@ -65,9 +66,8 @@ void Oca::reset(){
     dragonBackground.set( places[25]->getBoundingBox() );
     dragonBackground.clear();
     
-    //  Load neutral images of interactive places
+    //  Friend Image
     //
-    obj09.loadImage("Oca/09alt/09-00.png");
     obj17.loadImage("Oca/17alt/17-00.png");
     
     fichaPos = places[0]->getBoundingBox().getCenter();
@@ -88,7 +88,9 @@ bool Oca::loadPlaces(string _xmlConfigFile){
             XML.pushTag("place", i);
             
             Place *newPlace = new Place( XML.getValue("id", -1) );
-            newPlace->setMessage (XML.getValue("message", "NO MESSAGE") );
+            
+            newPlace->angle = XML.getValue("angle", 0.0);
+            newPlace->message = XML.getValue("message", "NULL");
             
             // Load the mask path
             if ( XML.pushTag("mask") ){
@@ -105,9 +107,21 @@ bool Oca::loadPlaces(string _xmlConfigFile){
                 XML.popTag(); // Pop "mask"
             }
             
-            newPlace->setScale( scaleFactor );
-            newPlace->setLoop( XML.getValue("loop", false) );
-            newPlace->setAngle( XML.getValue("angle", 0.0) );
+            newPlace->scale = scaleFactor;
+            newPlace->bLoop = XML.getValue("loop", false);
+            newPlace->lockUntil = XML.getValue("lock", -1);
+            
+            if ( XML.pushTag("link") ){
+                int totalLinks = XML.getNumTags("id");
+            
+                for(int i = 0; i < totalLinks; i++){
+                    int linkId = XML.getValue("id", i);
+                    newPlace->linked.push_back(linkId);
+                   
+                }
+                XML.popTag(); // Pop "link"
+            }
+            
             newPlace->setImage( XML.getValue("baseImage", "00.png") );
             
             places.push_back(newPlace);
@@ -125,8 +139,8 @@ void Oca::update(){
     //
     if (bWaitToSendText){
         if ( places[selectedPlace]->getTransition() < 0.1 ){
-            text.addMessage( places[selectedPlace]->getMessage() );
-            textAngle = places[selectedPlace]->getAngle();
+            text.addMessage( places[selectedPlace]->message );
+            textAngle = places[selectedPlace]->angle;
             bWaitToSendText = false;
         }
     }
@@ -142,9 +156,9 @@ void Oca::update(){
 }
 
 void Oca::updateBackground(int _placeNumber, ofxTint& _backgroundEffect){
-    _backgroundEffect.setFade( 0.2 + (1.0- ofClamp(places[_placeNumber]->getState(), 0.0, 1.0) ) *0.8  ); 
+    _backgroundEffect.setFade( 0.2 + (1.0- ofClamp(places[_placeNumber]->nState, 0.0, 1.0) ) *0.8  ); 
     
-    if (places[_placeNumber]->getState() < 0.01)
+    if (places[_placeNumber]->nState < 0.01)
         _backgroundEffect.clear();
     
     _backgroundEffect.begin();
@@ -153,7 +167,7 @@ void Oca::updateBackground(int _placeNumber, ofxTint& _backgroundEffect){
     
         ofPushMatrix();
             ofClear(0,255);
-            ofSetColor( ofClamp(places[_placeNumber]->getState(), 0.0, 1.0) *200,255);
+            ofSetColor( ofClamp(places[_placeNumber]->nState, 0.0, 1.0) *200,255);
             ofBeginShape();
                 for(int i = 0; i < places[_placeNumber]->size(); i++)
                     ofVertex( places[_placeNumber]->getVertices()[i] );
@@ -192,14 +206,10 @@ void Oca::render(){
         places[i]->draw();
     }
     
-    //  Draw Object Picked
-    //
-    ofSetColor( ofClamp( places[9]->getState(), 0.0, 1.0)*200, 255);
-    obj09.draw(places[9]->getBoundingBox());
     
     //  Draw Friend
     //
-    ofSetColor( 255, ofClamp( places[13]->getState(), 0.0, 1.0)*255);
+    ofSetColor( 255, ofClamp( places[13]->nState, 0.0, 1.0)*255);
     obj17.draw(places[17]->getBoundingBox());
     
     //  Draw the deck mask
@@ -253,60 +263,83 @@ void Oca::objectAdded(ofxBlob &_blob){
                 //
                 if ( selectedPlace != i){
                     
-                    //  Check Special Places
-                    //  --------------------------------------------
-                    
-                    
-                    //  04-07 Place: magical objects
-                    //
-                    if ( i < 4 ){
-                        obj09.loadImage("Oca/09alt/09-00.png");
-                    } else if ((i <= 7) && (places[i]->getActive()) ){
-                        obj09.loadImage("Oca/09alt/09-0"+ofToString(i-3)+".png");
-                    } 
-                    
-                    //  13 Place: Friend
-                    //
-                    if ( i < 13){
-                        obj17.loadImage("Oca/17alt/17-00.png");
-                    } else if ((i == 13) && (places[i]->getActive()) ){
-                        obj17.loadImage("Oca/17alt/17-01.png");
+                    if ( lockUntil == -1){
+                        //  13 Place: Friend
+                        //
+                        if ( i < 13){
+                            obj17.loadImage("Oca/17alt/17-00.png");
+                        } else if ((i == 13) && (places[i]->getActive()) ){
+                            obj17.loadImage("Oca/17alt/17-01.png");
+                        }
+                        
+                        //  TODO: COLORS
+                        
+                        //  TODO: if i == 0 -> 27 RESET COLORS 
+                        //
+                        if ((places[i]->message != "NULL") &&
+                            (lockUntil == -1) ){
+                            bWaitToSendText = true;
+                        }
                     }
                     
-                    //  TODO: 27 RESET COLORS 
-                    
-                    //  TODO: Muestra el texto si el casillero tiene texto
-                    //
-                    bWaitToSendText = true;
-                        
                     selectedPlace = i;
                 }
                 break;
             }
         }
         
-        //  Actualiza el recorrido haciendo visible los casilleros
-        //  anteriores al que tiene actualizado los valores.
-        //
-        bool passed = false;
-        for(int i = places.size()-1; i >= 0; i--){
-            //  Activar (nLevel) todos los casilleros anteriores
-            //  al lugar donde este la última ficha
+        if (lockUntil == -1){
+            //  Actualiza el recorrido haciendo visible los casilleros
+            //  anteriores al que tiene actualizado los valores.
             //
-            if ( !passed ){
-                if ( selectedPlace == i){
-                    passed = true;
+            /*
+            bool passed = false;
+            for(int i = places.size()-1; i >= 0; i--){
+                //  Activar (nLevel) todos los casilleros anteriores
+                //  al lugar donde este la última ficha
+                //
+                if ( !passed ){
+                    if ( selectedPlace == i){
+                        passed = true;
+                    }
+                }
+                
+                if (passed){
+                    places[i]->turnToMax();
+                } else {
+                    places[i]->turnTo( 0.0 );
+                }
+            }*/
+            
+            for(int i = 0; i < places.size(); i++){
+                if ( i <= selectedPlace ){
+                    places[i]->turnToMax();
+                } else {
+                    places[i]->turnTo( 0.0 );
                 }
             }
             
-            if (passed){
-                places[i]->turnToMax();
-            } else {
-                places[i]->turnTo( 0.0 );
+            //  Enciende los casilleros relacionados al seleccionado.
+            if ( places[selectedPlace]->linked.size() > 0)
+                for(int i = 0; i < places[selectedPlace]->linked.size(); i++){
+                    places[i]->turnToMax();
+                }
+        } else {
+            //  Enciende los casillero anteriores al que debe dirigirse
+            for(int i = 0; i < places.size(); i++){
+                if ( i < lockUntil ){
+                    places[i]->turnToMax();
+                } else {
+                    places[i]->turnTo( 0.0 );
+                }
             }
+            places[selectedPlace]->turnToMax();
         }
         
-        //  Enciende los casilleros relacionados al seleccionado.
+        
+        if (lockUntil == selectedPlace){
+            lockUntil = -1;
+        }
     }
 }
 

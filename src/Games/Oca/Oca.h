@@ -44,11 +44,13 @@ private:
     ofxTint         dragonBackground;
     ofxTint         forestBackground;
     ofImage         background, mask, maskBack, ficha;
-    ofImage         obj09, obj17;
+    
+    ofImage         obj17;
     vector<Place*>  places;
     
     ofPoint         fichaPos;
     int             selectedPlace;
+    int             lockUntil;
     
     float           scaleFactor, textAngle;
     bool            bChange,bWaitToSendText;

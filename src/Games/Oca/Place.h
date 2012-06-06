@@ -17,45 +17,38 @@ public:
     Place();
     Place( int _nId );
     
-    //  Setup
-    //
     void    setId(int _nid){nId == _nid;};
-    void    setScale(float _scale){ scale = _scale;};
-    void    setAngle(float _angle){ angle = _angle;};
-    void    setState(float _state){ nState = _state;};
     void    setImage(string _imgFile);
-    void    setLoop(bool _loop = false){ bLoop = _loop;};
-    void    setMessage(string _message){ message = _message;};
     
-    //  
     bool    getActive(){ return (turnToState == nState);};
-    float   getState(){ return nState; };
-    float   getAngle(){ return angle; };
     float   getTransition(){ return ofClamp(abs(turnToState - nState),0.0,1.0); };
-    string  getMessage(){ return message; };
     
-    //
     void    turnTo(int _state){ turnToState = _state; };
     void    turnToMax();
     void    randomActive();
     
     void    draw();
+    
+    string  message;
+    
+    vector<int> linked;
+    int     lockUntil;
+    
+    float   scale;
+    float   angle;
+    float   nState;     //  0: oculto
+                        //  1: visible
+                        //  2: animado
+    bool    bLoop;
 
 private:
     ofImage             image;
     ofxImageSequence    sequence;
     
-    string  message;
-    
     float   x,y,width,height;
-    float   scale,angle;
-    float   nState;     //  0: oculto
-                        //  1: visible
-                        //  2: animado
-    
     int     turnToState;
     int     nId;
-    bool    bAnimated, bLoop;
+    bool    bAnimated;
 };
 
 #endif
