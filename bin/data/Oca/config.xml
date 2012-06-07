@@ -93,6 +93,10 @@
     <angle>-30</angle>
     <baseImage>Oca/02.png</baseImage>
     <message> Empezó el viaje y estás de suerte! Podés avanzar hacia donde veas que está la próxima Oca cantando: yo voy De Oca en Oca y tiro porque me toca. Cuando llegás podés tirar otra vez.</message>
+    <lock>9</lock>
+    <link>
+        <id>9</id>
+    </link>
     <mask>
         <point>
             <x>0.676718</x>

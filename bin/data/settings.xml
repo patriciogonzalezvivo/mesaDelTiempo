@@ -1,7 +1,7 @@
 <game>oca</game>
-<surface_distance>1133</surface_distance>
-<surface_height>50.05</surface_height>
-<threshold>109</threshold>
+<surface_distance>1032</surface_distance>
+<surface_height>55.9</surface_height>
+<threshold>65</threshold>
 <view>
     <id>0</id>
     <texture>

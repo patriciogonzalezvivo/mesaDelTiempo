@@ -111,15 +111,17 @@ bool Oca::loadPlaces(string _xmlConfigFile){
             newPlace->bLoop = XML.getValue("loop", false);
             newPlace->lockUntil = XML.getValue("lock", -1);
             
-            if ( XML.pushTag("link") ){
-                int totalLinks = XML.getNumTags("id");
-            
-                for(int i = 0; i < totalLinks; i++){
-                    int linkId = XML.getValue("id", i);
-                    newPlace->linked.push_back(linkId);
-                   
+            if ( XML.tagExists("link")){
+                if ( XML.pushTag("link") ){
+                    int totalLinks = XML.getNumTags("id");
+                    
+                    for(int i = 0; i < totalLinks; i++){
+                        int linkId = XML.getValue("id", i);
+                        newPlace->linked.push_back(linkId);
+                        
+                    }
+                    XML.popTag(); // Pop "link"
                 }
-                XML.popTag(); // Pop "link"
             }
             
             newPlace->setImage( XML.getValue("baseImage", "00.png") );
@@ -139,15 +141,15 @@ void Oca::update(){
     //
     if (bWaitToSendText){
         if ( places[selectedPlace]->getTransition() < 0.1 ){
-            text.addMessage( places[selectedPlace]->message );
-            textAngle = places[selectedPlace]->angle;
+            //text.addMessage( places[selectedPlace]->message );
+            //textAngle = places[selectedPlace]->angle;
             bWaitToSendText = false;
         }
     }
     
     //  Animate the text
     //
-    text.update();
+    //text.update();
     
     //  Forest and Dragon Background update
     //
@@ -180,6 +182,12 @@ void Oca::updateBackground(int _placeNumber, ofxTint& _backgroundEffect){
 }
 
 void Oca::render(){
+    ofColor flame;
+    flame.setHsb((42./360.)*255+ofNoise(ofGetElapsedTimef())*10, 
+                 (54./100.)*255+ofNoise(ofGetElapsedTimef())*20, 
+                 255);
+    
+    
     fbo.begin();
     ofClear(0,255);
     ofPushStyle();
@@ -199,6 +207,19 @@ void Oca::render(){
     
     ofSetColor(255, 255);
     ofEnableBlendMode(OF_BLENDMODE_ALPHA);
+    
+    if (lockUntil >= 0){
+        ofPushStyle();
+        ofSetColor(flame,abs(cos(ofGetElapsedTimef())*200));
+        ofFill();
+        ofBeginShape();
+        for(int i = 0; i < places[ lockUntil ]->getVertices().size() ; i++ ){
+            ofVertex( places[ lockUntil ]->getVertices()[i] );
+        }
+        ofEndShape();
+        ofPopStyle();
+        cout << "LockUntil = " << lockUntil << endl;
+    }
     
     //  Draw Places
     //
@@ -220,25 +241,21 @@ void Oca::render(){
     
     //  Draw text
     //
+    /*
     ofSetColor(255,ofMap( text.getNormTransitionValue(), 0.0, 0.5, 0.0, 1.0, true) * 255);
     maskBack.draw(space);
-    
+
     ofPushMatrix();
     ofTranslate(space.getCenter());
     ofRotateZ( textAngle );
     ofTranslate(-space.getCenter().x,-space.getCenter().y);
     ofSetColor(0,ofMap( text.getNormTransitionValue(), 0.0, 0.5, 0.0, 1.0, true) * 255);
     text.draw();
-    ofPopMatrix();
+    ofPopMatrix();*/
     
     //  Draw the ficha
     //
     ofNoFill();
-    
-    ofColor flame;
-    flame.setHsb((42./360.)*255+ofNoise(ofGetElapsedTimef())*10, 
-                 (54./100.)*255+ofNoise(ofGetElapsedTimef())*20, 
-                 255);
     ofSetColor(flame);
     ficha.draw(fichaPos.x-60,fichaPos.y-60, 120, 120);
     
@@ -255,7 +272,7 @@ void Oca::objectAdded(ofxBlob &_blob){
         
         //  Chequea en casillero está, y sólo cambia los datos si esta posición se actualizó
         //
-        for(int i = 0; i <  places.size(); i++){
+        for(int i = 0; i < places.size(); i++){
             if ( places[i]->inside(pos) ){
                 fichaPos = pos;
                 
@@ -268,7 +285,7 @@ void Oca::objectAdded(ofxBlob &_blob){
                         //
                         if ( i < 13){
                             obj17.loadImage("Oca/17alt/17-00.png");
-                        } else if ((i == 13) && (places[i]->getActive()) ){
+                        } else if (i == 13){
                             obj17.loadImage("Oca/17alt/17-01.png");
                         }
                         
@@ -276,10 +293,12 @@ void Oca::objectAdded(ofxBlob &_blob){
                         
                         //  TODO: if i == 0 -> 27 RESET COLORS 
                         //
-                        if ((places[i]->message != "NULL") &&
-                            (lockUntil == -1) ){
+                        
+                        if (places[i]->message != "NULL"){
                             bWaitToSendText = true;
                         }
+                        
+                        lockUntil = places[i]->lockUntil;
                     }
                     
                     selectedPlace = i;
@@ -292,25 +311,6 @@ void Oca::objectAdded(ofxBlob &_blob){
             //  Actualiza el recorrido haciendo visible los casilleros
             //  anteriores al que tiene actualizado los valores.
             //
-            /*
-            bool passed = false;
-            for(int i = places.size()-1; i >= 0; i--){
-                //  Activar (nLevel) todos los casilleros anteriores
-                //  al lugar donde este la última ficha
-                //
-                if ( !passed ){
-                    if ( selectedPlace == i){
-                        passed = true;
-                    }
-                }
-                
-                if (passed){
-                    places[i]->turnToMax();
-                } else {
-                    places[i]->turnTo( 0.0 );
-                }
-            }*/
-            
             for(int i = 0; i < places.size(); i++){
                 if ( i <= selectedPlace ){
                     places[i]->turnToMax();
@@ -320,41 +320,27 @@ void Oca::objectAdded(ofxBlob &_blob){
             }
             
             //  Enciende los casilleros relacionados al seleccionado.
-            if ( places[selectedPlace]->linked.size() > 0)
+            if ( places[selectedPlace]->linked.size() > 0){
                 for(int i = 0; i < places[selectedPlace]->linked.size(); i++){
-                    places[i]->turnToMax();
+                    places[ places[selectedPlace]->linked[i] ]->turnToMax();
                 }
+            }
+            
         } else {
             //  Enciende los casillero anteriores al que debe dirigirse
             for(int i = 0; i < places.size(); i++){
-                if ( i < lockUntil ){
+                if ( i <= lockUntil ){
                     places[i]->turnToMax();
                 } else {
                     places[i]->turnTo( 0.0 );
                 }
             }
-            places[selectedPlace]->turnToMax();
+            
+            //places[selectedPlace]->turnToMax();
         }
-        
         
         if (lockUntil == selectedPlace){
             lockUntil = -1;
         }
     }
-}
-
-void Oca::objectMoved(ofxBlob &_blob){
-    /*
-    if (_blob.isCircular()){
-        ficha.pos.x = _blob.centroid.x*width;
-        ficha.pos.y = _blob.centroid.y*height;
-    }*/
-}
-
-void Oca::objectDeleted(ofxBlob &_blob){
-    /*
-    if (_blob.isCircular()){
-        ficha.pos.x = _blob.centroid.x*width;
-        ficha.pos.y = _blob.centroid.y*height;
-    }*/
 }

@@ -31,8 +31,6 @@ public:
     void    render();
     
     void    objectAdded(ofxBlob &_blob);
-    void    objectMoved(ofxBlob &_blob);
-    void    objectDeleted(ofxBlob &_blob);
     
 private:
     bool    loadPlaces(string xmlConfigFile);
