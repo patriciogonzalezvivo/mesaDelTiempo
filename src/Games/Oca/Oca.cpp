@@ -125,6 +125,7 @@ bool Oca::loadPlaces(string _xmlConfigFile){
             }
             
             newPlace->setImage( XML.getValue("baseImage", "00.png") );
+            newPlace->bColored = XML.getValue("colored", false);
             
             places.push_back(newPlace);
             
@@ -208,6 +209,8 @@ void Oca::render(){
     ofSetColor(255, 255);
     ofEnableBlendMode(OF_BLENDMODE_ALPHA);
     
+    //  Colorify the background of the locked place
+    //
     if (lockUntil >= 0){
         ofPushStyle();
         ofSetColor(flame,abs(cos(ofGetElapsedTimef())*200));
@@ -276,25 +279,42 @@ void Oca::objectAdded(ofxBlob &_blob){
             if ( places[i]->inside(pos) ){
                 fichaPos = pos;
                 
-                //  If the place it´s new
+                //  Si el lugar es nuevo ( o sea se movio de casillero)
                 //
                 if ( selectedPlace != i){
                     
+                    //  y si no esta blockeado (o sea esperando que la ficha caiga en el casillero q le toca )
+                    //
                     if ( lockUntil == -1){
-                        //  13 Place: Friend
-                        //
-                        if ( i < 13){
-                            obj17.loadImage("Oca/17alt/17-00.png");
-                        } else if (i == 13){
+                        
+                        if (i == 13){
+                            //  Si es el casillero 13 cambia la imagen del casillero 17 por la del amigo;
+                            //
                             obj17.loadImage("Oca/17alt/17-01.png");
                         }
                         
-                        //  TODO: COLORS
+                        if  (places[i]->bColored){
+                            //  Si el casillero tiene activada la coloracion el fondo toma el color
+                            //  del centro de la blob
+                            //
+                            places[i]->color = _blob.color;
+                        }
                         
-                        //  TODO: if i == 0 -> 27 RESET COLORS 
-                        //
+                        if (i == 0) {
+                            //  Si alguien cae en el casillero 0, se reinician las variables
+                            //  desapareciendo las coloraciones de casilleros y remplazando la figura
+                            //  del casillero 17 por una vacia.
+                            //
+                            for(int j = 0; j < places.size(); j++){
+                                places[j]->color.set(0,0,0,0);
+                            }
+                            
+                            obj17.loadImage("Oca/17alt/17-00.png");
+                        }
                         
                         if (places[i]->message != "NULL"){
+                            //  Solo dispara un mensaje si hay mensaje de texto q enviar
+                            //
                             bWaitToSendText = true;
                         }
                         
@@ -321,6 +341,7 @@ void Oca::objectAdded(ofxBlob &_blob){
             
             //  Enciende los casilleros relacionados al seleccionado.
             if ( places[selectedPlace]->linked.size() > 0){
+                cout << "Placed = " << selectedPlace << endl;
                 for(int i = 0; i < places[selectedPlace]->linked.size(); i++){
                     places[ places[selectedPlace]->linked[i] ]->turnToMax();
                 }

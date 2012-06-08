@@ -854,7 +854,7 @@
     <baseImage>Oca/18.png</baseImage>
     <message>Esta brújula evita que pierdas un turno perdido en el laberinto. Si cae otro jugador te lo saca no se entiende!!!</message>
     <link>
-        <id>121</id>
+        <id>21</id>
     </link>
     <mask>
         <point>

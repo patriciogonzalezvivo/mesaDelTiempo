@@ -31,6 +31,7 @@ public:
     
     string  message;
     
+    ofColor color;
     vector<int> linked;
     int     lockUntil;
     
@@ -40,6 +41,7 @@ public:
                         //  1: visible
                         //  2: animado
     bool    bLoop;
+    bool    bColored;
 
 private:
     ofImage             image;

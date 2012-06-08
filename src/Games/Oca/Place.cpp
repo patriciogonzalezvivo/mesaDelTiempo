@@ -14,6 +14,8 @@ Place::Place(){
     turnToState =   1;
     bLoop       =   false;
     bAnimated   =   false;
+    bColored    =   false;
+    color.set(0,0,0,0);
     lockUntil   =   -1;
 }
 
@@ -23,6 +25,8 @@ Place::Place( int _nId ){
     turnToState =   1;
     bLoop       =   false;
     bAnimated   =   false;
+    bColored    =   false;
+    color.set(0,0,0,0);
     lockUntil   =   -1;
     
     setId(_nId);
@@ -62,8 +66,19 @@ void Place::setImage(string _imgFile){
 void Place::draw(){
     nState = ofLerp(nState, turnToState, 0.01);
     
+    if (bColored){
+        ofPushStyle();
+        ofSetColor(color);
+        ofFill();
+        ofBeginShape();
+        for(int i = 0; i < getVertices().size() ; i++ ){
+            ofVertex( getVertices()[i] );
+        }
+        ofEndShape();
+        ofPopStyle();
+    }
+    
     if ( nState <= 1){
-        
         ofSetColor(255, nState*255);
         image.draw(x,y,width,height);
         
