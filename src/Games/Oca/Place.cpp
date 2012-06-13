@@ -78,7 +78,7 @@ void Place::draw(){
         ofPopStyle();
     }
     
-    if ( nState <= 1){
+    if ( nState <= 1.1){
         ofSetColor(255, nState*255);
         image.draw(x,y,width,height);
         
@@ -101,6 +101,6 @@ void Place::draw(){
 
     //  Debug nState
     //
-    //ofSetColor(0);
-    //ofDrawBitmapString(ofToString(nState), getCentroid2D() );
+    ofSetColor(0);
+    ofDrawBitmapString(ofToString(nState), getCentroid2D() );
 }

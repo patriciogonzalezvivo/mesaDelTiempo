@@ -157,6 +157,33 @@ bool Oca::loadXml(string _xmlConfigFile){
 }
 
 void Oca::update(){
+    
+    //  Animate passed places 
+    //
+    int higherPlace = -1;    //  Primero averigua cual es el casillero activo con numero más alto
+    for(int i = 0; i < players.size(); i++){
+        if ( players[i].nPlace > higherPlace ){
+            higherPlace = players[i].nPlace;
+        }
+    }
+    
+    if ( higherPlace == -1){
+        // NO ARRANCO EL JUEGO;
+        
+        // TODO
+        //      - Reiniciar todo a default;
+        
+    } else {
+        for(int i = 0; i < places.size(); i++){
+            if (i <= higherPlace){
+                places[i]->turnToMax(); // Animado ( si tiene animación )
+            } else {
+                places[i]->turnTo(1); // Visible
+            }
+        }
+    }
+
+    
     //  Wait to lunch text
     //
     /*
@@ -329,7 +356,7 @@ void Oca::objectDeleted(ofxBlob &_blob){
             }
             
             players[i].nId = -1;
-            break;                  // No hace falta q busque más
+            //break;                  // No hace falta q busque más
         }
         
     }
