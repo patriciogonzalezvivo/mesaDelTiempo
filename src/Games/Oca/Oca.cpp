@@ -203,13 +203,13 @@ void Oca::updateBackground(int _placeNumber, ofxTint& _backgroundEffect){
 }
 
 void Oca::render(){
+    ofPushStyle();
     fbo.begin();
     ofClear(0,255);
-    ofPushStyle();
-    ofSetColor(255,255);
-    
+
     //  Draw Background
     //
+    ofSetColor(255,255);
     background.draw(space);
     
     //  Draw forest and dragon background
@@ -266,12 +266,14 @@ void Oca::objectAdded(ofxBlob &_blob){
 }
 
 void Oca::objectMoved(ofxBlob &_blob){
-    ofPoint blobPos = ofPoint(_blob.centroid.x * space.width, 
-                              _blob.centroid.y * space.height);
+    ofPoint blobPos = ofPoint(_blob.centroid.x * width, 
+                              _blob.centroid.y * height);
     
     for(int i = 0; i < players.size(); i++){
+        cout << blobPos << " inside " << players[i].getCenter() << endl;
         if (players[i].inside( blobPos )){
-            players[i].setFromCenter(blobPos, width, height);
+            cout << "YEP" << endl;
+            players[i].setFromCenter(blobPos, players[i].width, players[i].height);
         }
     }
 }
