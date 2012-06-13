@@ -634,5 +634,23 @@
 			<envvars />
 			<debugger />
 		</Extensions>
+		<Unit filename="../../Desktop/openFrameworks/addons/ofxInteractiveSurface/src/ofxInteractiveViewPort.h">
+			<Option virtualFolder="addons/ofxInteractiveSurface/src" />
+		</Unit>
+		<Unit filename="../../Desktop/openFrameworks/addons/ofxInteractiveSurface/src/ofxInteractiveSurface.cpp">
+			<Option virtualFolder="addons/ofxInteractiveSurface/src" />
+		</Unit>
+		<Unit filename="../../Desktop/openFrameworks/addons/ofxInteractiveSurface/src/ofxKinectAutoCalibrator.h">
+			<Option virtualFolder="addons/ofxInteractiveSurface/src" />
+		</Unit>
+		<Unit filename="../../Desktop/openFrameworks/addons/ofxInteractiveSurface/src/ofxKinectAutoCalibrator.cpp">
+			<Option virtualFolder="addons/ofxInteractiveSurface/src" />
+		</Unit>
+		<Unit filename="../../Desktop/openFrameworks/addons/ofxInteractiveSurface/src/ofxInteractiveSurface.h">
+			<Option virtualFolder="addons/ofxInteractiveSurface/src" />
+		</Unit>
+		<Unit filename="../../Desktop/openFrameworks/addons/ofxInteractiveSurface/src/ofxInteractiveViewPort.cpp">
+			<Option virtualFolder="addons/ofxInteractiveSurface/src" />
+		</Unit>
 	</Project>
 </CodeBlocks_project_file>

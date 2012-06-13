@@ -16,6 +16,7 @@
 #include "InkAnimation.h"
 
 #include "Place.h"
+#include "Player.h"
 
 #include "ofxFX.h"
 
@@ -31,24 +32,23 @@ public:
     void    render();
     
     void    objectAdded(ofxBlob &_blob);
+    void    objectMoved(ofxBlob &_blob);
+    void    objectDeleted(ofxBlob &_blob);
     
 private:
-    bool    loadPlaces(string xmlConfigFile);
+    bool    loadXml(string xmlConfigFile);
     void    updateBackground(int _placeNumber, ofxTint& _backgroundEffect);
-    
     
     TextMessager    text;
     
     ofxTint         dragonBackground;
     ofxTint         forestBackground;
-    ofImage         background, mask, maskBack, ficha;
+    ofImage         background, mask;
     
     ofImage         obj17;
+    bool            bFriend;
     vector<Place*>  places;
-    
-    ofPoint         fichaPos;
-    int             selectedPlace;
-    int             lockUntil;
+    vector<Player>  players;
     
     float           scaleFactor, textAngle;
     bool            bChange,bWaitToSendText;

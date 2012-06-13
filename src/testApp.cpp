@@ -269,35 +269,35 @@ void testApp::mousePressed(int x, int y, int button){
 }
 
 void testApp::mouseDragged(int x, int y, int button){
-    /*
+    
     if (game != NULL){
         ofPoint mouse = ofPoint(x,y);
         
-        if ( tSurface.getSurface().isOver(mouse) && !tSurface.getSurface().bEditMode ){
+        if ( iSurface.getView().isOver(mouse) && !iSurface.getView().bEditMode ){
             ofxBlob pretendBlob;
             
             pretendBlob.id = 0;
             
-            if ((game->getTrackedSurfaceID() == TRACK_JUST_OBJECT) || 
-                (game->getTrackedSurfaceID() == TRACK_ACTIVE_OBJECT) ||
-                (game->getTrackedSurfaceID() == TRACK_BOTH)){
-                pretendBlob.centroid = tSurface.getSurface().getScreenToSurface(mouse);
-                pretendBlob.centroid.x /= tSurface.getSurface().getWidth();
-                pretendBlob.centroid.y /= tSurface.getSurface().getHeight();
+            if ((game->getTrackMode() == TRACK_JUST_OBJECT) || 
+                (game->getTrackMode() == TRACK_ACTIVE_OBJECT) ||
+                (game->getTrackMode() == TRACK_BOTH)){
+                pretendBlob.centroid = iSurface.getView().getScreenToSurface(mouse);
+                pretendBlob.centroid.x /= iSurface.getView().getWidth();
+                pretendBlob.centroid.y /= iSurface.getView().getHeight();
                 objectMoved(pretendBlob);
             }
             
-            if ((game->getTrackedSurfaceID() == TRACK_JUST_HANDS) || 
-                (game->getTrackedSurfaceID() == TRACK_ACTIVE_HANDS) ||
-                (game->getTrackedSurfaceID() == TRACK_BOTH)){
-                pretendBlob.palm    = tSurface.getSurface().getScreenToSurface(mouse);
-                pretendBlob.palm.x /= tSurface.getSurface().getWidth();
-                pretendBlob.palm.y /= tSurface.getSurface().getHeight();
+            if ((game->getTrackMode() == TRACK_JUST_HANDS) || 
+                (game->getTrackMode() == TRACK_ACTIVE_HANDS) ||
+                (game->getTrackMode() == TRACK_BOTH)){
+                pretendBlob.palm    = iSurface.getView().getScreenToSurface(mouse);
+                pretendBlob.palm.x /= iSurface.getView().getWidth();
+                pretendBlob.palm.y /= iSurface.getView().getHeight();
                 pretendBlob.gotFingers  = true;
                 handMoved(pretendBlob);
             }
         }
-    }*/
+    }
 }
 
 void testApp::mouseReleased(int x, int y, int button){

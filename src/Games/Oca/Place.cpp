@@ -66,7 +66,6 @@ void Place::setImage(string _imgFile){
 void Place::draw(){
     nState = ofLerp(nState, turnToState, 0.01);
     
-    /*
     if (bColored){
         ofPushStyle();
         ofSetColor(color);
@@ -77,7 +76,7 @@ void Place::draw(){
         }
         ofEndShape();
         ofPopStyle();
-    }*/
+    }
     
     if ( nState <= 1){
         ofSetColor(255, nState*255);
