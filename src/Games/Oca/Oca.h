@@ -37,7 +37,8 @@ public:
     
 private:
     bool    loadXml(string xmlConfigFile);
-    void    updateBackground(int _placeNumber, ofxTint& _backgroundEffect);
+    void    updatePlacesStatus();
+    void    updatePlacesBackground(int _placeNumber, ofxTint& _backgroundEffect);
     
     TextMessager    text;
     
@@ -46,7 +47,8 @@ private:
     ofImage         background, mask;
     
     ofImage         obj17;
-    bool            bFriend;
+    bool            bFriend, b;
+    
     vector<Place*>  places;
     vector<Player>  players;
     

@@ -64,9 +64,10 @@ void Oca::reset(){
     dragonBackground.set( places[25]->getBoundingBox() );
     dragonBackground.clear();
     
-    //  Friend Image
+    //  El amigo del casillero 17 no esta presente.
     //
     obj17.loadImage("Oca/17alt/17-00.png");
+    bFriend = true; 
     
     bWaitToSendText = false;
 }
@@ -150,6 +151,7 @@ bool Oca::loadXml(string _xmlConfigFile){
                 XML.popTag();   // Pop "player"
             }
         }
+    
     } else
         ofLog(OF_LOG_ERROR,"Oca: loading file " + _xmlConfigFile );
     
@@ -157,32 +159,6 @@ bool Oca::loadXml(string _xmlConfigFile){
 }
 
 void Oca::update(){
-    
-    //  Animate passed places 
-    //
-    int higherPlace = -1;    //  Primero averigua cual es el casillero activo con numero más alto
-    for(int i = 0; i < players.size(); i++){
-        if ( players[i].nPlace > higherPlace ){
-            higherPlace = players[i].nPlace;
-        }
-    }
-    
-    if ( higherPlace == -1){
-        // NO ARRANCO EL JUEGO;
-        
-        // TODO
-        //      - Reiniciar todo a default;
-        
-    } else {
-        for(int i = 0; i < places.size(); i++){
-            if (i <= higherPlace){
-                places[i]->turnToMax(); // Animado ( si tiene animación )
-            } else {
-                places[i]->turnTo(1); // Visible
-            }
-        }
-    }
-
     
     //  Wait to lunch text
     //
@@ -201,11 +177,49 @@ void Oca::update(){
     
     //  Forest and Dragon Background update
     //
-    updateBackground(10, forestBackground);
-    updateBackground(25, dragonBackground);
+    if ( places[10]->nState > 1.1 )
+        updatePlacesBackground(10, forestBackground);
+    
+    if ( places[25]->nState > 1.1 )
+        updatePlacesBackground(25, dragonBackground);
 }
 
-void Oca::updateBackground(int _placeNumber, ofxTint& _backgroundEffect){
+
+//  Este metodo lo separa x q no hace falta actualizar los casilleros todo el tiempo de 
+//  estado. Tán sólo cuando soltamos la ficha ver -> objectDeleted
+//
+void Oca::updatePlacesStatus(){
+    //  Animate passed places 
+    //
+    int higherPlace = -1;    //  Primero averigua cual es el casillero activo con numero más alto
+    for(int i = 0; i < players.size(); i++){
+        if ( players[i].nPlace > higherPlace ){
+            higherPlace = players[i].nPlace;
+        }
+    }
+    
+    if ( higherPlace == -1){
+        // NO ARRANCO EL JUEGO;
+        
+        for(int i = 0; i < places.size(); i++){
+            places[i]->turnTo(1.0);
+            if ( places[i]->bColored )
+                places[i]->color.set(0,0,0,0);
+        }
+        places[17]->setImage("Oca/17.png");
+        bFriend = false;
+    } else {
+        for(int i = 0; i < places.size(); i++){
+            if (i <= higherPlace){
+                places[i]->turnToMax(); // Animado ( si tiene animación )
+            } else {
+                places[i]->turnTo(1); // Visible
+            }
+        }
+    }
+}
+
+void Oca::updatePlacesBackground(int _placeNumber, ofxTint& _backgroundEffect){
     _backgroundEffect.setFade( 0.2 + (1.0- ofClamp(places[_placeNumber]->nState, 0.0, 1.0) ) *0.8  ); 
     
     if (places[_placeNumber]->nState < 0.01)
@@ -258,8 +272,10 @@ void Oca::render(){
     
     //  Draw Friend
     //
-    ofSetColor( 255, ofClamp( places[13]->nState, 0.0, 1.0)*255);
-    obj17.draw(places[17]->getBoundingBox());
+    if (bFriend){
+        ofSetColor( 255, ofClamp( places[13]->nState, 0.0, 1.0)*255);
+        obj17.draw(places[17]->getBoundingBox());
+    }
     
     //  Draw the deck mask
     //
@@ -347,13 +363,24 @@ void Oca::objectDeleted(ofxBlob &_blob){
                 //  En otras palabras movio la ficha hacia otro casillero y la soltó
                 //
                 
+                //  TODO: 
+                //          - Lo q se mueve es un alpha de la ficha y su posición real 
+                //            llega más tarde. Para dar tiempo y evitar errores.
+                //
+                
                 int nCasillero = players[i].nPlace;
                 
                 //  Checkear si tiene que colorear
                 //
-                
                 if ( places[ nCasillero ]->bColored ) {
                     places[ nCasillero ]->color = players[i].color;
+                }
+                
+                //  Checkear si cae en el 13
+                //
+                if (( nCasillero == 13 ) && !bFriend ){
+                    obj17.loadImage("Oca/17alt/17-01.png");
+                    bFriend = true;
                 }
                 
             } else if ( !overSomething ){
@@ -368,5 +395,9 @@ void Oca::objectDeleted(ofxBlob &_blob){
         }
         
     }
+    
+    //  Actualizar el estado de los casilleros
+    //
+    updatePlacesStatus();
 }
 
