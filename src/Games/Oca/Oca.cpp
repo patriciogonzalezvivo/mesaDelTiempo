@@ -347,6 +347,14 @@ void Oca::objectDeleted(ofxBlob &_blob){
                 //  En otras palabras movio la ficha hacia otro casillero y la soltó
                 //
                 
+                int nCasillero = players[i].nPlace;
+                
+                //  Checkear si tiene que colorear
+                //
+                
+                if ( places[ nCasillero ]->bColored ) {
+                    places[ nCasillero ]->color = players[i].color;
+                }
                 
             } else if ( !overSomething ){
                 
