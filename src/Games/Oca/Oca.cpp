@@ -265,6 +265,9 @@ void Oca::objectAdded(ofxBlob &_blob){
     ofPoint blobPos = ofPoint(_blob.centroid.x * width, 
                               _blob.centroid.y * height);
     
+    //  Buscar que ficha fue seleccionada.
+    //  En otras palabras que a que ficha le toca mover
+    //
     for(int i = 0; i < players.size(); i++){
         if (players[i].inside( blobPos )){
             players[i].nId = _blob.id;
@@ -276,8 +279,15 @@ void Oca::objectMoved(ofxBlob &_blob){
     ofPoint blobPos = ofPoint(_blob.centroid.x * width, 
                               _blob.centroid.y * height);
     
+    //  Mueve la ficha seleccionada
+    //
     for(int i = 0; i < players.size(); i++){
-        if ( players[i].inside( blobPos ) && (players[i].nId == _blob.id) ){
+        
+        //  Doble chequeo por ID y por posición.
+        //  Con lo último por si esta sigue estando sobre la figura 
+        //  (esto puede evitar q las fichas se vallan para cualquier lado)
+        //
+        if ( (players[i].nId == _blob.id) && players[i].inside( blobPos ) ){
             players[i].setFromCenter(blobPos, players[i].width, players[i].height);
         }
     }
@@ -288,8 +298,13 @@ void Oca::objectDeleted(ofxBlob &_blob){
                               _blob.centroid.y * height);
     
     for(int i = 0; i < players.size(); i++){
+        
+        //  Chequear por id cual ficha fue soltada
+        //
         if (players[i].nId == _blob.id){
             
+            //  Chequear sobre donde esta la ficha soltada 
+            //
             int oldPlace = players[i].nPlace;
             bool overSomething = false;
             for(int j = 0; j < places.size(); j++){
@@ -300,14 +315,23 @@ void Oca::objectDeleted(ofxBlob &_blob){
             }
             
             if ( (oldPlace != players[i].nPlace) && overSomething ){
-                // MOVE
+                
+                //  Termino una jugada. 
+                //  En otras palabras movio la ficha hacia otro casillero y la soltó
+                //
+                
+                
             } else if ( !overSomething ){
-                // IT´S OUT OF THE GAME
+                
+                //  NO esta arriba de ningún casillero
+                //
                 players[i].nPlace = -1;
             }
             
             players[i].nId = -1;
+            break;                  // No hace falta q busque más
         }
+        
     }
 }
 
