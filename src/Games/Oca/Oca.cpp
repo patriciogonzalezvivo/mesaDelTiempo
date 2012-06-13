@@ -44,7 +44,7 @@ void Oca::init(ofRectangle _space){
                        space.width*0.6, 
                        space.height*0.6);
     
-    text.loadSequence("Oca/style.xml");
+    text.loadSequence("Oca/config.xml");
     reset();
 }
 
