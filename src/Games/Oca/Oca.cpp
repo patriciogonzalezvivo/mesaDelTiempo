@@ -289,6 +289,23 @@ void Oca::objectDeleted(ofxBlob &_blob){
     
     for(int i = 0; i < players.size(); i++){
         if (players[i].nId == _blob.id){
+            
+            int oldPlace = players[i].nPlace;
+            bool overSomething = false;
+            for(int j = 0; j < places.size(); j++){
+                if ( places[j]->inside( players[i].getCenter() ) ){
+                    players[i].nPlace = j;
+                    overSomething = true;
+                }
+            }
+            
+            if ( (oldPlace != players[i].nPlace) && overSomething ){
+                // MOVE
+            } else if ( !overSomething ){
+                // IT´S OUT OF THE GAME
+                players[i].nPlace = -1;
+            }
+            
             players[i].nId = -1;
         }
     }

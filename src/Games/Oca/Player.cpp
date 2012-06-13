@@ -27,7 +27,6 @@ void Player::draw(){
     ofSetColor(color);
     ofCircle(getCenter(), (width+height)*0.5 );
     ofSetColor(0,255);
-    ofDrawBitmapString(ofToString(nPlace), x+10, y+10);
-    ofDrawBitmapString(ofToString(nId), x+10,y+25);
+    ofDrawBitmapString(ofToString(nPlace), x+10, y+15);
     ofPopStyle();
 }
