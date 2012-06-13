@@ -12,6 +12,9 @@ Player::Player(){
     width = 30;
     height = 30;
     
+    nId = -1;
+    nPlace = -1;
+    
     color.set(255,255);
 }
 
@@ -23,5 +26,8 @@ void Player::draw(){
     ofPushStyle();
     ofSetColor(color);
     ofCircle(getCenter(), (width+height)*0.5 );
+    ofSetColor(0,255);
+    ofDrawBitmapString(ofToString(nPlace), x+10, y+10);
+    ofDrawBitmapString(ofToString(nId), x+10,y+25);
     ofPopStyle();
 }

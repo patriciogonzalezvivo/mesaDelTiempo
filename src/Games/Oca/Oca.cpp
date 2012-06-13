@@ -262,7 +262,14 @@ void Oca::render(){
 }
 
 void Oca::objectAdded(ofxBlob &_blob){
+    ofPoint blobPos = ofPoint(_blob.centroid.x * width, 
+                              _blob.centroid.y * height);
     
+    for(int i = 0; i < players.size(); i++){
+        if (players[i].inside( blobPos )){
+            players[i].nId = _blob.id;
+        }
+    }
 }
 
 void Oca::objectMoved(ofxBlob &_blob){
@@ -270,15 +277,20 @@ void Oca::objectMoved(ofxBlob &_blob){
                               _blob.centroid.y * height);
     
     for(int i = 0; i < players.size(); i++){
-        cout << blobPos << " inside " << players[i].getCenter() << endl;
-        if (players[i].inside( blobPos )){
-            cout << "YEP" << endl;
+        if ( players[i].inside( blobPos ) && (players[i].nId == _blob.id) ){
             players[i].setFromCenter(blobPos, players[i].width, players[i].height);
         }
     }
 }
 
 void Oca::objectDeleted(ofxBlob &_blob){
+    ofPoint blobPos = ofPoint(_blob.centroid.x * width, 
+                              _blob.centroid.y * height);
     
+    for(int i = 0; i < players.size(); i++){
+        if (players[i].nId == _blob.id){
+            players[i].nId = -1;
+        }
+    }
 }
 

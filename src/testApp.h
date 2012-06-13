@@ -83,6 +83,8 @@ public:
 
     void    loadGame();
     void    killGame();
+    
+    int     blobIDSimulator;
 
     //  Other data
     //
