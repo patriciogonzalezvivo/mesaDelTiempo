@@ -215,17 +215,7 @@ void Oca::updatePlacesStatus(){
         }
     }
     
-    if ( higherPlace == -1){
-        // NO ARRANCO EL JUEGO;
-        
-        for(int i = 0; i < places.size(); i++){
-            places[i]->turnTo(1.0);
-            if ( places[i]->bColored )
-                places[i]->color.set(0,0,0,0);
-        }
-        places[17]->setImage("Oca/17.png");
-        bFriend = false;
-    } else {
+    if ( higherPlace >= 0){
         for(int i = 0; i < places.size(); i++){
             if (i <= higherPlace){
                 places[i]->turnToMax(); // Animado ( si tiene animación )
@@ -396,6 +386,25 @@ void Oca::objectDeleted(ofxBlob &_blob){
             break;                  // No hace falta q busque más
         }
     }
+    
+    int higherPlace = -1;    //  Primero averigua cual es el casillero activo con numero más alto
+    for(int i = 0; i < players.size(); i++){
+        if ( players[i].nPlaceID > higherPlace ){
+            higherPlace = players[i].nPlaceID;
+        }
+    }
+    
+    if ( higherPlace == -1){
+        // NO ARRANCO EL JUEGO;
+        
+        for(int i = 0; i < places.size(); i++){
+            places[i]->turnTo(1.0);
+            if ( places[i]->bColored )
+                places[i]->color.set(0,0,0,0);
+        }
+        places[17]->setImage("Oca/17.png");
+        bFriend = false;
+    } 
 }
 
 void Oca::playerArriveToPlace( int &playerID){
@@ -426,6 +435,7 @@ void Oca::playerArriveToPlace( int &playerID){
             players[playerID].x = places[ nowGoTo ]->getCentroid2D().x;
             players[playerID].y = places[ nowGoTo ]->getCentroid2D().y;
         }
-    
+        
+        updatePlacesStatus();
     }
 }

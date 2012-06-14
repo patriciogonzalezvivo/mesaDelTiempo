@@ -37,6 +37,7 @@ public:
     
 private:
     bool    loadXml(string xmlConfigFile);
+    
     void    updatePlacesStatus();
     void    updatePlacesBackground(int _placeNumber, ofxTint& _backgroundEffect);
     

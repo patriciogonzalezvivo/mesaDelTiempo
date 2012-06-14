@@ -28,7 +28,6 @@ public:
     
     ofColor color;
     
-    
     int     nCursorID;
     int     nPlaceID;
     bool    bLeave;

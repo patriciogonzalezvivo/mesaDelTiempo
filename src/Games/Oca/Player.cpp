@@ -37,7 +37,7 @@ void Player::setImage(string _file){
 
 void Player::update(){
     if ( !arrive() ){
-        pos += (getCenter() - pos)*0.01;
+        pos += (getCenter() - pos)*0.05;
     } else if ( bLeave ){
         ofNotifyEvent(arriveToPlace, nID , this);
         bLeave = false;
