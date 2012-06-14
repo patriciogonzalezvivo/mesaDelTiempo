@@ -21,6 +21,12 @@ Oca::~Oca(){
         delete places[i];
     }
     places.clear();
+    
+    for (int i = 0; i < players.size(); i++){
+        ofRemoveListener( players[i].arriveToPlace, this, &Oca::playerArriveToPlace);
+    }
+    
+    players.clear();
 }
 
 void Oca::init(ofRectangle _space){
@@ -52,10 +58,8 @@ void Oca::reset(){
     
     //  Load each place of the deck
     //
-    places.clear();
     loadXml("Oca/config.xml");
     
-    cout << places[0]->getCentroid2D() << endl;
     //  Setup spacial backgrounds
     //
     forestBackground.set( places[10]->getBoundingBox() );
@@ -78,6 +82,8 @@ bool Oca::loadXml(string _xmlConfigFile){
     ofxXmlSettings XML;
     
     if (XML.loadFile(_xmlConfigFile)){
+        places.clear();
+        players.clear();
         
         //  Places ( casilleros )
         //
@@ -129,29 +135,30 @@ bool Oca::loadXml(string _xmlConfigFile){
             places.push_back(newPlace);
             
             XML.popTag();   // Pop "place"
-            
-            
-            //  Players ( fichas )
-            //
-            int totalPlayer = XML.getNumTags("player");
-            for(int i = 0; i < totalPlayer ; i++){
-                XML.pushTag("player", i);
-                
-                Player newPlayer;
-                
-                newPlayer.x = XML.getValue("pos:x", 0.0);
-                newPlayer.y = XML.getValue("pos:y", 0.0);
-
-                newPlayer.color.set(XML.getValue("color:r", 255),
-                                    XML.getValue("color:g", 255),
-                                    XML.getValue("color:b", 255));
-                
-                players.push_back(newPlayer);
-                
-                XML.popTag();   // Pop "player"
-            }
         }
     
+        //  Players ( fichas )
+        //
+        int totalPlayer = XML.getNumTags("player");
+        for(int i = 0; i < totalPlayer ; i++){
+            XML.pushTag("player", i);
+            
+            Player newPlayer = Player(i);
+            
+            newPlayer.set(XML.getValue("pos:x", 0.0),
+                          XML.getValue("pos:y", 0.0) );
+            
+            newPlayer.color.set(XML.getValue("color:r", 255),
+                                XML.getValue("color:g", 255),
+                                XML.getValue("color:b", 255));
+            
+            players.push_back(newPlayer);
+            
+            XML.popTag();   // Pop "player"
+        }
+        for (int i = 0; i < players.size(); i++){
+            ofAddListener( players[i].arriveToPlace, this, &Oca::playerArriveToPlace);
+        }
     } else
         ofLog(OF_LOG_ERROR,"Oca: loading file " + _xmlConfigFile );
     
@@ -170,6 +177,16 @@ void Oca::update(){
             bWaitToSendText = false;
         }
     }*/
+    
+    //  Actualiza la posición de las fichas
+    //
+    for(int i = 0; i < players.size(); i++){
+        players[i].update();
+    }
+    
+    //  Actualizar el estado de los casilleros
+    //
+    updatePlacesStatus();
     
     //  Animate the text
     //
@@ -193,8 +210,8 @@ void Oca::updatePlacesStatus(){
     //
     int higherPlace = -1;    //  Primero averigua cual es el casillero activo con numero más alto
     for(int i = 0; i < players.size(); i++){
-        if ( players[i].nPlace > higherPlace ){
-            higherPlace = players[i].nPlace;
+        if ( players[i].nPlaceID > higherPlace ){
+            higherPlace = players[i].nPlaceID;
         }
     }
     
@@ -259,10 +276,10 @@ void Oca::render(){
     ofSetColor(255,255);
     forestBackground.draw();
     dragonBackground.draw();
-    ofDisableBlendMode();
+    //ofDisableBlendMode();
     
     ofSetColor(255, 255);
-    ofEnableBlendMode(OF_BLENDMODE_ALPHA);
+    ofEnableAlphaBlending();
     
     //  Draw Places
     //
@@ -313,7 +330,7 @@ void Oca::objectAdded(ofxBlob &_blob){
     //
     for(int i = 0; i < players.size(); i++){
         if (players[i].inside( blobPos )){
-            players[i].nId = _blob.id;
+            players[i].nCursorID = _blob.id;
         }
     }
 }
@@ -330,8 +347,9 @@ void Oca::objectMoved(ofxBlob &_blob){
         //  Con lo último por si esta sigue estando sobre la figura 
         //  (esto puede evitar q las fichas se vallan para cualquier lado)
         //
-        if ( (players[i].nId == _blob.id) && players[i].inside( blobPos ) ){
+        if ( (players[i].nCursorID == _blob.id) && players[i].inside( blobPos ) ){
             players[i].setFromCenter(blobPos, players[i].width, players[i].height);
+            break;
         }
     }
 }
@@ -344,60 +362,70 @@ void Oca::objectDeleted(ofxBlob &_blob){
         
         //  Chequear por id cual ficha fue soltada
         //
-        if (players[i].nId == _blob.id){
+        if (players[i].nCursorID == _blob.id){
             
             //  Chequear sobre donde esta la ficha soltada 
             //
-            int oldPlace = players[i].nPlace;
+            int oldPlaceID = players[i].nPlaceID;
             bool overSomething = false;
             for(int j = 0; j < places.size(); j++){
                 if ( places[j]->inside( players[i].getCenter() ) ){
-                    players[i].nPlace = j;
+                    players[i].nPlaceID = j;
                     overSomething = true;
                 }
             }
             
-            if ( (oldPlace != players[i].nPlace) && overSomething ){
+            if ( (oldPlaceID != players[i].nPlaceID) && overSomething ){
                 
                 //  Termino una jugada. 
                 //  En otras palabras movio la ficha hacia otro casillero y la soltó
-                //
+                //  Entonces activa el flag Leave para decir q fue movido y salió en
+                //  busqueda de su posición. 
+                //  Cuando llegue a ella desatará un evento ( arriveToPlace )
                 
-                //  TODO: 
-                //          - Lo q se mueve es un alpha de la ficha y su posición real 
-                //            llega más tarde. Para dar tiempo y evitar errores.
-                //
-                
-                int nCasillero = players[i].nPlace;
-                
-                //  Checkear si tiene que colorear
-                //
-                if ( places[ nCasillero ]->bColored ) {
-                    places[ nCasillero ]->color = players[i].color;
-                }
-                
-                //  Checkear si cae en el 13
-                //
-                if (( nCasillero == 13 ) && !bFriend ){
-                    obj17.loadImage("Oca/17alt/17-01.png");
-                    bFriend = true;
-                }
+                players[i].bLeave = true;
                 
             } else if ( !overSomething ){
                 
                 //  NO esta arriba de ningún casillero
                 //
-                players[i].nPlace = -1;
+                players[i].nPlaceID = -1;
             }
             
-            players[i].nId = -1;
-            //break;                  // No hace falta q busque más
+            players[i].nCursorID = -1;
+            break;                  // No hace falta q busque más
         }
-        
     }
-    
-    //  Actualizar el estado de los casilleros
-    //
-    updatePlacesStatus();
 }
 
+void Oca::playerArriveToPlace( int &playerID){
+    int arrivalPlaceID = players[playerID].nPlaceID;
+    
+    if ( arrivalPlaceID != -1){
+        //  Existen algunos casilleros que son objetos mágicos.
+        //  Cuando un jugador cae sobre ellos estos tiñen del color de quien 
+        //  los obtuvo
+        //
+        if ( places[ arrivalPlaceID ]->bColored ) {
+            places[ arrivalPlaceID ]->color = players[playerID].color;
+        }
+        
+        //  Checkear si cae en el 13. En este casillero el jugador encuentra
+        //  un amigo. El mismo es beneficioso para todos los jugadores.
+        //
+        if (( arrivalPlaceID == 13 ) && !bFriend ){
+            obj17.loadImage("Oca/17alt/17-01.png");
+            bFriend = true;
+        }
+        
+        //  Checkea si el casillero donde calló es una oca que te hace avanzar.
+        //  Si es así mueve la ficha hasta allá.
+        //
+        int nowGoTo = places[ arrivalPlaceID ]->lockUntil;
+        if ( nowGoTo != -1 ){
+            players[playerID].x = places[ nowGoTo ]->getCentroid2D().x;
+            players[playerID].y = places[ nowGoTo ]->getCentroid2D().y;
+        }
+    
+    }
+}

@@ -40,6 +40,8 @@ private:
     void    updatePlacesStatus();
     void    updatePlacesBackground(int _placeNumber, ofxTint& _backgroundEffect);
     
+    void    playerArriveToPlace( int &_player );
+    
     TextMessager    text;
     
     ofxTint         dragonBackground;

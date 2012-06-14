@@ -14,19 +14,29 @@
 class Player : public ofRectangle {
 public:
     
-    Player();
+    Player( int _id );
+    
+    void    set(int _x, int _y);
+    void    setImage(string _file);
+    
+    bool    arrive(){ return pos.distance(getCenter()) < 3.0; };
     
     void    update();
     void    draw();
     
+    ofEvent<int> arriveToPlace;
+    
     ofColor color;
     
-    int     nId;
-    int     nPlace;
+    
+    int     nCursorID;
+    int     nPlaceID;
+    bool    bLeave;
     
 private:
-    ofImage *img;
-    
+    int     nID;
+    ofImage img;
+    ofPoint pos;
 };
 
 #endif

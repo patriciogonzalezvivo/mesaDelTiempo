@@ -101,6 +101,6 @@ void Place::draw(){
 
     //  Debug nState
     //
-    ofSetColor(0);
-    ofDrawBitmapString(ofToString(nState), getCentroid2D() );
+    //ofSetColor(0);
+    //ofDrawBitmapString(ofToString(nState), getCentroid2D() );
 }
