@@ -11,7 +11,6 @@
 Oca::Oca(){
     width = 800*1.771;
     height = 600*1.771;
-    bWaitToSendText = false;
     trackMode = TRACK_JUST_OBJECT;
 }
 
@@ -44,13 +43,7 @@ void Oca::init(ofRectangle _space){
 
     mask.loadImage("Oca/mask.png");
     background.loadImage("Oca/background.jpg");
-
-    text.setFromCenter(space.x+space.width*0.5,
-                       space.y+space.height*0.5,
-                       space.width*0.6,
-                       space.height*0.6);
-
-    text.loadSequence("Oca/config.xml");
+    
     reset();
 }
 
@@ -59,6 +52,12 @@ void Oca::reset(){
     //  Load each place of the deck
     //
     loadXml("Oca/config.xml");
+    
+    text.setFromCenter(places[27]->getBoundingBox().x + places[27]->getBoundingBox().width*0.5,
+                       places[27]->getBoundingBox().y + places[27]->getBoundingBox().height*0.4,
+                       places[27]->getBoundingBox().width*0.7,
+                       places[27]->getBoundingBox().height*0.8);
+    text.loadSequence("Oca/config.xml");
 
     //  Setup spacial backgrounds
     //
@@ -71,9 +70,9 @@ void Oca::reset(){
     //  El amigo del casillero 17 no esta presente.
     //
     obj17.loadImage("Oca/17alt/17-00.png");
-    bFriend = true;
-
-    bWaitToSendText = false;
+    bFriend = false;
+    
+    places[27]->turnTo(0);
 }
 
 bool Oca::loadXml(string _xmlConfigFile){
@@ -150,7 +149,10 @@ bool Oca::loadXml(string _xmlConfigFile){
 
             newPlayer.color.set(XML.getValue("color:r", 255),
                                 XML.getValue("color:g", 255),
-                                XML.getValue("color:b", 255));
+                                XML.getValue("color:b", 255),
+                                100);
+            
+            newPlayer.img.loadImage( XML.getValue("image", "player01.png")  );
 
             players.push_back(newPlayer);
 
@@ -167,17 +169,6 @@ bool Oca::loadXml(string _xmlConfigFile){
 
 void Oca::update(){
 
-    //  Wait to lunch text
-    //
-    /*
-    if (bWaitToSendText){
-        if ( places[selectedPlace]->getTransition() < 0.1 ){
-            text.addMessage( places[selectedPlace]->message );
-            textAngle = places[selectedPlace]->angle;
-            bWaitToSendText = false;
-        }
-    }*/
-
     //  Actualiza la posición de las fichas
     //
     for(int i = 0; i < players.size(); i++){
@@ -190,11 +181,10 @@ void Oca::update(){
 
     //  Animate the text
     //
-    //text.update();
+    text.update();
 
     //  Forest and Dragon Background update
     //
-    if ( places[10]->nState > 1.1 )
         updatePlacesBackground(10, forestBackground);
 
     if ( places[25]->nState > 1.1 )
@@ -216,7 +206,7 @@ void Oca::updatePlacesStatus(){
     }
 
     if ( higherPlace >= 0){
-        for(int i = 0; i < places.size(); i++){
+        for(int i = 0; i < places.size() - 1; i++){
             if (i <= higherPlace){
                 places[i]->turnToMax(); // Animado ( si tiene animación )
             } else {
@@ -266,15 +256,16 @@ void Oca::render(){
     ofSetColor(255,255);
     forestBackground.draw();
     dragonBackground.draw();
-    //ofDisableBlendMode();
 
-    ofSetColor(255, 255);
     ofEnableAlphaBlending();
 
     //  Draw Places
     //
     for(int i = 0; i < places.size(); i++){
+        ofSetColor(255, 255);
         places[i]->draw();
+        ofSetColor(0);
+        ofDrawBitmapString( ofToString(i) , places[i]->getCentroid2D() );
     }
 
     //  Draw Friend
@@ -291,15 +282,8 @@ void Oca::render(){
 
     //  Draw text
     //
-    /*
-    ofPushMatrix();
-    ofTranslate(space.getCenter());
-    ofRotateZ( textAngle );
-    ofTranslate(-space.getCenter().x,-space.getCenter().y);
-    ofSetColor(0,ofMap( text.getNormTransitionValue(), 0.0, 0.5, 0.0, 1.0, true) * 255);
+    ofSetColor(0, ofMap( text.getNormTransitionValue(), 0.0, 0.5, 0.0, 1.0, true) * 255);
     text.draw();
-    ofPopMatrix();
-    */
 
     //  Draw players
     //
@@ -321,6 +305,7 @@ void Oca::objectAdded(ofxBlob &_blob){
     for(int i = 0; i < players.size(); i++){
         if (players[i].inside( blobPos )){
             players[i].nCursorID = _blob.id;
+            text.speedUp();
         }
     }
 }
@@ -337,7 +322,7 @@ void Oca::objectMoved(ofxBlob &_blob){
         //  Con lo último por si esta sigue estando sobre la figura
         //  (esto puede evitar q las fichas se vallan para cualquier lado)
         //
-        if ( (players[i].nCursorID == _blob.id) ) { //&& players[i].inside( blobPos ) ){
+        if ( players[i].nCursorID == _blob.id ) {
             players[i].setFromCenter(blobPos, players[i].width, players[i].height);
             break;
         }
@@ -402,7 +387,10 @@ void Oca::objectDeleted(ofxBlob &_blob){
             if ( places[i]->bColored )
                 places[i]->color.set(0,0,0,0);
         }
-        places[17]->setImage("Oca/17.png");
+        
+        places[27]->turnTo(0);
+        
+        obj17.loadImage("Oca/17alt/17-01.png");
         bFriend = false;
     }
 }
@@ -411,14 +399,67 @@ void Oca::playerArriveToPlace( int &playerID){
     int arrivalPlaceID = players[playerID].nPlaceID;
 
     if ( arrivalPlaceID != -1){
+        
+        //-------------------- Eventos genéricos
+        
+        //  Si el casillero tiene texto lo muestra
+        //
+        //  Checkea si el casillero donde calló es una oca que te hace avanzar.
+        //  Si es así mueve la ficha hasta allá.
+        //
+        int nowGoTo = places[ arrivalPlaceID ]->lockUntil;
+        
+        if ( places[ arrivalPlaceID ]->message != "NULL" ){
+            
+            //  Escepciones 
+            //
+            if ( (arrivalPlaceID == 4) && (places[ 4 ]->color != ofColor(0,0,0,0) ) ){   //  Manzana Tomada
+                text.addMessage( "Esta manzana ya esta tomada!" );
+            } else if ( (arrivalPlaceID == 5) && (places[ 5 ]->color != ofColor(0,0,0,0) ) ){   //  Vela Tomada
+                text.addMessage( "Esta vela ya esta tomada!" );
+            } else if ( (arrivalPlaceID == 6) && (places[ 6 ]->color != ofColor(0,0,0,0) ) ){   //  Anillo Tomado
+                text.addMessage( "Este anillo ya esta tomado!" );
+            } else if ( (arrivalPlaceID == 10) && (places[ 4 ]->color == players[playerID].color) ){   //  Bosque y manzana
+                text.addMessage( "Tenés la manzana, no perdés un turno." );
+            } else if ( ( arrivalPlaceID == 16 ) && bFriend ){
+                text.addMessage( "El amigo te rescata, no perdes un turno." );                  // Pozo y amigo
+            } else if ( (arrivalPlaceID == 10) && (places[ 5 ]->color == players[playerID].color) ){   //  Bosque y vela
+                text.addMessage( "Tenés la vela, no perdés un turno." );
+            } else if ( (arrivalPlaceID == 18) && (places[ 18 ]->color != ofColor(0,0,0,0) ) ){   //  Brújula tomada
+                text.addMessage( "Esta brújula ya esta tomada!" );
+            } else if ( (arrivalPlaceID == 19) && (places[ 19 ]->color != ofColor(0,0,0,0) ) ){   //  Llave tomada
+                text.addMessage( "Esta llave ya esta tomada!" );
+            } else if ( (arrivalPlaceID == 21) && (places[ 18 ]->color == players[playerID].color) ){   //  Laberinto y Brújula
+                text.addMessage( "Tenés una brújula. Encontras la salida y no perdés un turno." );
+            } else if ( (arrivalPlaceID == 23) && (places[ 19 ]->color == players[playerID].color) ){   //  Jaula y Llave
+                text.addMessage( "Tenés la llave y salis sin problemas. No perdés un turno." );
+            } else if ( (arrivalPlaceID == 25) && (places[ 5 ]->color == players[playerID].color) ){   //  Dragon y vela
+                text.addMessage( "Tenés una la vela que te protege. No tenés que volver al segundo casillero." );
+                nowGoTo = -1;
+            } else if ( (arrivalPlaceID == 25) && (places[ 6 ]->color == players[playerID].color) ){   //  Dragon y Anillo
+                text.addMessage( "Tenés el anillo que te protege. No tenés que volver al segundo casillero." );
+                nowGoTo = -1;
+            } else {
+                text.addMessage( places[ arrivalPlaceID ]->message );
+            }
+            
+            text.angle = places[arrivalPlaceID]->angle;
+        }
+        
+        if ( nowGoTo != -1 ){
+            players[playerID].setFromCenter(places[ nowGoTo ]->getCentroid2D(), 70, 70);
+        }
+        
         //  Existen algunos casilleros que son objetos mágicos.
         //  Cuando un jugador cae sobre ellos estos tiñen del color de quien
         //  los obtuvo
         //
-        if ( places[ arrivalPlaceID ]->bColored ) {
+        if (( places[ arrivalPlaceID ]->bColored ) && (places[ arrivalPlaceID ]->color == ofColor(0,0,0,0) ) ) {
             places[ arrivalPlaceID ]->color = players[playerID].color;
         }
-
+        
+        //-------------------- Eventos especiales
+        
         //  Checkear si cae en el 13. En este casillero el jugador encuentra
         //  un amigo. El mismo es beneficioso para todos los jugadores.
         //
@@ -426,16 +467,30 @@ void Oca::playerArriveToPlace( int &playerID){
             obj17.loadImage("Oca/17alt/17-01.png");
             bFriend = true;
         }
-
-        //  Checkea si el casillero donde calló es una oca que te hace avanzar.
-        //  Si es así mueve la ficha hasta allá.
+        
+        //  Si cae en la oca 11 y esta el amigo ir hacia allí
         //
-        int nowGoTo = places[ arrivalPlaceID ]->lockUntil;
-        if ( nowGoTo != -1 ){
-            players[playerID].x = places[ nowGoTo ]->getCentroid2D().x;
-            players[playerID].y = places[ nowGoTo ]->getCentroid2D().y;
+        if ( arrivalPlaceID == 11){
+            if (bFriend)
+                players[playerID].setFromCenter(places[ 17 ]->getCentroid2D(), 70, 70);
+            else
+                players[playerID].setFromCenter(places[ 20 ]->getCentroid2D(), 70, 70);    
+        } 
+        
+        //  Si cae en la oca 17 y esta el amigo avanzas hacia el 20
+        //
+        if ( (arrivalPlaceID == 17) && bFriend ){
+            players[playerID].setFromCenter(places[ 20 ]->getCentroid2D(), 70, 70);
         }
-
+        
+        //  Si cae en la oca 27 y Gana!
+        //
+        if ( arrivalPlaceID == 27){
+            places[27]->turnToMax();
+        } else {
+            places[27]->turnTo(0.0);
+        }
+        
         updatePlacesStatus();
     }
 }

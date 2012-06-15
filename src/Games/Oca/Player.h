@@ -17,7 +17,6 @@ public:
     Player( int _id );
     
     void    set(int _x, int _y);
-    void    setImage(string _file);
     
     bool    arrive(){ return pos.distance(getCenter()) < 3.0; };
     
@@ -26,6 +25,7 @@ public:
     
     ofEvent<int> arriveToPlace;
     
+    ofImage img;
     ofColor color;
     
     int     nCursorID;
@@ -34,7 +34,6 @@ public:
     
 private:
     int     nID;
-    ofImage img;
     ofPoint pos;
 };
 

@@ -8,17 +8,6 @@
 
 #include "Place.h"
 
-Place::Place(){
-    angle       =   0.0;
-    nState      =   1.0;
-    turnToState =   1;
-    bLoop       =   false;
-    bAnimated   =   false;
-    bColored    =   false;
-    color.set(0,0,0,0);
-    lockUntil   =   -1;
-}
-
 Place::Place( int _nId ){
     angle       =   0.0;
     nState      =   1.0;
@@ -29,7 +18,7 @@ Place::Place( int _nId ){
     color.set(0,0,0,0);
     lockUntil   =   -1;
     
-    setId(_nId);
+    nId = _nId;
 }
 
 void Place::turnToMax(){ 
@@ -94,7 +83,6 @@ void Place::draw(){
             } else
                 sequence.getFrameAtPercent(nState-1.0)->draw(x,y,width,height);
         } else {
-            //turnTo(1);
             image.draw(x,y,width,height);
         }
     } 
@@ -102,5 +90,5 @@ void Place::draw(){
     //  Debug nState
     //
     //ofSetColor(0);
-    //ofDrawBitmapString(ofToString(nState), getCentroid2D() );
+    //ofDrawBitmapString( ofToString(nId) , getCentroid2D() );
 }

@@ -55,8 +55,8 @@ private:
     vector<Place*>  places;
     vector<Player>  players;
     
-    float           scaleFactor, textAngle;
-    bool            bChange,bWaitToSendText;
+    float           scaleFactor;//, textAngle;
+    //bool            bChange;
 };
 
 #endif

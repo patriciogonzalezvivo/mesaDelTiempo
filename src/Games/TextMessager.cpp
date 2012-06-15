@@ -14,6 +14,7 @@ TextMessager::TextMessager(){
     seconds     = 1.0;
     speed       = 1.0;
     spin        = 0;
+    angle       = 0;
     
     defaultFontFile     =   "helvetica.ttf";
     defaultFontSize     =   30.0;
@@ -152,7 +153,18 @@ void TextMessager::update(){
 void TextMessager::draw(){
     if ( !bWaiting ){
         if (text != NULL){
-            text->draw();
+            
+            if (angle != 0.0){
+                ofPushMatrix();
+                ofTranslate( ofRectangle::getCenter() );
+                ofRotateZ( angle );
+                ofTranslate(-ofRectangle::getCenter().x,
+                            -ofRectangle::getCenter().y);
+                text->draw();
+                ofPopMatrix();
+            } else {
+                text->draw();
+            }
         } else
             ofLog(OF_LOG_ERROR,"Text trying to be render with out loading it");
     } 

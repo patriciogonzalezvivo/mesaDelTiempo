@@ -14,7 +14,6 @@
 
 class Place : public ofPolyline {
 public:
-    Place();
     Place( int _nId );
     
     void    setId(int _nid){nId == _nid;};

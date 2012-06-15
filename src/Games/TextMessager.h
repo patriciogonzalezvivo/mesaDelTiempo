@@ -25,8 +25,12 @@ public:
     void    addMessage(string _message );
     void    addMessage( textPhrase &_phrase );
     
+    void    speedUp(){ speed *= 2.0;}
+    
     void    update();
     void    draw();
+    
+    float   angle;
 private:
     textPhrase  message;
     bool        bMessage;
