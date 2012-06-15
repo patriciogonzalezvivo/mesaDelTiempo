@@ -1,7 +1,7 @@
 <game>oca</game>
-<surface_distance>1132.5</surface_distance>
-<surface_height>51.85</surface_height>
-<threshold>150</threshold>
+<surface_distance>1133</surface_distance>
+<surface_height>50.05</surface_height>
+<threshold>109</threshold>
 <view>
     <id>0</id>
     <texture>
@@ -653,6 +653,3 @@
         </point>
     </mask>
 </view>
-<Alt_de_Obj>30</Alt_de_Obj>
-<Dist_de_Sup>1000</Dist_de_Sup>
-<humbral>0</humbral>
