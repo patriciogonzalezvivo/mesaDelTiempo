@@ -44,10 +44,10 @@ void Player::draw(){
     ofPushStyle();
     
     if ( !arrive() ){
-        ofSetColor(255,200);
+        ofSetColor(255,100);
         img.draw(pos.x-34,pos.y-35,70,70);
         
-        ofSetColor(255,50);
+        ofSetColor(255,200);
         img.draw(*this);
     } else {
         ofSetColor(255,255);
