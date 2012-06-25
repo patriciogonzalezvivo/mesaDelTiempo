@@ -264,8 +264,8 @@ void Oca::render(){
     for(int i = 0; i < places.size(); i++){
         ofSetColor(255, 255);
         places[i]->draw();
-        ofSetColor(0);
-        ofDrawBitmapString( ofToString(i) , places[i]->getCentroid2D() );
+        //ofSetColor(0);
+        //ofDrawBitmapString( ofToString(i) , places[i]->getCentroid2D() );
     }
 
     //  Draw Friend

@@ -84,6 +84,14 @@ void testApp::loadGame(string _gameName){
         XML.setValue("game", _gameName);
         XML.saveFile();
         
+        sGameName   = _gameName;
+        
+        killGame();         //  if it«s a game running kill it
+        
+        iSurface.load();    //  Re-load the game. This will end in 
+        //  a "calibrationDone" event. That will l
+        //  anch the [sGameName] game
+        
         ofLog(OF_LOG_NOTICE, "Seting game to " + _gameName);
     } else
         ofLog(OF_LOG_ERROR,"Fail to load game configuration xml");
@@ -93,13 +101,10 @@ void testApp::loadNextGame(){
     
     if ( sGameName == "shadows"){
         loadGame("simon");
-        loadGame();
     } else if ( sGameName == "simon"){
         loadGame("oca");
-        loadGame();
     } else if ( sGameName == "oca"){
         loadGame("shadows");
-        loadGame();
     } 
 }
 
