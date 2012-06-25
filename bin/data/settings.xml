@@ -1,4 +1,4 @@
-<game>oca</game>
+<game>shadows</game>
 <surface_distance>1132.5</surface_distance>
 <surface_height>51.85</surface_height>
 <threshold>150</threshold>
@@ -6,20 +6,20 @@
     <id>0</id>
     <texture>
         <point>
-            <x>-196.423</x>
-            <y>-136.531</y>
+            <x>-179.031</x>
+            <y>-131.47</y>
         </point>
         <point>
-            <x>1120.13</x>
-            <y>-141.093</y>
+            <x>1105</x>
+            <y>-135.922</y>
         </point>
         <point>
-            <x>1115.69</x>
-            <y>878.542</y>
+            <x>1100.67</x>
+            <y>858.525</y>
         </point>
         <point>
-            <x>-222.858</x>
-            <y>819.12</y>
+            <x>-204.812</x>
+            <y>800.571</y>
         </point>
     </texture>
     <mask>

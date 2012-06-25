@@ -23,6 +23,7 @@ string helpScreen = "\n \
     \n \
     - l/L:  load/reload previus calibration setup and \n \
             then load the game\n \
+    - n/N:  load the nextGame using previus calibration setup\n \
     - c/C:  calibrate and then load the game \n";
 
 //-------------------------------------------------------------- SETING
@@ -73,6 +74,33 @@ void testApp::loadGame(){
         ofLog(OF_LOG_NOTICE, "Loading previus calibration data");
     } else
         ofLog(OF_LOG_ERROR,"Fail to load game configuration xml");
+}
+
+void testApp::loadGame(string _gameName){
+    
+    ofxXmlSettings XML;
+    
+    if (XML.loadFile("settings.xml")){
+        XML.setValue("game", _gameName);
+        XML.saveFile();
+        
+        ofLog(OF_LOG_NOTICE, "Seting game to " + _gameName);
+    } else
+        ofLog(OF_LOG_ERROR,"Fail to load game configuration xml");
+}
+
+void testApp::loadNextGame(){
+    
+    if ( sGameName == "shadows"){
+        loadGame("simon");
+        loadGame();
+    } else if ( sGameName == "simon"){
+        loadGame("oca");
+        loadGame();
+    } else if ( sGameName == "oca"){
+        loadGame("shadows");
+        loadGame();
+    } 
 }
 
 //-------------------------------------------------------------- LOOP
@@ -207,9 +235,7 @@ void testApp::keyPressed(int key){
             break;
         case 'l':
         case 'L':
-            bStart = false;
-            delete game;
-            iSurface.load();
+            loadGame();
             break;
         case 'r':
         case 'R':
@@ -218,6 +244,10 @@ void testApp::keyPressed(int key){
         case 'h':
         case 'H':
             bHelp = !bHelp;
+            break; 
+        case 'n':
+        case 'N':
+            loadNextGame();
             break; 
         case 'm':
         case 'M':

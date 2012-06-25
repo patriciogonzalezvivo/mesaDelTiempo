@@ -82,6 +82,8 @@ public:
     bool    bMouse;
 
     void    loadGame();
+    void    loadGame(string _gameName);
+    void    loadNextGame();
     void    killGame();
     
     int     blobIDSimulator;
