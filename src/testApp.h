@@ -60,35 +60,31 @@ public:
     //  ---------------------------
     //
     ofxInteractiveSurface   iSurface;   // it«s in charge of the matching the tracked objects/hands
-                                    // with the proyected game.
-    //  tSurface Events
-    void    calibrationDone(ofPolyline &_surface);
+                                        // with the proyected game.
+    //  tSurface Events bridge
+    void    calibrationDone(ofPolyline &_surface);  // Call when the calibration it«s done
 
-    void    handAdded(ofxBlob &_blob);
-    void    handMoved(ofxBlob &_blob);
-    void    handDeleted(ofxBlob &_blob);
+    void    handAdded(ofxBlob &_blob);              // hand appear over the surface
+    void    handMoved(ofxBlob &_blob);              // hand moved over the surface
+    void    handDeleted(ofxBlob &_blob);            // hand deleted over the surface
 
-    void    objectAdded(ofxBlob &_blob);
-    void    objectMoved(ofxBlob &_blob);
-    void    objectDeleted(ofxBlob &_blob);
+    void    objectAdded(ofxBlob &_blob);            // something touch the surface
+    void    objectMoved(ofxBlob &_blob);            // something it«s dragging the surface
+    void    objectDeleted(ofxBlob &_blob);          // something release the surface
 
     //  GAME
     //  ---------------------------
     //
-    Game    *game;
-    string  sGameName;
-    bool    bStart;
-    bool    bHelp;
-    bool    bMouse;
-
-    void    loadGame();
-    void    loadGame(string _gameName);
-    void    loadNextGame();
-    void    killGame();
+    void    loadGame();                 //  Load the game responding to sGameName
+    void    loadGame(string _gameName); //  Set the sGameName and load it
+    void    loadNextGame();             //  It have a list of games, and load the next one on the list
+    void    killGame();                 //  Unload the game removing everthing from memory and point *game to NULL
+        
+    Game    *game;                  //  pointer to the actual game
+    string  sGameName;              //  game string name
     
-    int     blobIDSimulator;
-
-    //  Other data
-    //
     ofImage logo;
+    int     blobIDSimulator;        //  fake ID for simulating blobs with mouse
+    bool    bStart, bHelp, bMouse;  //  Flags that respond to the state of the game, 
+                                    //  help message and mouse visibility
 };
