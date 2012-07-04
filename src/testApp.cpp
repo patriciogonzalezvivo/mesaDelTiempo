@@ -31,8 +31,11 @@ void testApp::setup(){
     ofEnableAlphaBlending();
     ofEnableSmoothing();
     ofSetFrameRate(60);
+    
+    //  Load the logo
     logo.loadImage("logo.jpg");
     
+    //  Event listeners from tSurfaces to the bridge metoths. 
     ofAddListener(iSurface.calibrationDone, this, &testApp::calibrationDone);
     ofAddListener(iSurface.handAdded, this, &testApp::handAdded);
     ofAddListener(iSurface.handMoved, this, &testApp::handMoved);
@@ -104,6 +107,8 @@ void testApp::loadNextGame(){
     } else if ( sGameName == "simon"){
         loadGame("oca");
     } else if ( sGameName == "oca"){
+        loadGame("pong");
+    } else if ( sGameName == "pong"){
         loadGame("shadows");
     } 
 }
