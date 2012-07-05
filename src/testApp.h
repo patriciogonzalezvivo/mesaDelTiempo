@@ -34,10 +34,11 @@
 //  GAME
 #include "Game.h"   // This is the parent game class
 
-#include "Pong.h"   //  Classic Ateri Pong game
-#include "Simon.h"  //  Classic SIMON game
-#include "Shadows.h"//  Chinise Shadows game
-#include "Oca.h"    //  Oca Game
+#include "Pong.h"       //  Classic Ateri Pong game
+#include "Simon.h"      //  Classic SIMON game
+#include "Shadows.h"    //  Chinise Shadows game
+#include "Oca.h"        //  Oca Game
+#include "Communitas.h" //  Communitas http://patriciogonzalezvivo.com/communitas.html
 
 class testApp : public ofBaseApp{
 public:

@@ -17,35 +17,45 @@
 
 #include "ofMain.h"
 
-class SpaceRing{
+class SpaceRing : public ofPoint {
 public:
 	SpaceRing(){		
-		mass = 1;
+		mass            = 1.0;
 		
-		vortex		= maxDistance/2;
-		maxDistance	= ofGetWindowWidth() /2 ;
+		vortex          = maxDistance*0.5;
+		maxDistance     = ofGetWindowWidth()*0.5;
 		
-		density		= 1;			
-		ph			= 7;	// con 7 las partículas no se disuelven
+		density         = 1.0;			
+		ph              = 7.0;      // con 7 las partículas no se disuelven
 		
 		joinParticles	= false;
 		correctOrbits	= false;
 		proportional	= false;
 		clockwise		= false;
-		impulse		= 0;
-		angle		= 0;
+		impulse         = 0.0;
+		angle           = 0.0;
 	};
 	
-    void    set(ofRectangle &area){
-        center = area.getCenter();
-    }
+    void    set(ofRectangle &area){ 
+        x = area.getCenter().x; 
+        y = area.getCenter().y; 
+    };
     
-	SpaceRing& findCenter(){center = ofVec2f(ofGetWindowWidth()/2, ofGetWindowHeight()/2);return * this;};
-	SpaceRing& findCenter(int _width, int _height){center = ofVec2f(_width/2, _height/2);return * this;};
-	bool	onSpace(ofVec2f _pos){ if (center.distance(_pos) <= maxDistance) return true; else return false; };
+	bool	inside(ofPoint _pos){ 
+        if (distance(_pos) <= maxDistance) 
+            return true; 
+        else 
+            return false; 
+    };
 	
-	ofPoint center;
-	
+    void    drawBorder(){
+		ofNoFill();
+		ofSetLineWidth(1);
+		ofSetLineWidth(1);
+		ofCircle(x,y, maxDistance);
+		ofFill();
+	};
+    
 	float	mass, vortex, maxDistance, density, ph, joinParticles, impulse, angle;
 	bool	correctOrbits, clockwise, proportional;
 };

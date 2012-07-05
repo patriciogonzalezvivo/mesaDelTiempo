@@ -23,7 +23,6 @@
 #include "LineDot.h"
 #include "SpaceRing.h"
 
-
 class Communitas : public Game {
 public:
 	
@@ -41,18 +40,20 @@ public:
     void    objectDeleted(ofxBlob &_blob);
 	
 private:
-	SpaceRing   nucle, universe;
+    void    addParticle(ofPoint _pos, int _n);
+	void    absorveParticle(int _n);
+    
+    SpaceRing   nucle, universe;
 	
 	vector<LineDot*> pAct;
 	vector<LineDot*> pInact;
 	
-	ofxBlur blur;
+	ofxUnsharp blur;
 	int		fboAlpha;
 	
-	float	timer, standBy, delay;
+	float	fade, timer, standBy, delay;
 	
 	bool	drawSpaceBorders;
-	bool	interact;
 };
 
 #endif

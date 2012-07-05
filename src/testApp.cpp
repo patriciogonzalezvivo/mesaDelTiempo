@@ -109,6 +109,8 @@ void testApp::loadNextGame(){
     } else if ( sGameName == "oca"){
         loadGame("pong");
     } else if ( sGameName == "pong"){
+        loadGame("communitas");
+    } else if ( sGameName == "communitas"){
         loadGame("shadows");
     } 
 }
@@ -158,28 +160,24 @@ void testApp::calibrationDone(ofPolyline &_surface){
     
     if (sGameName == "simon"){
         game = new Simon();
-        ofLog(OF_LOG_NOTICE, "Loading Simon game");
-        game->init( _surface.getBoundingBox() );
-        iSurface.setTrackMode(game->getTrackMode());
-        bStart = true;
     } else if (sGameName == "pong"){
         game = new Pong();
-        ofLog(OF_LOG_NOTICE, "Loading Pong game");
-        game->init( _surface.getBoundingBox() );
-        iSurface.setTrackMode(game->getTrackMode());
-        bStart = true;
     } else if (sGameName == "shadows"){
         game = new Shadows();
-        ofLog(OF_LOG_NOTICE, "Loading Shadows game");
-        game->init( _surface.getBoundingBox() );
-        iSurface.setTrackMode(game->getTrackMode());
-        bStart = true;
     } else if (sGameName == "oca"){
         game = new Oca();
-        ofLog(OF_LOG_NOTICE, "Loading Oca game");
+    } else if (sGameName == "communitas"){
+        game = new Communitas();
+    }
+    
+    if (game != NULL){
+        ofLog(OF_LOG_NOTICE, "Game " + sGameName + " loaded");
         game->init( _surface.getBoundingBox() );
-        iSurface.setTrackMode(game->getTrackMode());
+        iSurface.setTrackMode( game->getTrackMode() );
         bStart = true;
+    } else {
+        ofLog(OF_LOG_ERROR, "Game " + sGameName + " not loaded.");
+        bStart = false;
     }
 }
 
@@ -279,13 +277,18 @@ void testApp::mouseMoved(int x, int y ){
 }
 
 void testApp::mousePressed(int x, int y, int button){
-    if (game != NULL){
+    if ((game != NULL) && bMouse && !iSurface.bDebug){
         ofPoint mouse = ofPoint(x,y);
         
         if ( iSurface.getView().isOver(mouse) && !iSurface.getView().bEditMode ){
             ofxBlob pretendBlob;
             
             pretendBlob.id = blobIDSimulator;
+            
+            ofPolyline  circle;
+            float radio = 0.02f;
+            circle.arc(iSurface.getView().getScreenToSurface(mouse), radio, radio, 0, 360);
+            pretendBlob.pts = circle.getVertices();
             
             if ((game->getTrackMode() == TRACK_JUST_OBJECT) || 
                 (game->getTrackMode() == TRACK_ACTIVE_OBJECT) ||
@@ -302,6 +305,7 @@ void testApp::mousePressed(int x, int y, int button){
                 pretendBlob.palm    = iSurface.getView().getScreenToSurface(mouse);
                 pretendBlob.palm.x /= iSurface.getView().getWidth();
                 pretendBlob.palm.y /= iSurface.getView().getHeight();
+                pretendBlob.fingers.push_back(iSurface.getView().getScreenToSurface(mouse));
                 pretendBlob.gotFingers  = true;
                 handAdded(pretendBlob);
             }
@@ -310,13 +314,18 @@ void testApp::mousePressed(int x, int y, int button){
 }
 
 void testApp::mouseDragged(int x, int y, int button){
-    if (game != NULL){
+    if ((game != NULL) && bMouse && !iSurface.bDebug){
         ofPoint mouse = ofPoint(x,y);
         
         if ( iSurface.getView().isOver(mouse) && !iSurface.getView().bEditMode ){
             ofxBlob pretendBlob;
             
             pretendBlob.id = blobIDSimulator;
+            
+            ofPolyline  circle;
+            float radio = 0.1f;
+            circle.arc(iSurface.getView().getScreenToSurface(mouse), radio, radio, 0, 360);
+            pretendBlob.pts = circle.getVertices();
             
             if ((game->getTrackMode() == TRACK_JUST_OBJECT) || 
                 (game->getTrackMode() == TRACK_ACTIVE_OBJECT) ||
@@ -333,6 +342,7 @@ void testApp::mouseDragged(int x, int y, int button){
                 pretendBlob.palm    = iSurface.getView().getScreenToSurface(mouse);
                 pretendBlob.palm.x /= iSurface.getView().getWidth();
                 pretendBlob.palm.y /= iSurface.getView().getHeight();
+                pretendBlob.fingers.clear();
                 pretendBlob.gotFingers  = true;
                 handMoved(pretendBlob);
             }
@@ -348,6 +358,11 @@ void testApp::mouseReleased(int x, int y, int button){
             ofxBlob pretendBlob;
             
             pretendBlob.id = blobIDSimulator;
+            
+            ofPolyline  circle;
+            float radio = 0.02f;
+            circle.arc(iSurface.getView().getScreenToSurface(mouse), radio, radio, 0, 360);
+            pretendBlob.pts = circle.getVertices();
             
             if ((game->getTrackMode() == TRACK_JUST_OBJECT) || 
                 (game->getTrackMode() == TRACK_ACTIVE_OBJECT) ||
