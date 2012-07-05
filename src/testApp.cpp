@@ -31,11 +31,11 @@ void testApp::setup(){
     ofEnableAlphaBlending();
     ofEnableSmoothing();
     ofSetFrameRate(60);
-    
+
     //  Load the logo
     logo.loadImage("logo.jpg");
     
-    //  Event listeners from tSurfaces to the bridge metoths. 
+    //  Event listeners from tSurfaces to the bridge methoths. 
     ofAddListener(iSurface.calibrationDone, this, &testApp::calibrationDone);
     ofAddListener(iSurface.handAdded, this, &testApp::handAdded);
     ofAddListener(iSurface.handMoved, this, &testApp::handMoved);
@@ -66,7 +66,7 @@ void testApp::loadGame(){
     ofxXmlSettings XML;
     
     if (XML.loadFile("settings.xml")){
-        sGameName   = XML.getValue("game", "pong");
+        activeGameName  = XML.getValue("game", "pong");
         
         killGame();         //  if it«s a game running kill it
         
@@ -87,7 +87,7 @@ void testApp::loadGame(string _gameName){
         XML.setValue("game", _gameName);
         XML.saveFile();
         
-        sGameName   = _gameName;
+        activeGameName  = _gameName;
         
         killGame();         //  if it«s a game running kill it
         
@@ -102,17 +102,13 @@ void testApp::loadGame(string _gameName){
 
 void testApp::loadNextGame(){
     
-    if ( sGameName == "shadows"){
-        loadGame("simon");
-    } else if ( sGameName == "simon"){
-        loadGame("oca");
-    } else if ( sGameName == "oca"){
-        loadGame("pong");
-    } else if ( sGameName == "pong"){
-        loadGame("communitas");
-    } else if ( sGameName == "communitas"){
-        loadGame("shadows");
-    } 
+    string list[] = {"shadows","simon","oca","pong","communitas"};
+    for( int i = 0; i < TOTALGAMES; i++){
+        if ( activeGameName == list[i] ){
+            loadGame( list[(i+1)%TOTALGAMES] );
+            break;
+        }
+    }
 }
 
 //-------------------------------------------------------------- LOOP
@@ -158,25 +154,25 @@ void testApp::calibrationDone(ofPolyline &_surface){
     if ( bStart )
         killGame();
     
-    if (sGameName == "simon"){
+    if (activeGameName == "simon"){
         game = new Simon();
-    } else if (sGameName == "pong"){
+    } else if (activeGameName == "pong"){
         game = new Pong();
-    } else if (sGameName == "shadows"){
+    } else if (activeGameName == "shadows"){
         game = new Shadows();
-    } else if (sGameName == "oca"){
+    } else if (activeGameName == "oca"){
         game = new Oca();
-    } else if (sGameName == "communitas"){
+    } else if (activeGameName == "communitas"){
         game = new Communitas();
     }
     
     if (game != NULL){
-        ofLog(OF_LOG_NOTICE, "Game " + sGameName + " loaded");
+        ofLog(OF_LOG_NOTICE, "Game " + activeGameName + " loaded");
         game->init( _surface.getBoundingBox() );
         iSurface.setTrackMode( game->getTrackMode() );
         bStart = true;
     } else {
-        ofLog(OF_LOG_ERROR, "Game " + sGameName + " not loaded.");
+        ofLog(OF_LOG_ERROR, "Game " + activeGameName + " not loaded.");
         bStart = false;
     }
 }

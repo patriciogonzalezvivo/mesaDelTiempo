@@ -34,6 +34,7 @@
 //  GAME
 #include "Game.h"   // This is the parent game class
 
+#define TOTALGAMES  5
 #include "Pong.h"       //  Classic Ateri Pong game
 #include "Simon.h"      //  Classic SIMON game
 #include "Shadows.h"    //  Chinise Shadows game
@@ -82,7 +83,7 @@ public:
     void    killGame();                 //  Unload the game removing everthing from memory and point *game to NULL
         
     Game    *game;                  //  pointer to the actual game
-    string  sGameName;              //  game string name
+    string  activeGameName;         //  game string name
     
     ofImage logo;
     int     blobIDSimulator;        //  fake ID for simulating blobs with mouse
