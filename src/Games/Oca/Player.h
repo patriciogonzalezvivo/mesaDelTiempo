@@ -36,7 +36,7 @@ public:
     bool    bLeave;
     
 private:
-    float   radio, timer;
+    float   radio, renderRadio, timer;
     int     nID;
 };
 

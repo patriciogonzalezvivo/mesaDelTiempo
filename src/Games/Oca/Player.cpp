@@ -9,7 +9,8 @@
 #include "Player.h"
 
 Player::Player( int _id ){
-    radio = 100;
+    radio = 50;
+    renderRadio = 25;
     
     //  Numero de ficha
     //
@@ -45,10 +46,10 @@ void Player::update(){
 void Player::draw(){
     ofPushStyle();
     
+    ofSetColor(255,170+(10.0-timer)*8.5);
+    img.draw(x-renderRadio,y-renderRadio, renderRadio*2.0, renderRadio*2.0);
+    
     if ( !arrive() ){
-        ofSetColor(255,170+(10.0-timer)*8.5);
-        img.draw(x-25,y-25,50,50);
-        
         ofPolyline  timerLine;
         timerLine.arc(x,y, 22, 22, 0, (10.0-timer)*36.0 );
         
@@ -63,11 +64,6 @@ void Player::draw(){
         ofSetColor(color,170+(10.0-timer)*8.5);
         timerLine.draw();
         ofPopStyle();
-        
-        
-    } else {
-        ofSetColor(255,255);
-        img.draw(x-25,y-25,50,50);
     }
     
     //  Debug nState
