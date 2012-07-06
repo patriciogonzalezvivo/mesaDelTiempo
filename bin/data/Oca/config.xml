@@ -16,8 +16,8 @@
 <player>
     <image>Oca/player0.png</image>
     <pos>
-        <x>314.204</x>
-        <y>701.539</y>
+        <x>419.386</x>
+        <y>843.662</y>
     </pos>
     <color>
         <r>208</r>
@@ -28,8 +28,8 @@
 <player>
     <image>Oca/player1.png</image>
     <pos>
-        <x>419.386</x>
-        <y>843.662</y>
+        <x>380.27</x>
+        <y>803.865</y>
     </pos>
     <color>
         <r>253</r>
@@ -52,8 +52,8 @@
 <player>
     <image>Oca/player3.png</image>
     <pos>
-        <x>380.27</x>
-        <y>803.865</y>
+        <x>314.204</x>
+        <y>701.539</y>
     </pos>
     <color>
         <r>4</r>

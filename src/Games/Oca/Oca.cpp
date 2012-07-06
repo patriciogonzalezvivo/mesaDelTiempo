@@ -12,6 +12,7 @@ Oca::Oca(){
     width = 800*1.771;
     height = 600*1.771;
     trackMode = TRACK_JUST_OBJECT;
+    ofSetCircleResolution(180);
 }
 
 Oca::~Oca(){
@@ -144,8 +145,8 @@ bool Oca::loadXml(string _xmlConfigFile){
 
             Player newPlayer = Player(i);
 
-            newPlayer.set(XML.getValue("pos:x", 0.0),
-                          XML.getValue("pos:y", 0.0) );
+            newPlayer.x = XML.getValue("pos:x", 0.0);
+            newPlayer.y = XML.getValue("pos:y", 0.0);
 
             newPlayer.color.set(XML.getValue("color:r", 255),
                                 XML.getValue("color:g", 255),
@@ -198,7 +199,7 @@ void Oca::update(){
 void Oca::updatePlacesStatus(){
     //  Animate passed places
     //
-    int higherPlace = -1;    //  Primero averigua cual es el casillero activo con numero más alto
+    higherPlace = -1;    //  Primero averigua cual es el casillero activo con numero más alto
     for(int i = 0; i < players.size(); i++){
         if ( players[i].nPlaceID > higherPlace ){
             higherPlace = players[i].nPlaceID;
@@ -300,7 +301,6 @@ void Oca::objectAdded(ofxBlob &_blob){
                               _blob.centroid.y * height);
 
     //  Buscar que ficha fue seleccionada.
-    //  En otras palabras que a que ficha le toca mover
     //
     for(int i = 0; i < players.size(); i++){
         if (players[i].inside( blobPos )){
@@ -314,6 +314,7 @@ void Oca::objectMoved(ofxBlob &_blob){
     ofPoint blobPos = ofPoint(_blob.centroid.x * width,
                               _blob.centroid.y * height);
 
+    bool playerDragged = false;
     //  Mueve la ficha seleccionada
     //
     for(int i = 0; i < players.size(); i++){
@@ -323,8 +324,20 @@ void Oca::objectMoved(ofxBlob &_blob){
         //  (esto puede evitar q las fichas se vallan para cualquier lado)
         //
         if ( players[i].nCursorID == _blob.id ) {
-            players[i].setFromCenter(blobPos, players[i].width, players[i].height);
+            playerDragged = true;
+            players[i].set(blobPos);
             break;
+        }
+    }
+    
+    //  Si no esta drageando ninguna ficha
+    if (!playerDragged){
+        // Pero pasa por ensima de una ...
+        for(int i = 0; i < players.size(); i++){
+            if (players[i].inside( blobPos )){
+                players[i].nCursorID = _blob.id;
+                text.speedUp();
+            }
         }
     }
 }
@@ -333,18 +346,19 @@ void Oca::objectDeleted(ofxBlob &_blob){
     ofPoint blobPos = ofPoint(_blob.centroid.x * width,
                               _blob.centroid.y * height);
 
+    
     for(int i = 0; i < players.size(); i++){
 
         //  Chequear por id cual ficha fue soltada
         //
         if (players[i].nCursorID == _blob.id){
-
+            
             //  Chequear sobre donde esta la ficha soltada
             //
             int oldPlaceID = players[i].nPlaceID;
             bool overSomething = false;
             for(int j = 0; j < places.size(); j++){
-                if ( places[j]->inside( players[i].getCenter() ) ){
+                if ( places[j]->inside( players[i] ) ){
                     players[i].nPlaceID = j;
                     overSomething = true;
                 }
@@ -372,7 +386,7 @@ void Oca::objectDeleted(ofxBlob &_blob){
         }
     }
 
-    int higherPlace = -1;    //  Primero averigua cual es el casillero activo con numero más alto
+    higherPlace = -1;    //  Primero averigua cual es el casillero activo con numero más alto
     for(int i = 0; i < players.size(); i++){
         if ( players[i].nPlaceID > higherPlace ){
             higherPlace = players[i].nPlaceID;
@@ -447,7 +461,7 @@ void Oca::playerArriveToPlace( int &playerID){
         }
 
         if ( nowGoTo != -1 ){
-            players[playerID].setFromCenter(places[ nowGoTo ]->getCentroid2D(), 70, 70);
+            players[playerID].set( places[ nowGoTo ]->getCentroid2D() );
         }
 
         //  Existen algunos casilleros que son objetos mágicos.
@@ -472,15 +486,15 @@ void Oca::playerArriveToPlace( int &playerID){
         //
         if ( arrivalPlaceID == 11){
             if (bFriend)
-                players[playerID].setFromCenter(places[ 17 ]->getCentroid2D(), 70, 70);
+                players[playerID].set( places[ 17 ]->getCentroid2D() );
             else
-                players[playerID].setFromCenter(places[ 20 ]->getCentroid2D(), 70, 70);
+                players[playerID].set( places[ 20 ]->getCentroid2D() );
         }
 
         //  Si cae en la oca 17 y esta el amigo avanzas hacia el 20
         //
         if ( (arrivalPlaceID == 17) && bFriend ){
-            players[playerID].setFromCenter(places[ 20 ]->getCentroid2D(), 70, 70);
+            players[playerID].set( places[ 20 ]->getCentroid2D() );
         }
 
         //  Si cae en la oca 27 y Gana!
