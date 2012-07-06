@@ -169,7 +169,9 @@ void Communitas::update(){
 
 //--------------------------------------------------------------
 void Communitas::render(){
+    
     blur.begin();
+    ofSetColor(255,255);
 	for (int i = pInact.size()-1; i > 0 ; i--){
 		pInact[i]->draw();
     }
@@ -180,15 +182,14 @@ void Communitas::render(){
     ofPushStyle();
     
     ofClear(0,255);
-	ofSetColor(fboAlpha,fboAlpha);
+	ofSetColor(255,fboAlpha);
 	blur.draw(0,0);
     
-/*
-	for (int i = pInact.size()-1; i > 0 ; i--){
+    for (int i = pInact.size()-1; i > 0 ; i--){
 		pInact[i]->draw();
     }
-*/
-	ofSetColor(255,255);
+    
+    ofSetColor(255,255);
 	for (int i = pAct.size()-1; i > 0 ; i--){
 		pAct[i]->draw();
     }
