@@ -14,10 +14,37 @@
 class Shape : public ofPolyline {
 public:
     
-    Shape();
+    Shape(){
+        clear();
+        color.set(255,0,0);
+    }
     
+    Shape(int _nId, vector<ofPoint>& verts){
+        nId = _nId;
+        clear();
+        addVertexes(verts);
+        
+        color.set(255,0,0);
+    }
+    
+    int     getId() const { return nId; };
+    
+    void    changeHue(float _value){
+        float hue = color.getHue();
+        if ( hue+_value >= 255 ){
+            color.setHue( (hue+_value)-255 );
+        } else { 
+            color.setHue( hue+_value );
+        }
+    }
+    
+    void    draw(){
+        
+    }
+
 private:
     ofColor color;
+    int     nId;
 };
 
 #endif

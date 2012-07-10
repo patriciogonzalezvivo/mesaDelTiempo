@@ -124,7 +124,7 @@ void testApp::loadGame(string _gameName){
 
 void testApp::loadNextGame(){
     
-    string list[] = {"shadows","simon","oca","pong","communitas"};
+    string list[] = {"shadows","simon","oca","pong","communitas", "kaleido"};
     for( int i = 0; i < TOTALGAMES; i++){
         if ( activeGameName == list[i] ){
             loadGame( list[(i+1)%TOTALGAMES] );
@@ -186,6 +186,8 @@ void testApp::calibrationDone(ofPolyline &_surface){
         game = new Oca();
     } else if (activeGameName == "communitas"){
         game = new Communitas();
+    } else if (activeGameName == "kaleido"){
+        game = new Kaleido();
     }
     
     if (game != NULL){

@@ -12,6 +12,7 @@
 #include "Game.h"
 
 #include "ofxFX.h"
+#include "Shape.h"
 
 class Kaleido : public Game {
 public:
@@ -21,18 +22,20 @@ public:
     void    init(ofRectangle _space);
     void    reset();
     
-    void    objectAdded(ofxBlob &_blob) {};
-    void    objectMoved(ofxBlob &_blob) {};
-    void    objectDeleted(ofxBlob &_blob) {};
+    void    objectAdded(ofxBlob &_blob);
+    void    objectMoved(ofxBlob &_blob);
+    void    objectDeleted(ofxBlob &_blob);
     
     void    update();
     void    render(); 
     
 private:
+    ofPolyline      getContour(ofxBlob& _blob);
+    
     ofImage         background;
     ofxKaleidoscope kaleidoEffect;
     
-    map<int,Shape*>    shapes;
+    map<int,Shape*> shapes;
     
     int             countDown;
 };

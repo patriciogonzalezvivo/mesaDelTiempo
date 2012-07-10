@@ -14,12 +14,13 @@
 #include "Game.h"   // This is the parent game class
 
 #define SPANISH
-#define TOTALGAMES  5
+#define TOTALGAMES  6
 #include "Pong.h"       //  Classic Ateri Pong game
 #include "Simon.h"      //  Classic SIMON game
 #include "Shadows.h"    //  Chinise Shadows game
 #include "Oca.h"        //  Oca Game
 #include "Communitas.h" //  Communitas http://patriciogonzalezvivo.com/communitas.html
+#include "Kaleido.h"
 
 class testApp : public ofBaseApp{
 public:
