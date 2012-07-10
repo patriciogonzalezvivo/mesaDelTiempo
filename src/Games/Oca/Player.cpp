@@ -36,7 +36,7 @@ bool Player::inside(ofPoint p){
 
 void Player::update(){
     if ( !arrive() ){
-        timer = ofLerp(timer, 0.0, 0.01);
+        timer = ofLerp(timer, 0.0, 0.05);
     } else if ( bLeave ){
         ofNotifyEvent(arriveToPlace, nID , this);
         bLeave = false;

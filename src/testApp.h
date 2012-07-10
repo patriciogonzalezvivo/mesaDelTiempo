@@ -34,6 +34,7 @@
 //  GAME
 #include "Game.h"   // This is the parent game class
 
+#define SPANISH
 #define TOTALGAMES  5
 #include "Pong.h"       //  Classic Ateri Pong game
 #include "Simon.h"      //  Classic SIMON game

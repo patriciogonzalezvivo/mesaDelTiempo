@@ -6,6 +6,8 @@
 
 #include "testApp.h"
 
+
+#ifndef SPANISH
 string helpScreen = "\n \
     - F1:   Fullscreen ON/OFF\n \
     - F2:   Surface Edit-Mode on/off\n \
@@ -25,6 +27,26 @@ string helpScreen = "\n \
             then load the game\n \
     - n/N:  load the nextGame using previus calibration setup\n \
     - c/C:  calibrate and then load the game \n";
+#else
+string helpScreen = "\n \
+\n \
+- m/M:  Ocultar/Mostrar el mouse\n \
+- d/D:  Ocultar/Mostrar lo que ve la compu\n \
+- h/H:  Ocultar/Mostrar este mensaje de ayuda\n \
+\n \
+- l/L:  Volver a cargar el juego\n \
+- n/N:  Cargar el siguiente juego\n \
+- c/C:  Calibrar la mesa\n \
+\n \
+- F1:   Pantalla completa\n \
+- F2:   Editar la forma y posicion\n \
+- F3:   Editar la masca (borde del juego)\n \
+        Una vez activo con:\n \
+        - x: borra punto por punto\n \
+        - r: borra todos los puntos\n \
+\n \
+- F4:   Re inicia la forma y posicion de los juegos\n";
+#endif
 
 //-------------------------------------------------------------- SETING
 void testApp::setup(){

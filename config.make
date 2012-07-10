@@ -10,7 +10,7 @@ OF_ROOT = ../../Desktop/openFrameworks
 # for example search paths like:
 # USER_CFLAGS = -I src/objects
 
-USER_CFLAGS = -I src/Games -I src/Games/Oca -I src/Games/Pong -I src/Games/Shadows -I src/Games/Simon
+USER_CFLAGS = -I src/Games -I src/Games/Communitas -I src/Games/Oca -I src/Games/Pong -I src/Games/Shadows -I src/Games/Simon
 
 
 # USER_LDFLAGS allows to pass custom flags to the linker
