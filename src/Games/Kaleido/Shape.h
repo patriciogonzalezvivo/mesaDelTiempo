@@ -9,6 +9,15 @@
 #ifndef mdt_Core_Shape_h
 #define mdt_Core_Shape_h
 
+#include "ofMain.h"
 
+class Shape : public ofPolyline {
+public:
+    
+    Shape();
+    
+private:
+    ofColor color;
+};
 
 #endif
