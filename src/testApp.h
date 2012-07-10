@@ -7,27 +7,6 @@
 #pragma once
 #include "ofMain.h"
 
-/*
- *  Keys:
- *
- *      - F1:   Fullscreen ON/OFF
- *      - F2:   Masking mode ON/OFF
- *
- *              On mask mode on:
- *                              - x: delete mask path point
- *                              - r: reset mask path
- *
- *      - F3:   Surface edit mode on/off
- *      - F4:   Reset surface coorners
- *
- *      - d/D:  debug mode ON/OFF
- *      - h/H:  turn ON/OFF this help screen
- *
- *      - l/L:  load/reload previus calibration setup and then load the game
- *      - c/C:  calibrate and then load the game
- *
- */
-
 //  MAPPING & TRACKING
 #include "ofxInteractiveSurface.h"
 

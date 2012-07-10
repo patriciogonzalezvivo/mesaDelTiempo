@@ -6,27 +6,26 @@
 
 #include "testApp.h"
 
-
 #ifndef SPANISH
 string helpScreen = "\n \
-    - F1:   Fullscreen ON/OFF\n \
-    - F2:   Surface Edit-Mode on/off\n \
-    - F3:   Masking-Mode ON/OFF (need Edit-Mode ) \n \
-    \n \
-            On mask mode on:\n \
-                            - x: delete mask path point\n \
-                            - r: reset mask path\n \
-    \n \
-    - F4:   Reset surface coorners\n \
-    \n \
-    - m/M:  show/hide mouse\n \
-    - d/D:  debug mode ON/OFF\n \
-    - h/H:  turn ON/OFF this help screen\n \
-    \n \
-    - l/L:  load/reload previus calibration setup and \n \
-            then load the game\n \
-    - n/N:  load the nextGame using previus calibration setup\n \
-    - c/C:  calibrate and then load the game \n";
+- F1:   Fullscreen ON/OFF\n \
+- F2:   Surface Edit-Mode on/off\n \
+- F3:   Masking-Mode ON/OFF (need Edit-Mode ) \n \
+\n \
+        On mask mode on:\n \
+        - x: delete mask path point\n \
+        - r: reset mask path\n \
+\n \
+- F4:   Reset surface coorners\n \
+\n \
+- m/M:  show/hide mouse\n \
+- d/D:  debug mode ON/OFF\n \
+- h/H:  turn ON/OFF this help screen\n \
+\n \
+- l/L:  load/reload previus calibration setup and \n \
+then load the game\n \
+- n/N:  load the nextGame using previus calibration setup\n \
+- c/C:  calibrate and then load the game \n";
 #else
 string helpScreen = "\n \
 \n \
@@ -41,6 +40,7 @@ string helpScreen = "\n \
 - F1:   Pantalla completa\n \
 - F2:   Editar la forma y posicion\n \
 - F3:   Editar la masca (borde del juego)\n \
+\n \
         Una vez activo con:\n \
         - x: borra punto por punto\n \
         - r: borra todos los puntos\n \
