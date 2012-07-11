@@ -24,6 +24,10 @@ void Kaleido::init(ofRectangle _space){
     
     //  Allocate the fbo and clean it
     //
+    fbo.allocate(width, height);
+    fbo.begin();
+    ofClear(0,0);
+    fbo.end();
     kaleidoEffect.allocate(width, height);
     kaleidoEffect.clear(0);
     
@@ -47,7 +51,46 @@ void Kaleido::update(){
 }
 
 void Kaleido::render(){
+    fbo.begin();
+    ofPushStyle();
     
+    ofEnableBlendMode(OF_BLENDMODE_ALPHA);
+    ofSetColor(255, 255);
+    
+    //  Background Gradient Mesh
+    //
+	ofMesh mesh;
+	mesh.setMode(OF_PRIMITIVE_TRIANGLE_FAN);
+    // this could be optimized by building a single mesh once, then copying
+    // it and just adding the colors whenever the function is called.
+    ofVec2f center(width / 2, height / 2);
+    mesh.addVertex(center);
+    mesh.addColor(ofColor(abs(sin(ofGetElapsedTimef()*0.01)*255),
+                          abs(sin(ofGetElapsedTimef()*0.03)*255),
+                          abs(sin(ofGetElapsedTimef()*0.09)*255),255));
+    int n = 32; // circular gradient resolution
+    float angleBisector = TWO_PI / (n * 2);
+    float smallRadius = ofDist(0, 0, height / 2, height / 2);
+    float bigRadius = smallRadius / cos(angleBisector);
+    for(int i = 0; i <= n; i++) {
+        float theta = i * TWO_PI / n;
+        mesh.addVertex(center + ofVec2f(sin(theta), cos(theta)) * bigRadius);
+        mesh.addColor(ofColor(0,0));
+    }
+	glDepthMask(false);
+	mesh.draw();
+	glDepthMask(true);
+    
+    //  Background texture
+    //
+    //ofSetColor(255, 50);
+    //background.draw(0,0,width,height);
+    for( map<int,Shape*>::reverse_iterator rit = shapes.rbegin(); rit != shapes.rend(); rit++ ){
+        rit->second->draw();
+    }
+    
+    ofPopStyle();
+    fbo.end();
 }
 
 ofPolyline Kaleido::getContour(ofxBlob& _blob){

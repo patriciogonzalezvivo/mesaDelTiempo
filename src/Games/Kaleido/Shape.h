@@ -39,7 +39,10 @@ public:
     }
     
     void    draw(){
-        
+        ofPushStyle();
+        ofSetColor(color);
+        ofPolyline::draw();
+        ofPopStyle();
     }
 
 private:
