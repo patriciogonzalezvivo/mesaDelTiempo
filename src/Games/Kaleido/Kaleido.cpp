@@ -11,7 +11,7 @@
 Kaleido::Kaleido(){
     width = 800*1.771;
     height = 600*1.771;
-    trackMode = TRACK_ACTIVE_OBJECT;
+    trackMode = TRACK_JUST_OBJECT;
 }
 
 void Kaleido::init(ofRectangle _space){
@@ -144,7 +144,7 @@ void Kaleido::objectMoved(ofxBlob &_blob){
                                   _blob.lastCentroid.y * height);
         lastPos -= pos;
         
-        float vel = lastPos.length()*0.1;
+        float vel = lastPos.length()*0.01;
         if (vel > 1.0 ){
             shapes[ _blob.id ]->changeHue( vel );
             countDown = ofLerp(countDown,100,0.1);
