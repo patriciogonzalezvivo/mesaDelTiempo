@@ -42,7 +42,7 @@ void Kaleido::reset(){
     }
     shapes.clear();
     
-    countDown = 255;
+    countDown = 255.0;
 }
 
 void Kaleido::update(){
@@ -79,6 +79,9 @@ void Kaleido::update(){
     //
     //ofSetColor(255, 50);
     //background.draw(0,0,width,height);
+    
+    //  Draw all shapes
+    //
     for( map<int,Shape*>::reverse_iterator rit = shapes.rbegin(); rit != shapes.rend(); rit++ ){
         rit->second->draw();
     }
@@ -87,7 +90,7 @@ void Kaleido::update(){
     kaleidoEffect.setRotation(ofGetElapsedTimef()*0.1);
     kaleidoEffect.update();
     
-    if ( countDown > 0.0){
+    if ( countDown > 0.0 ){
         ofLerp(countDown,0,0.1);
     }
 }
@@ -129,7 +132,7 @@ void Kaleido::objectAdded(ofxBlob &_blob){
         Shape *newShape = new Shape( _blob.id, contour.getVertices() );
         shapes[ newShape->getId() ] = newShape;
         
-        countDown = ofLerp(countDown,255,0.1);
+        countDown = ofLerp(countDown,255,0.05);
     }
 }
 
@@ -148,10 +151,10 @@ void Kaleido::objectMoved(ofxBlob &_blob){
                                   _blob.lastCentroid.y * height);
         lastPos -= pos;
         
-        float vel = lastPos.length()*0.05;
+        float vel = lastPos.length()*0.01;
         if (vel > 1.0 ){
             shapes[ _blob.id ]->changeHue( vel );
-            countDown = ofLerp(countDown,255,0.1);
+            countDown = ofLerp(countDown,255,0.05);
         }
     }
 }
@@ -168,6 +171,6 @@ void Kaleido::objectDeleted(ofxBlob &_blob){
         }
         shapes.erase( _blob.id );
         
-        countDown = ofLerp(countDown,255,0.1);
+        countDown = ofLerp(countDown,255,0.05);
     }
 }
