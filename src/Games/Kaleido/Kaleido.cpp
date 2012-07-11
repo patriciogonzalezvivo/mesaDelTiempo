@@ -15,7 +15,7 @@ Kaleido::Kaleido(){
 }
 
 void Kaleido::init(ofRectangle _space){
-    background.loadImage("shadows/fondo.jpg");
+    //background.loadImage("shadows/back.jpg");
     
     //  Asign a space (it´s the surface area)
     //
@@ -48,29 +48,9 @@ void Kaleido::reset(){
 void Kaleido::update(){
     kaleidoEffect.begin();
     ofClear(0,0);
-    //  Background texture
-    //
-    //ofSetColor(255, 50);
-    //background.draw(0,0,width,height);
-    for( map<int,Shape*>::reverse_iterator rit = shapes.rbegin(); rit != shapes.rend(); rit++ ){
-        rit->second->draw();
-    }
-    
-    kaleidoEffect.end();
-    kaleidoEffect.update();
-    
-    if ( countDown > 0.0){
-        ofLerp(countDown,0,0.1);
-    }
-}
-
-void Kaleido::render(){
-    fbo.begin();
-    ofPushStyle();
     
     ofEnableBlendMode(OF_BLENDMODE_ALPHA);
     ofSetColor(255, 255);
-    
     //  Background Gradient Mesh
     //
 	ofMesh mesh;
@@ -94,6 +74,26 @@ void Kaleido::render(){
 	glDepthMask(false);
 	mesh.draw();
 	glDepthMask(true);
+    
+    //  Background texture
+    //
+    //ofSetColor(255, 50);
+    //background.draw(0,0,width,height);
+    for( map<int,Shape*>::reverse_iterator rit = shapes.rbegin(); rit != shapes.rend(); rit++ ){
+        rit->second->draw();
+    }
+    
+    kaleidoEffect.end();
+    kaleidoEffect.update();
+    
+    if ( countDown > 0.0){
+        ofLerp(countDown,0,0.1);
+    }
+}
+
+void Kaleido::render(){
+    fbo.begin();
+    ofPushStyle();
     
     ofSetColor(255, countDown*25);
     kaleidoEffect[0].draw(0,0);
