@@ -91,7 +91,7 @@ void Kaleido::update(){
     kaleidoEffect.update();
     
     if ( countDown > 0.0 ){
-        ofLerp(countDown,0,0.1);
+        countDown = ofLerp(countDown,0,0.1);
     }
 }
 
@@ -99,10 +99,10 @@ void Kaleido::render(){
     fbo.begin();
     ofPushStyle();
     
-    ofSetColor(255, countDown*25);
+    ofSetColor(255, countDown);
     kaleidoEffect[0].draw(0,0);
     
-    ofSetColor(255, 255-countDown*25);
+    ofSetColor(255, 255-countDown);
     kaleidoEffect.getTextureReference().draw(0,0);
     
     ofSetColor(0, 255);
