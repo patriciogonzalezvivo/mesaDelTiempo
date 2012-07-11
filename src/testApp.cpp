@@ -114,8 +114,8 @@ void testApp::loadGame(string _gameName){
         killGame();         //  if it«s a game running kill it
         
         iSurface.load();    //  Re-load the game. This will end in 
-        //  a "calibrationDone" event. That will l
-        //  anch the [sGameName] game
+                            //  a "calibrationDone" event. That will l
+                            //  anch the [sGameName] game
         
         ofLog(OF_LOG_NOTICE, "Seting game to " + _gameName);
     } else
@@ -124,7 +124,7 @@ void testApp::loadGame(string _gameName){
 
 void testApp::loadNextGame(){
     
-    string list[] = {"shadows","simon","oca","pong","communitas", "kaleido"};
+    string list[] = {"shadows","simon","oca","kaleido","communitas"};
     for( int i = 0; i < TOTALGAMES; i++){
         if ( activeGameName == list[i] ){
             loadGame( list[(i+1)%TOTALGAMES] );

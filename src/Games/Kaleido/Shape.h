@@ -41,7 +41,11 @@ public:
     void    draw(){
         ofPushStyle();
         ofSetColor(color);
-        ofPolyline::draw();
+        ofBeginShape();
+        for (int i = 0; i < getVertices().size(); i++){
+            ofVertex( getVertices()[i] );
+        }
+        ofEndShape(true);
         ofPopStyle();
     }
 
