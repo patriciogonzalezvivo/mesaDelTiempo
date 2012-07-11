@@ -143,9 +143,12 @@ void Kaleido::objectMoved(ofxBlob &_blob){
         ofPoint lastPos = ofPoint(_blob.lastCentroid.x * width,
                                   _blob.lastCentroid.y * height);
         lastPos -= pos;
-        shapes[ _blob.id ]->changeHue( lastPos.length() );
         
-        countDown = ofLerp(countDown,100,0.1);
+        float vel = lastPos.length()*0.1;
+        if (vel > 1.0 ){
+            shapes[ _blob.id ]->changeHue( vel );
+            countDown = ofLerp(countDown,100,0.1);
+        }
     }
 }
 
