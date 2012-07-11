@@ -40,14 +40,28 @@ void Kaleido::reset(){
     for( map<int,Shape*>::reverse_iterator rit = shapes.rbegin(); rit != shapes.rend(); rit++ ){
         delete rit->second;
     }
-    
     shapes.clear();
     
     countDown = 100;
 }
 
 void Kaleido::update(){
+    kaleidoEffect.begin();
+    ofClear(0,0);
+    //  Background texture
+    //
+    //ofSetColor(255, 50);
+    //background.draw(0,0,width,height);
+    for( map<int,Shape*>::reverse_iterator rit = shapes.rbegin(); rit != shapes.rend(); rit++ ){
+        rit->second->draw();
+    }
     
+    kaleidoEffect.end();
+    kaleidoEffect.update();
+    
+    if ( countDown > 0.0){
+        ofLerp(countDown,0,0.1);
+    }
 }
 
 void Kaleido::render(){
@@ -81,13 +95,11 @@ void Kaleido::render(){
 	mesh.draw();
 	glDepthMask(true);
     
-    //  Background texture
-    //
-    //ofSetColor(255, 50);
-    //background.draw(0,0,width,height);
-    for( map<int,Shape*>::reverse_iterator rit = shapes.rbegin(); rit != shapes.rend(); rit++ ){
-        rit->second->draw();
-    }
+    ofSetColor(255, countDown*25);
+    kaleidoEffect[0].draw(0,0);
+    
+    ofSetColor(255, 255-countDown*25);
+    kaleidoEffect.draw(0,0);
     
     ofPopStyle();
     fbo.end();
@@ -113,7 +125,7 @@ void Kaleido::objectAdded(ofxBlob &_blob){
         Shape *newShape = new Shape( _blob.id, contour.getVertices() );
         shapes[ newShape->getId() ] = newShape;
         
-        countDown = 100;
+        countDown = ofLerp(countDown,100,0.1);
     }
 }
 
@@ -133,7 +145,7 @@ void Kaleido::objectMoved(ofxBlob &_blob){
         lastPos -= pos;
         shapes[ _blob.id ]->changeHue( lastPos.length() );
         
-        countDown = 100;
+        countDown = ofLerp(countDown,100,0.1);
     }
 }
 
@@ -149,6 +161,6 @@ void Kaleido::objectDeleted(ofxBlob &_blob){
         }
         shapes.erase( _blob.id );
         
-        countDown = 100;
+        countDown = ofLerp(countDown,100,0.1);
     }
 }

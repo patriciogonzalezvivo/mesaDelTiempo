@@ -37,5 +37,5 @@ private:
     
     map<int,Shape*> shapes;
     
-    int             countDown;
+    float           countDown;
 };
