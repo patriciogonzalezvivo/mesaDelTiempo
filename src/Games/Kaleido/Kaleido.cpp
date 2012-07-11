@@ -84,6 +84,7 @@ void Kaleido::update(){
     }
     
     kaleidoEffect.end();
+    kaleidoEffect.setRotation(ofGetElapsedTimef()*0.1);
     kaleidoEffect.update();
     
     if ( countDown > 0.0){
@@ -99,7 +100,7 @@ void Kaleido::render(){
     kaleidoEffect[0].draw(0,0);
     
     ofSetColor(255, 255-countDown*25);
-    kaleidoEffect.draw(0,0);
+    kaleidoEffect.getTextureReference().draw(0,0);
     
     ofSetColor(0, 255);
     ofDrawBitmapString(ofToString(countDown), width*0.5,height*0.5);
