@@ -11,7 +11,7 @@
 Kaleido::Kaleido(){
     width = 800*1.771;
     height = 600*1.771;
-    trackMode = TRACK_JUST_OBJECT;
+    trackMode = TRACK_ACTIVE_OBJECT;
 }
 
 void Kaleido::init(ofRectangle _space){
