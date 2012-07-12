@@ -51,7 +51,8 @@ string helpScreen = "\n \
 //-------------------------------------------------------------- SETING
 void testApp::setup(){
     ofEnableAlphaBlending();
-    ofEnableSmoothing();
+    //ofEnableSmoothing();
+    ofSetVerticalSync(true);
     ofSetFrameRate(60);
 
     //  Load the logo
@@ -305,10 +306,20 @@ void testApp::mousePressed(int x, int y, int button){
             
             pretendBlob.id = blobIDSimulator;
             
-            ofPolyline  circle;
-            float radio = 0.02f;
-            circle.arc(iSurface.getView().getScreenToSurface(mouse), radio, radio, 0, 360);
-            pretendBlob.pts = circle.getVertices();
+            ofPoint  pos = iSurface.getView().getScreenToSurface(mouse);
+            blobResolution = ofRandom(3,20);
+            blobRadio = ofRandom(10.0,30.0);
+            blobAngle = (PI*2.0)/(float)blobResolution;
+            
+            pretendBlob.pts.clear();
+            for(int i = 0; i < blobResolution; i++){
+                ofPoint pt;
+                pt.x = (blobRadio * cos( blobAngle*i) + pos.x)/(float)iSurface.getView().getWidth();
+                pt.y = (blobRadio * sin( blobAngle*i) + pos.y)/(float)iSurface.getView().getHeight();
+                pretendBlob.pts.push_back(pt);
+            }
+            pretendBlob.nPts = blobResolution;
+            pretendBlob.nFingers = 0;
             
             if ((game->getTrackMode() == TRACK_JUST_OBJECT) || 
                 (game->getTrackMode() == TRACK_ACTIVE_OBJECT) ||
@@ -342,10 +353,17 @@ void testApp::mouseDragged(int x, int y, int button){
             
             pretendBlob.id = blobIDSimulator;
             
-            ofPolyline  circle;
-            float radio = 0.1f;
-            circle.arc(iSurface.getView().getScreenToSurface(mouse), radio, radio, 0, 360);
-            pretendBlob.pts = circle.getVertices();
+            ofPoint  pos = iSurface.getView().getScreenToSurface(mouse);
+            
+            pretendBlob.pts.clear();
+            for(int i = 0; i < blobResolution; i++){
+                ofPoint pt;
+                pt.x = (blobRadio * cos( blobAngle*i) + pos.x)/(float)iSurface.getView().getWidth();
+                pt.y = (blobRadio * sin( blobAngle*i) + pos.y)/(float)iSurface.getView().getHeight();
+                pretendBlob.pts.push_back(pt);
+            }
+            pretendBlob.nPts = blobResolution;
+            pretendBlob.nFingers = 0;
             
             if ((game->getTrackMode() == TRACK_JUST_OBJECT) || 
                 (game->getTrackMode() == TRACK_ACTIVE_OBJECT) ||
@@ -379,10 +397,17 @@ void testApp::mouseReleased(int x, int y, int button){
             
             pretendBlob.id = blobIDSimulator;
             
-            ofPolyline  circle;
-            float radio = 0.02f;
-            circle.arc(iSurface.getView().getScreenToSurface(mouse), radio, radio, 0, 360);
-            pretendBlob.pts = circle.getVertices();
+            ofPoint  pos = iSurface.getView().getScreenToSurface(mouse);
+            
+            pretendBlob.pts.clear();
+            for(int i = 0; i < blobResolution; i++){
+                ofPoint pt;
+                pt.x = (blobRadio * cos( blobAngle*i) + pos.x)/(float)iSurface.getView().getWidth();
+                pt.y = (blobRadio * sin( blobAngle*i) + pos.y)/(float)iSurface.getView().getHeight();
+                pretendBlob.pts.push_back(pt);
+            }
+            pretendBlob.nPts = blobResolution;
+            pretendBlob.nFingers = 0;
             
             if ((game->getTrackMode() == TRACK_JUST_OBJECT) || 
                 (game->getTrackMode() == TRACK_ACTIVE_OBJECT) ||

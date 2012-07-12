@@ -68,7 +68,11 @@ public:
     string  activeGameName;         //  game string name
     
     ofImage logo;
+    
+    float   blobRadio, blobAngle;
     int     blobIDSimulator;        //  fake ID for simulating blobs with mouse
+    int     blobResolution;
+    
     bool    bStart, bHelp, bMouse;  //  Flags that respond to the state of the game, 
                                     //  help message and mouse visibility
 };
