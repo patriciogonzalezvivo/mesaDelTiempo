@@ -18,6 +18,7 @@ class Kaleido : public Game {
 public:
     
     Kaleido();
+    ~Kaleido();
     
     void    init(ofRectangle _space);
     void    reset();

@@ -282,6 +282,21 @@ void testApp::keyPressed(int key){
         case 'M':
             bMouse = !bMouse;
             break; 
+        case '1':
+            loadGame("shadows");
+            break; 
+        case '2':
+            loadGame("simon");
+            break; 
+        case '3':
+            loadGame("oca");
+            break;
+        case '4':
+            loadGame("kaleido");
+            break; 
+        case '5':
+            loadGame("communitas");
+            break; 
     }
     
     if (bMouse){

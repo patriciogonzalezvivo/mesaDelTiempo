@@ -14,6 +14,19 @@ Kaleido::Kaleido(){
     trackMode = TRACK_JUST_OBJECT;
 }
 
+Kaleido::~Kaleido(){
+    for( map<int,Shape*>::reverse_iterator rit = shapes.rbegin(); rit != shapes.rend(); rit++ ){
+        delete rit->second;
+    }
+    shapes.clear();
+    
+    if (nImages > 0){
+        delete[] image;
+        nImages = 0;
+    }
+    
+}
+
 void Kaleido::init(ofRectangle _space){
     
     //  Load Images
@@ -58,12 +71,7 @@ void Kaleido::reset(){
         delete rit->second;
     }
     shapes.clear();
-    
-    if (nImages > 0){
-        delete[] image;
-        nImages = 0;
-    }
-    
+
     countDown = 255.0;
 }
 
@@ -154,6 +162,7 @@ void Kaleido::objectAdded(ofxBlob &_blob){
     if ( space.inside(pos)){
         Shape *newShape = new Shape( _blob.id, contour.getVertices() );
         
+        cout << nImages << endl;
         if (nImages > 0){
             newShape->setImage( image[ (int)ofRandom(nImages) ] );
         }
