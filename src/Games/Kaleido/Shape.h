@@ -17,17 +17,20 @@ public:
     Shape(){
         clear();
         color.set(255,0,0);
+        image = NULL;
     }
     
     Shape(int _nId, vector<ofPoint>& verts){
         nId = _nId;
         clear();
         addVertexes(verts);
-        
         color.set(255,0,0);
+        image = NULL;
     }
     
-    int     getId() const { return nId; };
+    int setImage( ofImage &_image){ image = &_image; };
+    int setId( int _nId){ nId = _nId; };
+    int getId() const { return nId; };
     
     void    changeHue(float _value){
         float hue = color.getHue();
@@ -40,16 +43,49 @@ public:
     
     void    draw(){
         ofPushStyle();
-        ofSetColor(color);
-        ofBeginShape();
-        for (int i = 0; i < getVertices().size(); i++){
-            ofVertex( getVertices()[i] );
+        
+        if (image != NULL){
+            ofSetColor(255,200);
+            ofPoint texCenter = ofPoint(image->getWidth()*0.5,image->getHeight()*0.5);
+            ofPoint center = getCentroid2D();
+            
+            image->getTextureReference().bind();
+            glBegin(GL_TRIANGLE_FAN);
+            
+            //  Center
+            glTexCoord2f(texCenter.x, texCenter.y);
+            glVertex3f(center.x, center.y, 0.0);
+            
+            for(int i = 0; i < getVertices().size(); i++){    
+                ofPoint texCoord = getVertices()[i] - center;
+                texCoord += texCenter;
+                glTexCoord2f( texCoord.x , texCoord.y );
+                glVertex3f(getVertices()[i].x, getVertices()[i].y, 0.0);
+            } 
+            
+            // Close 
+            ofPoint texCoord = getVertices()[0] - center;
+            texCoord += texCenter;
+            glTexCoord2f( texCoord.x , texCoord.y );
+            glVertex3f(getVertices()[0].x, getVertices()[0].y, 0.0);
+            
+            glEnd();
+            image->getTextureReference().unbind();
+        } else {
+            ofSetColor(color);
+            ofBeginShape();
+            for (int i = 0; i < getVertices().size(); i++){
+                ofVertex( getVertices()[i] );
+            }
+            ofEndShape(true);
         }
-        ofEndShape(true);
+        
         ofPopStyle();
     }
-
+    
 private:
+    ofImage *image;
+    
     ofColor color;
     int     nId;
 };

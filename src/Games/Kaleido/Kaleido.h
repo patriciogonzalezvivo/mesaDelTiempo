@@ -33,9 +33,10 @@ private:
     ofPolyline      getContour(ofxBlob& _blob);
     
     ofImage         background;
+    ofImage         *image;
     ofxKaleidoscope kaleidoEffect;
-    
     map<int,Shape*> shapes;
     
+    int             nImages;
     float           countDown;
 };

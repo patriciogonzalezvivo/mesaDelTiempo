@@ -15,7 +15,24 @@ Kaleido::Kaleido(){
 }
 
 void Kaleido::init(ofRectangle _space){
-    //background.loadImage("shadows/back.jpg");
+    
+    //  Load Images
+    //
+    background.loadImage("kaleido/fondo.jpg");
+    
+    ofDirectory dir;
+    int n = dir.listDir("kaleido/tex");
+    
+    if (n > 0){
+        image = new ofImage[dir.size()];
+        nImages = 0;
+        for(int i = 0; i < dir.size(); i++){
+            if (image[i].loadImage( dir[i] )){
+                nImages++;
+            }
+        }
+    }
+    countDown = 255.0;
     
     //  Asign a space (it´s the surface area)
     //
@@ -41,6 +58,11 @@ void Kaleido::reset(){
         delete rit->second;
     }
     shapes.clear();
+    
+    if (nImages > 0){
+        delete[] image;
+        nImages = 0;
+    }
     
     countDown = 255.0;
 }
@@ -77,13 +99,13 @@ void Kaleido::update(){
     
     //  Background texture
     //
-    //ofSetColor(255, 50);
-    //background.draw(0,0,width,height);
+    ofSetColor(255, 100);
+    background.draw(0,0,width,height);
     
     //  Draw all shapes
     //
-    for( map<int,Shape*>::reverse_iterator rit = shapes.rbegin(); rit != shapes.rend(); rit++ ){
-        rit->second->draw();
+    for( map<int,Shape*>::iterator it = shapes.begin(); it != shapes.end(); it++ ){
+        it->second->draw();
     }
     
     kaleidoEffect.end();
@@ -106,8 +128,8 @@ void Kaleido::render(){
     ofSetColor(255, 255-countDown);
     kaleidoEffect.getTextureReference().draw(0,0);
     
-    ofSetColor(0, 255);
-    ofDrawBitmapString(ofToString(countDown), width*0.5,height*0.5);
+    //ofSetColor(0, 255);
+    //ofDrawBitmapString(ofToString(countDown), width*0.5,height*0.5);
     
     ofPopStyle();
     fbo.end();
@@ -131,6 +153,11 @@ void Kaleido::objectAdded(ofxBlob &_blob){
     
     if ( space.inside(pos)){
         Shape *newShape = new Shape( _blob.id, contour.getVertices() );
+        
+        if (nImages > 0){
+            newShape->setImage( image[ (int)ofRandom(nImages) ] );
+        }
+        
         shapes[ newShape->getId() ] = newShape;
         
         countDown = ofLerp(countDown,255,0.1);
