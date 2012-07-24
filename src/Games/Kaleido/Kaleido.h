@@ -33,6 +33,7 @@ public:
 private:
     ofPolyline      getContour(ofxBlob& _blob);
     
+    ofFbo           objects;
     ofImage         background;
     ofImage         *image;
     ofxKaleidoscope kaleidoEffect;

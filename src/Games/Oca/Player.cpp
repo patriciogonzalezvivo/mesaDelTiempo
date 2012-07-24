@@ -51,7 +51,7 @@ void Player::draw(){
     
     if ( !arrive() ){
         ofPolyline  timerLine;
-        timerLine.arc(x,y, 22, 22, 0, (10.0-timer)*36.0 );
+        timerLine.arc(x,y, 30, 30, 0, (10.0-timer)*36.0 );
         
         ofPushStyle();
         ofNoFill();

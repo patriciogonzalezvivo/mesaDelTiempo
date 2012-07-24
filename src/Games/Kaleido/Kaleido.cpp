@@ -62,6 +62,12 @@ void Kaleido::init(ofRectangle _space){
     fbo.begin();
     ofClear(0,0);
     fbo.end();
+    
+    objects.allocate(width, height);
+    objects.begin();
+    ofClear(0,0);
+    objects.end();
+    
     kaleidoEffect.allocate(width, height);
     kaleidoEffect.clear(0);
     kaleidoEffect.offset = offset;
@@ -83,6 +89,19 @@ void Kaleido::reset(){
 }
 
 void Kaleido::update(){
+    
+    objects.begin();
+    ofClear(0,0);
+    //  Draw all shapes
+    //
+    for( map<int,Shape*>::iterator it = shapes.begin(); it != shapes.end(); it++ ){
+        it->second->draw();
+        if ( ( it->second->ripple == 0 ) && triangle.inside(it->second->getCentroid2D()) ){
+            it->second->ripple = 1.0;
+        }
+    }
+    objects.end();
+    
     kaleidoEffect.begin();
     ofClear(0,0);
     
@@ -117,11 +136,8 @@ void Kaleido::update(){
     ofSetColor(255, 100);
     background.draw(0,0,width,height);
     
-    //  Draw all shapes
-    //
-    for( map<int,Shape*>::iterator it = shapes.begin(); it != shapes.end(); it++ ){
-        it->second->draw();
-    }
+    ofSetColor(255,255);
+    objects.draw(0, 0);
     
     kaleidoEffect.end();
     kaleidoEffect.setRotation(ofGetElapsedTimef()*0.1);
@@ -147,12 +163,12 @@ void Kaleido::update(){
 void Kaleido::render(){
     fbo.begin();
     ofPushStyle();
-    
+
     ofSetColor(255, 255);
-    kaleidoEffect[0].draw(0,0);
-    
-    ofSetColor(255, 255-countDown);
     kaleidoEffect.draw(0,0);
+    
+    ofSetColor(255, countDown);
+    objects.draw(0,0);
     
     ofPushStyle();
     ofSetColor(0,0,0);
@@ -191,7 +207,6 @@ void Kaleido::objectAdded(ofxBlob &_blob){
     if ( space.inside(pos)){
         Shape *newShape = new Shape( _blob.id, contour.getVertices() );
         
-        cout << nImages << endl;
         if (nImages > 0){
             newShape->setImage( image[ (int)ofRandom(nImages) ] );
         }

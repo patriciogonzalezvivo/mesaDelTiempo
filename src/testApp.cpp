@@ -327,7 +327,7 @@ void testApp::mousePressed(int x, int y, int button){
             blobAngle = (PI*2.0)/(float)blobResolution;
             
             pretendBlob.pts.clear();
-            for(int i = 0; i < blobResolution; i++){
+            for(int i = 0; i < blobResolution + 1; i++){
                 ofPoint pt;
                 pt.x = (blobRadio * cos( blobAngle*i) + pos.x)/(float)iSurface.getView().getWidth();
                 pt.y = (blobRadio * sin( blobAngle*i) + pos.y)/(float)iSurface.getView().getHeight();
@@ -371,7 +371,7 @@ void testApp::mouseDragged(int x, int y, int button){
             ofPoint  pos = iSurface.getView().getScreenToSurface(mouse);
             
             pretendBlob.pts.clear();
-            for(int i = 0; i < blobResolution; i++){
+            for(int i = 0; i < blobResolution + 1; i++){
                 ofPoint pt;
                 pt.x = (blobRadio * cos( blobAngle*i) + pos.x)/(float)iSurface.getView().getWidth();
                 pt.y = (blobRadio * sin( blobAngle*i) + pos.y)/(float)iSurface.getView().getHeight();
@@ -415,7 +415,7 @@ void testApp::mouseReleased(int x, int y, int button){
             ofPoint  pos = iSurface.getView().getScreenToSurface(mouse);
             
             pretendBlob.pts.clear();
-            for(int i = 0; i < blobResolution; i++){
+            for(int i = 0; i < blobResolution + 1; i++){
                 ofPoint pt;
                 pt.x = (blobRadio * cos( blobAngle*i) + pos.x)/(float)iSurface.getView().getWidth();
                 pt.y = (blobRadio * sin( blobAngle*i) + pos.y)/(float)iSurface.getView().getHeight();

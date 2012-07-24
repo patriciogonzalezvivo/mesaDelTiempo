@@ -93,7 +93,7 @@ public:
                 ofTranslate(getCentroid2D().x, getCentroid2D().y);
                 ofScale(ripple,ripple);
                 ofTranslate(-getCentroid2D().x, -getCentroid2D().y);
-                ofSetColor(0,255-(ripple-1.0)*255);
+                ofSetColor(color,255-(ripple-1.0)*255);
                 ofSetLineWidth((ripple-1.0)*5);
                 ofPolyline::draw();
                 ofPopMatrix();

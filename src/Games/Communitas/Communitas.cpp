@@ -155,9 +155,9 @@ void Communitas::update(){
         }
 
 
-	for (int i = 0; i < pInact.size() ; i++){
+	for (int i = pInact.size()-1; i >= 0 ; i--){
 		if (!universe.inside(pInact[i]->loc) || (pInact[i]->alpha < 5) ){
-            //delete pInact[i];
+            delete pInact[i];
 			pInact.erase(pInact.begin()+i);
 		} else { 
             pInact[i]->update();
