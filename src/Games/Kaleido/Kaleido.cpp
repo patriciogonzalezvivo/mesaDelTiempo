@@ -12,6 +12,8 @@ Kaleido::Kaleido(){
     width = 800*1.771;
     height = 600*1.771;
     trackMode = TRACK_JUST_OBJECT;
+    
+    offset = ofPoint(0,50);
 }
 
 Kaleido::~Kaleido(){
@@ -19,6 +21,8 @@ Kaleido::~Kaleido(){
         delete rit->second;
     }
     shapes.clear();
+    
+    triangle.clear();
     
     if (nImages > 0){
         delete[] image;
@@ -60,6 +64,7 @@ void Kaleido::init(ofRectangle _space){
     fbo.end();
     kaleidoEffect.allocate(width, height);
     kaleidoEffect.clear(0);
+    kaleidoEffect.offset = offset;
     
     //  Clean the variables and the start
     //
@@ -72,6 +77,8 @@ void Kaleido::reset(){
     }
     shapes.clear();
 
+    triangle.clear();
+    
     countDown = 255.0;
 }
 
@@ -121,6 +128,17 @@ void Kaleido::update(){
     kaleidoEffect.setFacesRotation(ofGetElapsedTimef()*-0.1);
     kaleidoEffect.update();
     
+    ofVec2f radio = ofVec2f(0,MIN(width,height)*-0.5).getRotatedRad(ofGetElapsedTimef()*-0.1);
+    ofPoint A = ofPoint(width*0.5, height*0.5) + offset;
+    ofPoint B = radio + A;
+    ofPoint C = radio.getRotated(36.0) + A;
+    
+    triangle.clear();
+    triangle.addVertex(A);
+    triangle.addVertex(B);
+    triangle.addVertex(C);
+    triangle.close();
+    
     if ( countDown > 0.0 ){
         countDown = ofLerp(countDown,0,0.01);
     }
@@ -130,11 +148,22 @@ void Kaleido::render(){
     fbo.begin();
     ofPushStyle();
     
-    ofSetColor(255, countDown);
+    ofSetColor(255, 255);
     kaleidoEffect[0].draw(0,0);
     
     ofSetColor(255, 255-countDown);
-    kaleidoEffect.getTextureReference().draw(0,0);
+    kaleidoEffect.draw(0,0);
+    
+    ofPushStyle();
+    ofSetColor(0,0,0);
+    ofNoFill();
+    
+    triangle.draw();
+    
+    for( map<int,Shape*>::iterator it = shapes.begin(); it != shapes.end(); it++ ){
+        it->second->drawContour();
+    }
+    ofPopStyle();
     
     //ofSetColor(0, 255);
     //ofDrawBitmapString(ofToString(countDown), width*0.5,height*0.5);

@@ -38,6 +38,9 @@ private:
     ofxKaleidoscope kaleidoEffect;
     map<int,Shape*> shapes;
     
+    ofPolyline      triangle;
+    ofPoint         offset;
+    
     int             nImages;
     float           countDown;
 };

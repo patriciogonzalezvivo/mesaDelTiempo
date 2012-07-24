@@ -83,6 +83,30 @@ public:
         ofPopStyle();
     }
     
+    void    drawContour(){
+        
+        if (ripple >= 1.0){
+            ripple = ofLerp(ripple,3.0,0.005);
+            
+            if (ripple < 2.0){
+                ofPushMatrix();
+                ofTranslate(getCentroid2D().x, getCentroid2D().y);
+                ofScale(ripple,ripple);
+                ofTranslate(-getCentroid2D().x, -getCentroid2D().y);
+                ofSetColor(0,255-(ripple-1.0)*255);
+                ofSetLineWidth((ripple-1.0)*5);
+                ofPolyline::draw();
+                ofPopMatrix();
+            } else if (ripple > 2.8){
+                ripple = 0.0;
+            }
+        } else {
+            //ofPolyline::draw();
+        }
+    }
+    
+    float   ripple;
+    
 private:
     ofImage *image;
     
