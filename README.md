@@ -1,4 +1,4 @@
-[![logo](http://www.patriciogonzalezvivo.com/images/mesaDelTiempo.png)](http://www.patriciogonzalezvivo.com)
+[![logo](http://www.patriciogonzalezvivo.com/images/projects/mesaDelTiempo.png)](http://www.patriciogonzalezvivo.com)
 
 # Mesa del Tiempo
 ##### by [Patricio Gonzalez Vivo](http://www.patriciogonzalezvivo.com)
