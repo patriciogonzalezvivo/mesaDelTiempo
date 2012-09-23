@@ -54,7 +54,7 @@ Download and install:
 
 - [ofxImageSequence](https://github.com/patriciogonzalezvivo/ofxImageSequence) 
 
-- [ofxInteractiveSurface](https://github.com/patriciogonzalezvivo/ofxSurface) That needs:
+- [ofxInteractiveSurface](https://github.com/patriciogonzalezvivo/ofxInteractiveSurface) That needs:
 
 	* [ofxBlobTracker](https://github.com/patriciogonzalezvivo/ofxBlobTracker)
 
