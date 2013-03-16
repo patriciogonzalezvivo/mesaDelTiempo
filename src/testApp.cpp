@@ -6,36 +6,59 @@
 
 #include "testApp.h"
 
+#ifndef SPANISH
 string helpScreen = "\n \
-    - F1:   Fullscreen ON/OFF\n \
-    - F2:   Surface Edit-Mode on/off\n \
-    - F3:   Masking-Mode ON/OFF (need Edit-Mode ) \n \
-    \n \
-            On mask mode on:\n \
-                            - x: delete mask path point\n \
-                            - r: reset mask path\n \
-    \n \
-    - F4:   Reset surface coorners\n \
-    \n \
-    - m/M:  show/hide mouse\n \
-    - d/D:  debug mode ON/OFF\n \
-    - h/H:  turn ON/OFF this help screen\n \
-    \n \
-    - l/L:  load/reload previus calibration setup and \n \
-            then load the game\n \
-    - n/N:  load the nextGame using previus calibration setup\n \
-    - c/C:  calibrate and then load the game \n";
+- F1:   Fullscreen ON/OFF\n \
+- F2:   Surface Edit-Mode on/off\n \
+- F3:   Masking-Mode ON/OFF (need Edit-Mode ) \n \
+\n \
+        On mask mode on:\n \
+        - x: delete mask path point\n \
+        - r: reset mask path\n \
+\n \
+- F4:   Reset surface coorners\n \
+\n \
+- m/M:  show/hide mouse\n \
+- d/D:  debug mode ON/OFF\n \
+- h/H:  turn ON/OFF this help screen\n \
+\n \
+- l/L:  load/reload previus calibration setup and \n \
+then load the game\n \
+- n/N:  load the nextGame using previus calibration setup\n \
+- c/C:  calibrate and then load the game \n";
+#else
+string helpScreen = "\n \
+\n \
+- m/M:  Ocultar/Mostrar el mouse\n \
+- d/D:  Ocultar/Mostrar lo que ve la compu\n \
+- h/H:  Ocultar/Mostrar este mensaje de ayuda\n \
+\n \
+- l/L:  Volver a cargar el juego\n \
+- n/N:  Cargar el siguiente juego\n \
+- c/C:  Calibrar la mesa\n \
+\n \
+- F1:   Pantalla completa\n \
+- F2:   Editar la forma y posicion\n \
+- F3:   Editar la masca (borde del juego)\n \
+\n \
+        Una vez activo con:\n \
+        - x: borra punto por punto\n \
+        - r: borra todos los puntos\n \
+\n \
+- F4:   Re inicia la forma y posicion de los juegos\n";
+#endif
 
 //-------------------------------------------------------------- SETING
 void testApp::setup(){
     ofEnableAlphaBlending();
-    ofEnableSmoothing();
+    //ofEnableSmoothing();
+    ofSetVerticalSync(true);
     ofSetFrameRate(60);
-    
+
     //  Load the logo
     logo.loadImage("logo.jpg");
     
-    //  Event listeners from tSurfaces to the bridge metoths. 
+    //  Event listeners from tSurfaces to the bridge methoths. 
     ofAddListener(iSurface.calibrationDone, this, &testApp::calibrationDone);
     ofAddListener(iSurface.handAdded, this, &testApp::handAdded);
     ofAddListener(iSurface.handMoved, this, &testApp::handMoved);
@@ -66,7 +89,7 @@ void testApp::loadGame(){
     ofxXmlSettings XML;
     
     if (XML.loadFile("settings.xml")){
-        sGameName   = XML.getValue("game", "pong");
+        activeGameName  = XML.getValue("game", "pong");
         
         killGame();         //  if it«s a game running kill it
         
@@ -87,13 +110,13 @@ void testApp::loadGame(string _gameName){
         XML.setValue("game", _gameName);
         XML.saveFile();
         
-        sGameName   = _gameName;
+        activeGameName  = _gameName;
         
         killGame();         //  if it«s a game running kill it
         
         iSurface.load();    //  Re-load the game. This will end in 
-        //  a "calibrationDone" event. That will l
-        //  anch the [sGameName] game
+                            //  a "calibrationDone" event. That will l
+                            //  anch the [sGameName] game
         
         ofLog(OF_LOG_NOTICE, "Seting game to " + _gameName);
     } else
@@ -102,15 +125,13 @@ void testApp::loadGame(string _gameName){
 
 void testApp::loadNextGame(){
     
-    if ( sGameName == "shadows"){
-        loadGame("simon");
-    } else if ( sGameName == "simon"){
-        loadGame("oca");
-    } else if ( sGameName == "oca"){
-        loadGame("pong");
-    } else if ( sGameName == "pong"){
-        loadGame("shadows");
-    } 
+    string list[] = {"shadows","simon","oca","kaleido","communitas"};
+    for( int i = 0; i < TOTALGAMES; i++){
+        if ( activeGameName == list[i] ){
+            loadGame( list[(i+1)%TOTALGAMES] );
+            break;
+        }
+    }
 }
 
 //-------------------------------------------------------------- LOOP
@@ -156,30 +177,28 @@ void testApp::calibrationDone(ofPolyline &_surface){
     if ( bStart )
         killGame();
     
-    if (sGameName == "simon"){
+    if (activeGameName == "simon"){
         game = new Simon();
-        ofLog(OF_LOG_NOTICE, "Loading Simon game");
-        game->init( _surface.getBoundingBox() );
-        iSurface.setTrackMode(game->getTrackMode());
-        bStart = true;
-    } else if (sGameName == "pong"){
+    } else if (activeGameName == "pong"){
         game = new Pong();
-        ofLog(OF_LOG_NOTICE, "Loading Pong game");
-        game->init( _surface.getBoundingBox() );
-        iSurface.setTrackMode(game->getTrackMode());
-        bStart = true;
-    } else if (sGameName == "shadows"){
+    } else if (activeGameName == "shadows"){
         game = new Shadows();
-        ofLog(OF_LOG_NOTICE, "Loading Shadows game");
-        game->init( _surface.getBoundingBox() );
-        iSurface.setTrackMode(game->getTrackMode());
-        bStart = true;
-    } else if (sGameName == "oca"){
+    } else if (activeGameName == "oca"){
         game = new Oca();
-        ofLog(OF_LOG_NOTICE, "Loading Oca game");
+    } else if (activeGameName == "communitas"){
+        game = new Communitas();
+    } else if (activeGameName == "kaleido"){
+        game = new Kaleido();
+    }
+    
+    if (game != NULL){
+        ofLog(OF_LOG_NOTICE, "Game " + activeGameName + " loaded");
         game->init( _surface.getBoundingBox() );
-        iSurface.setTrackMode(game->getTrackMode());
+        iSurface.setTrackMode( game->getTrackMode() );
         bStart = true;
+    } else {
+        ofLog(OF_LOG_ERROR, "Game " + activeGameName + " not loaded.");
+        bStart = false;
     }
 }
 
@@ -263,6 +282,21 @@ void testApp::keyPressed(int key){
         case 'M':
             bMouse = !bMouse;
             break; 
+        case '1':
+            loadGame("shadows");
+            break; 
+        case '2':
+            loadGame("simon");
+            break; 
+        case '3':
+            loadGame("oca");
+            break;
+        case '4':
+            loadGame("kaleido");
+            break; 
+        case '5':
+            loadGame("communitas");
+            break; 
     }
     
     if (bMouse){
@@ -279,13 +313,28 @@ void testApp::mouseMoved(int x, int y ){
 }
 
 void testApp::mousePressed(int x, int y, int button){
-    if (game != NULL){
+    if ((game != NULL) && bMouse && !iSurface.bDebug){
         ofPoint mouse = ofPoint(x,y);
         
         if ( iSurface.getView().isOver(mouse) && !iSurface.getView().bEditMode ){
             ofxBlob pretendBlob;
             
             pretendBlob.id = blobIDSimulator;
+            
+            ofPoint  pos = iSurface.getView().getScreenToSurface(mouse);
+            blobResolution = ofRandom(3,20);
+            blobRadio = ofRandom(10.0,30.0);
+            blobAngle = (PI*2.0)/(float)blobResolution;
+            
+            pretendBlob.pts.clear();
+            for(int i = 0; i < blobResolution + 1; i++){
+                ofPoint pt;
+                pt.x = (blobRadio * cos( blobAngle*i) + pos.x)/(float)iSurface.getView().getWidth();
+                pt.y = (blobRadio * sin( blobAngle*i) + pos.y)/(float)iSurface.getView().getHeight();
+                pretendBlob.pts.push_back(pt);
+            }
+            pretendBlob.nPts = blobResolution;
+            pretendBlob.nFingers = 0;
             
             if ((game->getTrackMode() == TRACK_JUST_OBJECT) || 
                 (game->getTrackMode() == TRACK_ACTIVE_OBJECT) ||
@@ -302,6 +351,7 @@ void testApp::mousePressed(int x, int y, int button){
                 pretendBlob.palm    = iSurface.getView().getScreenToSurface(mouse);
                 pretendBlob.palm.x /= iSurface.getView().getWidth();
                 pretendBlob.palm.y /= iSurface.getView().getHeight();
+                pretendBlob.fingers.push_back(iSurface.getView().getScreenToSurface(mouse));
                 pretendBlob.gotFingers  = true;
                 handAdded(pretendBlob);
             }
@@ -310,13 +360,25 @@ void testApp::mousePressed(int x, int y, int button){
 }
 
 void testApp::mouseDragged(int x, int y, int button){
-    if (game != NULL){
+    if ((game != NULL) && bMouse && !iSurface.bDebug){
         ofPoint mouse = ofPoint(x,y);
         
         if ( iSurface.getView().isOver(mouse) && !iSurface.getView().bEditMode ){
             ofxBlob pretendBlob;
             
             pretendBlob.id = blobIDSimulator;
+            
+            ofPoint  pos = iSurface.getView().getScreenToSurface(mouse);
+            
+            pretendBlob.pts.clear();
+            for(int i = 0; i < blobResolution + 1; i++){
+                ofPoint pt;
+                pt.x = (blobRadio * cos( blobAngle*i) + pos.x)/(float)iSurface.getView().getWidth();
+                pt.y = (blobRadio * sin( blobAngle*i) + pos.y)/(float)iSurface.getView().getHeight();
+                pretendBlob.pts.push_back(pt);
+            }
+            pretendBlob.nPts = blobResolution;
+            pretendBlob.nFingers = 0;
             
             if ((game->getTrackMode() == TRACK_JUST_OBJECT) || 
                 (game->getTrackMode() == TRACK_ACTIVE_OBJECT) ||
@@ -333,6 +395,7 @@ void testApp::mouseDragged(int x, int y, int button){
                 pretendBlob.palm    = iSurface.getView().getScreenToSurface(mouse);
                 pretendBlob.palm.x /= iSurface.getView().getWidth();
                 pretendBlob.palm.y /= iSurface.getView().getHeight();
+                pretendBlob.fingers.clear();
                 pretendBlob.gotFingers  = true;
                 handMoved(pretendBlob);
             }
@@ -348,6 +411,18 @@ void testApp::mouseReleased(int x, int y, int button){
             ofxBlob pretendBlob;
             
             pretendBlob.id = blobIDSimulator;
+            
+            ofPoint  pos = iSurface.getView().getScreenToSurface(mouse);
+            
+            pretendBlob.pts.clear();
+            for(int i = 0; i < blobResolution + 1; i++){
+                ofPoint pt;
+                pt.x = (blobRadio * cos( blobAngle*i) + pos.x)/(float)iSurface.getView().getWidth();
+                pt.y = (blobRadio * sin( blobAngle*i) + pos.y)/(float)iSurface.getView().getHeight();
+                pretendBlob.pts.push_back(pt);
+            }
+            pretendBlob.nPts = blobResolution;
+            pretendBlob.nFingers = 0;
             
             if ((game->getTrackMode() == TRACK_JUST_OBJECT) || 
                 (game->getTrackMode() == TRACK_ACTIVE_OBJECT) ||

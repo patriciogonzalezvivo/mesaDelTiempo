@@ -1,6 +1,5 @@
-[![logo](http://www.patriciogonzalezvivo.com/images/mesaDelTiempo.png)](http://www.patriciogonzalezvivo.com)
-
-# Mesa del Tiempo
+# [Mesa del Tiempo](http://patriciogonzalezvivo.com/2012/oca/)
+[![oca](http://patriciogonzalezvivo.com/2012/oca/thumb.jpg)](http://patriciogonzalezvivo.com/2012/oca/)
 ##### by [Patricio Gonzalez Vivo](http://www.patriciogonzalezvivo.com)
 
 Instalation for the [Museo del Juguete San Isidro](http://web.museodeljuguetesi.org.ar/).
@@ -55,7 +54,7 @@ Download and install:
 
 - [ofxImageSequence](https://github.com/patriciogonzalezvivo/ofxImageSequence) 
 
-- [ofxInteractiveSurface](https://github.com/patriciogonzalezvivo/ofxSurface) That needs:
+- [ofxInteractiveSurface](https://github.com/patriciogonzalezvivo/ofxInteractiveSurface) That needs:
 
 	* [ofxBlobTracker](https://github.com/patriciogonzalezvivo/ofxBlobTracker)
 

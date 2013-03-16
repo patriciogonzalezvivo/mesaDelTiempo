@@ -106,7 +106,7 @@ public:
         tint.getTextureReference().draw(x,y,width,height);
     }
     
-    ofxBlur         blur;
+    ofxGaussianBlur blur;
     ofxTint         tint;
     
 };

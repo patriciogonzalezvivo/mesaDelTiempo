@@ -55,6 +55,7 @@ private:
     vector<Place*>  places;
     vector<Player>  players;
     
+    int             higherPlace;
     float           scaleFactor;
 };
 

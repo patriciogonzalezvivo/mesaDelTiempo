@@ -11,14 +11,17 @@
 
 #include "ofMain.h"
 
-class Player : public ofRectangle {
+class Player : public ofPoint {
 public:
     
     Player( int _id );
     
-    void    set(int _x, int _y);
+    void    set(ofPoint pos);
+    bool    inside(ofPoint p);
     
-    bool    arrive(){ return pos.distance(getCenter()) < 3.0; };
+    bool    arrive(){ 
+        return  timer < 0.1;
+    };
     
     void    update();
     void    draw();
@@ -33,8 +36,8 @@ public:
     bool    bLeave;
     
 private:
+    float   radio, renderRadio, timer;
     int     nID;
-    ofPoint pos;
 };
 
 #endif
