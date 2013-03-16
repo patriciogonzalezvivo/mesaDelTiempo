@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
-<CodeBlocks_workspace_file>
-	<Workspace title="mesaDelTiempo">
-		<Project filename="mesaDelTiempo.cbp" active="1">
-			<Depends filename="../../Desktop/openFrameworks/libs/openFrameworksCompiled/project/linux/libopenFrameworks.cbp" />
-		</Project>
-		<Project filename="../../Desktop/openFrameworks/libs/openFrameworksCompiled/project/linux/libopenFrameworks.cbp" />
-	</Workspace>
-</CodeBlocks_workspace_file>

@@ -11,3 +11,4 @@ bin/mesaDelTiempo
 bin/libs/
 bin/mesaDelTiempo_debug
 bin/mesaDelTiempo_funciona
+/bin/data/settings.xml

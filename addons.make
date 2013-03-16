@@ -1,9 +1,9 @@
-ofxTextSuite
-ofxImageSequence
-ofxFX
-ofxOpenCv
-ofxKinect
 ofxBlobTracker
-ofxXmlSettings
+ofxFX
 ofxGui
+ofxImageSequence
 ofxInteractiveSurface
+ofxKinect
+ofxOpenCv
+ofxTextSuite
+ofxXmlSettings
