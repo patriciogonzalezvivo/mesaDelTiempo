@@ -48,7 +48,7 @@ private:
 	vector<LineDot*> pAct;
 	vector<LineDot*> pInact;
 	
-	ofxBlur blur;
+	ofxUnsharp blur;
 	int		fboAlpha;
 	
 	float	fade, timer, standBy, delay;
