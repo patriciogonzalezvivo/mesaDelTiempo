@@ -154,18 +154,19 @@ void Shadows::render(){
         mesh.addColor(ofColor(58,30,0,255));
     }
 	glDepthMask(false);
+    ofSetColor(255,255);
 	mesh.draw();
 	glDepthMask(true);
     
     //  Background texture
     //
-    ofSetColor(255, 50);
+    ofSetColor(255, 100);
     background.draw(0,0,width,height);
     
     //  Draw Blured shadows fbo
     //
-    ofSetColor(255, 255);
     ofEnableBlendMode(OF_BLENDMODE_MULTIPLY);
+    ofSetColor(255, 255);
     blur.getTextureReference().draw(0,0);
     
     //  Draw Text fbo
@@ -222,14 +223,14 @@ void Shadows::handMoved(ofxBlob &_blob){
     if ( hands[ _blob.id ] == NULL ){
         hands.erase( _blob.id );
         
-        //  If don´t have record of this blob probably it´s because it´s a hole of a blob...
+        //  If don't have record of this blob probably it's because it's a hole of a blob...
         //  ... so try to find it owner
         //
         ofPolyline contourLine = getContour(_blob);
         int holeOfBlob  = checkIfHole(contourLine);  
         
         if (holeOfBlob >= 0){
-            //  If it´s a hole it will insert it into the last blobFrame
+            //  If it's a hole it will insert it into the last blobFrame
             //
             hands[holeOfBlob]->insertHole(contourLine);
             //ofLog(OF_LOG_NOTICE,"Adding new frame of hole shadow idº " + ofToString( holeOfBlob ));
@@ -239,7 +240,7 @@ void Shadows::handMoved(ofxBlob &_blob){
         
     } else {
         hands[ _blob.id ]->addFrame(_blob,width,height);
-        //ofLog(OF_LOG_NOTICE,"Adding new frame of shadow idº " + ofToString( _blob.id ));
+        //ofLog(OF_LOG_NOTICE,"Adding new frame of shadow id " + ofToString( _blob.id ));
     }
 }
 
@@ -256,8 +257,8 @@ void Shadows::handDeleted(ofxBlob &_blob){
         //  So it seams like a shadow
         //
         
-        if (!hands[ _blob.id ]->isHand() && 
-            !hands[ _blob.id ]->size() < 30 ){
+        //if (!hands[ _blob.id ]->isHand() &&
+         if ( !hands[ _blob.id ]->size() < 30 ){
             
             //  if the shadow never gave a single finger or it didn't get enought frames
             //  probably it's just junk...
