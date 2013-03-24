@@ -154,19 +154,18 @@ void Shadows::render(){
         mesh.addColor(ofColor(58,30,0,255));
     }
 	glDepthMask(false);
-    ofSetColor(255,255);
 	mesh.draw();
 	glDepthMask(true);
     
     //  Background texture
     //
-    ofSetColor(255, 100);
+    ofSetColor(255, 50);
     background.draw(0,0,width,height);
     
     //  Draw Blured shadows fbo
     //
-    ofEnableBlendMode(OF_BLENDMODE_MULTIPLY);
     ofSetColor(255, 255);
+    ofEnableBlendMode(OF_BLENDMODE_MULTIPLY);
     blur.getTextureReference().draw(0,0);
     
     //  Draw Text fbo
@@ -257,8 +256,8 @@ void Shadows::handDeleted(ofxBlob &_blob){
         //  So it seams like a shadow
         //
         
-        //if (!hands[ _blob.id ]->isHand() &&
-         if ( !hands[ _blob.id ]->size() < 30 ){
+        if (!hands[ _blob.id ]->isHand() &&
+            !hands[ _blob.id ]->size() < 30 ){
             
             //  if the shadow never gave a single finger or it didn't get enought frames
             //  probably it's just junk...

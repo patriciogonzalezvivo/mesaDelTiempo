@@ -13,7 +13,7 @@ Kaleido::Kaleido(){
     height = 600*1.771;
     trackMode = TRACK_JUST_OBJECT;
     
-    offset = ofPoint(0,50);
+    offset = ofPoint(50,50);
 }
 
 Kaleido::~Kaleido(){
