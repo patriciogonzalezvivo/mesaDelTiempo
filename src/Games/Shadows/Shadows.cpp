@@ -29,7 +29,7 @@ void Shadows::init(ofRectangle _space){
     //width = background.getWidth();
     //height = background.getHeight();
     
-    //  Asign a space (it´s the surface area)
+    //  Asign a space (surface area)
     //
     ofPoint center = ofPoint(_space.getCenter().x * width,_space.getCenter().y * height);
     space.setFromCenter(center, _space.width*width, _space.height*height);

@@ -54,6 +54,8 @@ void testApp::setup(){
     //ofEnableSmoothing();
     ofSetVerticalSync(true);
     ofSetFrameRate(60);
+    
+//    ofSetDataPathRoot("data/");
 
     //  Load the logo
     logo.loadImage("logo.jpg");
@@ -77,7 +79,7 @@ void testApp::setup(){
     
     blobIDSimulator = 0;
     
-    ofHideCursor();
+//    ofHideCursor();
     
     //  Load the Game
     //
@@ -147,6 +149,7 @@ void testApp::update(){
         game->update();
         game->render();
     }
+
 }
 
 void testApp::draw(){
@@ -298,15 +301,14 @@ void testApp::keyPressed(int key){
             loadGame("communitas");
             break; 
     }
-    
-    if (bMouse){
-        ofShowCursor();
-    } else {
-        ofHideCursor();
-    }
 }
 
 void testApp::keyReleased(int key){
+//    if (bMouse){
+//        ofShowCursor();
+//    } else {
+//        ofHideCursor();
+//    }
 }
 
 void testApp::mouseMoved(int x, int y ){

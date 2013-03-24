@@ -14,10 +14,14 @@
 #include "ofxFX.h"
 
 #include "Game.h"
+
+
+#define WITH_TEXT
+#ifdef WITH_TEXT
 #include "TextSequencer.h"
 #include "InkAnimation.h"
-
 #include "AnimatedShadow.h"
+#endif
 
 class Shadows: public Game {
 public:
